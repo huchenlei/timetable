@@ -24,14 +24,15 @@ header {
 }
 
 .logo-word {
-	width: 16.66%;
+	width: 25%;
 	float: left;
+	text-align: center;
 }
 
 .menu {
 	width: 66.66%;
 	position: relative;
-	float: left;
+	float: right;
 }
 
 .content-wrapper {
