@@ -2,7 +2,7 @@ put in names into by field to accept tasks
 
 Tasks:
 
-1. Header: (BY: )
+1. Header: (BY: Martin)
 	a. design a logo (temporary)
 	b. implement the nav bar which contains links to sign in, sign up, admin page, profile page
 	c. sign in will be replaced with sign out
@@ -31,7 +31,7 @@ Tasks:
 	d. design one (two if c is implemented) full solution to display for demo
 	e. make it looks nice
 
-4. footer: (BY: )
+4. footer: (BY: Martin)
 	a. contain all github links and a email link..
 
 5. profile page: (BY: )
@@ -48,7 +48,7 @@ Tasks:
 	c. make a form to update course info (regex for specifc fields)
 	d. update and reset button.
 
-8. responsive design for index page: (BY: )
+8. responsive design for index page: (BY: Martin)
 	a. 480 with no left and right bar
 	b. 780 with ledt bar
 	c. >780 with both
