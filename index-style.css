@@ -11,6 +11,29 @@ header {
 	height: 10vh;
 	position: relative;
 }
+
+.logo {
+	height: 10vh;
+	width: 8.33%;
+	position: relative;
+	float: left;
+}
+
+.logo-png {
+	height: 9vh;
+}
+
+.logo-word {
+	width: 16.66%;
+	float: left;
+}
+
+.menu {
+	width: 66.66%;
+	position: relative;
+	float: left;
+}
+
 .content-wrapper {
 	position: relative;
 	height: 80vh;
@@ -33,7 +56,7 @@ header {
 .right-bar {
 	position: relative;
 	height: 80vh;
-	overflow: auto;	
+	overflow: auto;
 	float: left;
 	width: 25%;
 }
@@ -51,8 +74,8 @@ footer {
 }
 
 @media screen and (min-width: 480px) {
-    
+
 }
 @media screen and (min-width: 960px) {
-	
+
 }
