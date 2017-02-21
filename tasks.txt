@@ -34,15 +34,15 @@ Tasks:
 4. footer: (BY: Martin)
 	a. contain all github links and a email link..
 
-5. profile page: (BY: )
+5. profile page: (BY: Jennifer)
 	a. design a standard profile page ("profile.html" for header to call)
 	b. leave space for header (same as index page)
 
-6. signup page: (BY: )
+6. signup page: (BY: Jennifer)
 	a. design a standard signup page ("signup.html" for header to call)
 	b. leave space for header (same as index page)
 
-7. admin page: (BY: )
+7. admin page: (BY: Jennifer )
 	a. design a standard admin page ("admin.html" for header to call)
 	b. leave space for header (same as index page)
 	c. make a form to update course info (regex for specifc fields)
