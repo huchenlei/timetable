@@ -13,28 +13,61 @@ header {
 	position: relative;
 }
 
-.logo {
-	height: 10vh;
-	width: 8.33%;
-	position: relative;
-	float: left;
+.top-nav {
+	width: 100%;
+	background-image: url(./logo.png);
+	background-size: auto 130px;
+	background-repeat: no-repeat;
+	background-position: left;
+	background-color: #e6ffff;
+	
 }
 
-.logo-png {
-	height: 10vh;
+#title {
+	display: inline;
+    margin-left: 12%;
+    color: #52527a;
+    font-weight: 900;
+    font-size: 13pt;
+    line-height: 57px;
 }
 
-.logo-word {
-	width: 25%;
-	float: left;
-	text-align: center;
+#year {
+	display: inline;
+    color: #52527a;
+    font-weight: 600;
+    font-size: 10pt;
+
 }
 
-.menu {
+#description {
+	display: inline;
+    color: #FFCCCC;
+    font-weight: 600;
+    font-size: 10pt;
+}
+
+#login-button {
+	display: inline;
+	float: right;
+	padding: 10px;
+	border: 10px;
+	margin:10px;
+}
+
+#signup-button {
+	display: inline;
+	float: right;
+	padding: 10px;
+	border: 10px;
+	margin:10px;
+}
+
+/*.menu {
 	width: 66.66%;
 	position: relative;
 	float: right;
-}
+}*/
 
 .content-wrapper {
 	position: relative;
