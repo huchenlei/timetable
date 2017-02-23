@@ -1,3 +1,4 @@
+<!-- Testing for git branch/checkout -->
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,13 +9,18 @@
         <script src="index.js"></script>
     </head>
     <body>
-        <header>
-                <span class="logo">ST</span>
-                <nav id="menu">
-                    <ul id="nav-list" class="hide test--nav">
-                    </ul>
-                </nav>
+        <header class="top-nav">
+
+            <div id="title" class="nav-description">Courseware</div>
+            <div id="year" class="nav-description">2017</div>
+            <!-- <div id="description" class="nav-description">a smart UofT course scheduler</div> -->
+
+            <button id="login-button" class="nav-button">Login</button>
+            <button id="signup-button" class="nav-button">Sign Up</button>
+            <!-- <div class="menu-button"> </div> -->
+
         </header>
+
         <div class="content-wrapper">
             <section class="left-bar">
                 <h2>Course List</h2>
@@ -197,13 +203,27 @@
             </section>
         </div>
 
-        <footer>
-            footer
+        <footer class="myFooter">
+            <section class="connected">
+                <h4 id="stay-connected">Stay Connnected</h4>
+                <div class="links">
+                    <a href="#">
+                        <img class="icon twitter" src="http://brolik.com/images/icon-twitter.svg">
+                    </a>
+                    <a href="#">
+                        <img class="icon facebook" src="http://brolik.com/images/icon-facebook.svg">
+                    </a>
+                    <a href="#">
+                        <img class="icon linkedin" src="http://brolik.com/images/icon-linkedin.svg">
+                    </a>
+                </div>
+                
+            </section>
+            
         </footer>
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
-        <script src="profile.js"></script>
+        <script src="index.js"></script>
     </body>
 </html>
-
