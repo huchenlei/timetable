@@ -177,7 +177,7 @@ footer {
     visibility: hidden;
 }
 
-@media screen and (min-width: 320px) {
+@media (max-width: 414px) {
 	.left-bar{
 		visibility: hidden;
 		display: none;
@@ -200,7 +200,7 @@ footer {
 	}
 }
 
-@media screen and (min-width: 480px) {
+/*@media (max-width: 480px) {
 	.left-bar{
 		float: left;
 		width: 25%;
@@ -221,7 +221,4 @@ footer {
 		float: right;
 		width: 75%;
 	}
-}
-@media screen and (min-width: 960px) {
-	
-}
+}*/
