@@ -50,6 +50,93 @@ footer {
     visibility: hidden;
 }
 
+/*Side bars*/
+#course-list table, th, td {
+    border: 1px solid black;
+    width: 100%;
+    text-align: center;
+}
+
+#course-list td {
+	height: 50px;
+}
+
+#course-list td:hover {
+	background-color: lightblue;
+}
+
+.left-bar h2 {
+	text-align: center;
+}
+
+#course-list, #preferences {
+	height: 35vh;
+	overflow: auto;
+}
+
+#course-list td {
+	position: relative;
+}
+
+
+#course-list td button {
+	position: absolute;
+	font: 150%;
+	background-color: transparent;
+	left: 96%;
+	bottom: 75%;
+	border: 0;
+	cursor: pointer;
+}
+
+#course-list .delete:hover {
+	color: yellow;
+}
+
+#preferences * {
+	border: 0;
+}
+
+#preferences h3 {
+	border: 1px solid black;
+	text-align: center;
+}
+
+.preferences {
+	text-align: center;
+}
+
+#preferences td {
+	border: 1px solid black;
+}
+#preferences select {
+	background-color: lightblue;
+}
+
+#submit {
+	background-color: lightblue;
+	width: 20%;
+}
+
+.right-bar h2 {
+	text-align: center;
+}
+.right-bar table, td {
+	width: 100%;
+}
+
+.right-bar div, table {
+	border: 0;
+}
+
+.right-bar td {
+	height: 50px;
+}
+
+
+
+
+
 @media screen and (min-width: 480px) {
     
 }
