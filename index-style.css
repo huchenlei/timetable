@@ -35,12 +35,17 @@ header {
 	padding-left: 1%;
 	padding-right: 1%;
 }
+
+.main-size {
+	width: 81%;
+	padding-right: 4%;
+}
 .right-bar {
 	position: relative;
 	height: 80vh;
 	overflow: auto;	
-	float: left;
-	width: 19%;
+	float: right;
+	width: 15%;
 }
 footer {
 	height: 10vh;
@@ -84,8 +89,8 @@ footer {
     width: 100%;
 }
 
-#course-list, #preferences {
-	height: 35vh;
+#course-list {
+	height: 100%;
 	overflow: auto;
 }
 
@@ -108,11 +113,37 @@ footer {
 	color: yellow;
 }
 
+.smart-button {
+	width: 40vh;
+	height: 4%;
+	float: right;
+	transform: rotate(90deg);
+	transform-origin: left top 0;
+	position: absolute;
+	left: 85%;
+	font-size: 1em;
+	background-color: #555555;
+    border: 0.1em solid #555555;
+	border-radius: 0 0 0.5em 0.5em;
+	color: white;
+}
+.button-position {
+	left: 100%;
+}
+
+.right-bar {
+	border: 2px solid #dec9b3;
+    border-left: 8px solid #dec9b3;
+}
 #preferences * {
 	border: 0;
 }
 #preferences {
 	text-align: center;
+	padding-bottom: 5vh;
+	height: 35vh;
+	border: 2px solid #dec9b3;
+    border-left: 8px solid #dec9b3;
 }
 
 #preferences h3 {
@@ -122,13 +153,16 @@ footer {
 #preferences table, #preferences td {
 	width: 100%;
 	text-align: center;
+}
+
+#preferences td {
 	border: 1px solid black;
 }
 
-#preferences option {
+#preferences select {
 	background-color: transparent;
 }
-.left-bar input[type='submit'] {
+#preferences input[type='submit'] {
     background-color: #008CBA;
     border: solid 0.1em #008CBA;
     border-radius: 0.4em;
@@ -138,8 +172,13 @@ footer {
     width: 50%;
     height: 2em;
     position: relative;
-    top: 10px;
+    top: 2px;
     font-size: 1em;
+}
+
+input[type='submit']:hover {
+    cursor: pointer;
+    box-shadow: 0 1.5em 2em rgba(0,0,0,0.24), 0 1em 2em 0 rgba(0,0,0,0.19);
 }
 
 .right-bar h2 {
@@ -163,18 +202,17 @@ footer {
 }
 
 .right-bar td {
-	height: 50px;
 	border-radius: 0.4em;
 }
 
-.right-bar td:hover {
+.solution:hover {
 	background-color: lightblue;
 }
 /*Side bars end*/
 
 /*main*/
 
-.main .hide {
+.hide {
 	display: none;
 }
 
@@ -264,6 +302,10 @@ footer {
 }
 .main .timetable .arrowright {
 	left: 77%;
+}
+
+.main .timetable .movearrow {
+	left: 92%;
 }
 .main .timetable .switch:hover {
 	cursor: pointer;
