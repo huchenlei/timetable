@@ -18,6 +18,7 @@ body {
 }
 header {
 	height: 10vh;
+	min-height: 48px;
 	position: relative;
 }
 
@@ -28,8 +29,6 @@ header {
 	background-repeat: no-repeat;
 	background-position: left;
 	background-color: #e6ffff;
-	overflow: hidden;
-
 }
 
 #title {
@@ -82,41 +81,45 @@ header {
 #login-button {
 	background-color: white; 
 	border: 2px solid #4CAF50;
-	display: inline;
+	display: inline-block;
 	float: right;
-	padding: 10px;
-	margin:10px;
-	text-decoration: none;
-	color: black;
+	width: 8%;
+	padding: 0.5em;
+	margin: 1%;
 }
 
 #signup-button {
 	background-color: white; 
 	border: 2px solid #4CAF50;
-	display: inline;
+	display: inline-block;
 	float: right;
-	padding: 10px;
-	margin:10px;
-	
+	width: 8%;
+	padding: 0.5em;
+	margin: 1%;
 }
-#signup-button a, #login-button a {
+
+#link-smart-button {
+	background-color: white; 
+	border: 2px solid #4CAF50;
+	display: none;
+	float: right;
+	width: 8%;
+	padding: 0.5em;
+	margin: 1%;
+}
+
+#signup-button a, #login-button a, #link-smart-button a {
 	text-decoration: none;
 	color: black;
 }
-#signup-button a:hover, #login-button a:hover {
+#signup-button a:hover, #login-button a:hover, #link-smart-button a:hover {
 	color: white;
 }
 
-#login-button:hover {
+#login-button:hover, #signup-button:hover, #link-smart-button:hover{
 	background-color: #4CAF50;
+	
 }
-
-
-#signup-button:hover {
-	background-color: #4CAF50;
-    color: white;
-}
-
 /*.menu {
 	width: 66.66%;
 	position: relative;
@@ -141,23 +144,21 @@ header {
 
 .main {
 	position: relative;
-	height: 80vh;
+	height: 100%;
 	overflow: auto;
 	float: left;
-	width: 65%;
+	width: 66%;
 	padding-left: 1%;
-	padding-right: 1%;
 }
 
 .main-size {
 	width: 81%;
-	padding-right: 2%;
 }
 .right-bar {
 	border-left: 0.2em solid #555555;
 	border-bottom: 0.2em solid #555555;
 	position: relative;
-	height: 80vh;
+	height: 100%;
 	overflow: auto;
 	float: right;
 	width: 15%;
@@ -168,7 +169,7 @@ footer {
 	text-align: center;
 	width: 100%;
 	background-color: #e6ffff;
-	height: 10vh;
+	height: 4em;
 	position: relative;
 }
 
@@ -265,22 +266,23 @@ footer {
 }
 
 .smart-button {
-	width: 40vh;
-	height: 4%;
-	float: right;
+	width: 8em;
+	height: 2em;
 	transform: rotate(90deg);
 	transform-origin: left top 0;
 	position: absolute;
 	left: 85%;
-	font-size: 1em;
+	font-size: 85%;
 	background-color: #555555;
     border: 0.1em solid #555555;
 	border-radius: 0 0 0.5em 0.5em;
 	color: white;
 }
+
 .button-position {
 	left: 100%;
 }
+
 
 
 #preferences * {
@@ -290,6 +292,7 @@ footer {
 	text-align: center;
 	padding-bottom: 5vh;
 	height: 35vh;
+	overflow: auto;
 }
 
 #preferences h3 {
@@ -445,14 +448,14 @@ input[type='submit']:hover {
     filter: alpha(opacity=50);
 }
 .main .timetable .arrowleft {
-	left: 21%;
+	left: 23%;
 }
 .main .timetable .arrowright {
-	left: 77%;
+	left: 75%;
 }
 
 .main .timetable .movearrow {
-	left: 92%;
+	left: 96%;
 }
 .main .timetable .switch:hover {
 	cursor: pointer;
@@ -462,7 +465,8 @@ input[type='submit']:hover {
 
 
 /*main end*/
-@media (max-width: 414px) {
+/*
+@media (max-width: 580px) {
 	.left-bar{
 		visibility: hidden;
 		display: none;
@@ -501,34 +505,77 @@ input[type='submit']:hover {
 	.main .timetable .arrowright {
 		left: 90%;
 	}
-}
-@media screen and (min-width: 480px) {
-    
-}
-@media screen and (min-width: 960px) {
-	
+}*/
+@media screen and (max-width: 1024px) {
 
+    .right-bar h2, .left-bar h2 {
+    	font-size: 1em;
+    }
+    .preferences td,.preferences select {
+    	display: block;
+    }
 }
-
-/*@media (max-width: 480px) {
-	.left-bar{
-		float: left;
-		width: 25%;
+@media screen and (max-width: 700px) {
+	#signup-button, #login-button {
+		width: 6em;
 	}
-	.right-bar {
-		visibility: hidden;
+	#link-smart-button {
+		width: 6em;
+		display: block;
+	}
+	.main #search-by-coursecode {
+		width: 100%;
+		margin-bottom: 0.15em;
+	}
+	.main .search-bar input[type='button'] {
+		width: 100%;
+		display: block;
+		margin-bottom: 0.15em;
+	}
+	.main .timetable .arrowleft, .main .timetable .arrowright{
+		top: 60%;
+	}
+
+	.content-wrapper {
+		height: 100%;
+	}
+
+	#smart {
 		display: none;
 	}
-	.content-wrapper {
-		
-		position: relative;
-		height: 80vh;
+	.arrowright, .arrowleft {
+		display: none;
+	}
+	.right-bar {
+		float: none;
+		display: block;
+		width: 100%;
 	}
 	.main {
-		position: relative;
-		height: 80vh;
-		overflow: auto;
-		float: right;
-		width: 75%;
+		width: 81%;
 	}
-}*/
+	.top-nav {
+		background-position: -1em -2.5em;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	#signup-button, #login-button, #link-smart-button {
+		width: 100%;
+	}
+	header {
+		height: 11em;
+	}
+	.left-bar {
+		float: none;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+	.main {
+		float: none;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+}
