@@ -5,6 +5,10 @@
 	box-sizing: border-box;
 }
 
+a {
+	text-decoration: none;
+}
+
 article, aside, footer, header, hgroup, main, nav, section {
     display: block;
 }
@@ -431,7 +435,25 @@ footer {
 		float: left;
 		width: 100%;
 	}
-
+	.search-bar {
+		width: 100%;
+	}
+	.main #search-by-coursecode {
+		width: 50%;
+	}
+	#normal-search {
+		width: 23%;
+	}
+	#show-advanced {
+		width: 23%;
+	}
+	.main .timetable .arrowleft {
+		left: 1%;
+	}
+	.main .timetable .arrowright {
+		left: 90%;
+	}
+}
 @media screen and (min-width: 480px) {
     
 }
