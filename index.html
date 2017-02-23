@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SmartTimetable</title>
         <link rel="stylesheet" href="index-style.css">
+        <script src="index.js"></script>
     </head>
     <body>
         <header>
@@ -16,19 +17,112 @@
         </header>
         <div class="content-wrapper">
             <section class="left-bar">
-                left-bar
+                <h2>Course List</h2>
+                <div id="course-list">
+                    <table>
+                      <tr class="course-item">
+                        <td>CSC108<button class="delete">x</button></td>
+                      </tr>
+                      <tr class="course-item">
+                        <td>CSC148<button class="delete">x</button></td>
+                      </tr>
+                      <tr class="course-item">
+                        <td>CSC207<button class="delete">x</button></td>
+                      </tr>
+                      <tr class="course-item">
+                        <td>CSC369<button class="delete">x</button></td>
+                      </tr>
+                      <tr class="course-item">
+                        <td>CSC373<button class="delete">x</button></td>
+                      </tr>
+                    </table>
+                </div>
+                <h2>Preferences</h2>
+                <div id="preferences">
+                    <form>
+                        <h3>Time Preferences</h3>
+                        <div class="preferences">
+                            <table>
+                                <tr>
+                                    <td>Monday</td>
+                                    <td>
+                                        <select name="Monday-time">
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tuesday</td>
+                                    <td>
+                                        <select name="Tuesday-time">
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Wednesday</td>
+                                    <td>
+                                        <select name="Wednesday-time">
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Thursday</td>
+                                    <td>
+                                        <select name="Thursday-time">
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Friday</td>
+                                    <td>
+                                        <select name="Friday-time">
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                            <input id="submit" type="submit" name="preferences" value="Apply">
+                        </div>
+                    </form>
+                </div> 
             </section>
             <section class="main">
-                <h2>search</h2>
-                <div class="search-bar-1">
-                    <input type="text"><input type="submit">
-                </div>
-                <div class="search-bar-2">
-                    <input type="text"><input type="submit">
-                </div>
+                
             </section>
             <section class="right-bar">
-                right-bar
+                <h2>Smart Solutions</h2>
+                <div id="solutions">
+                    <table>
+                        <tr class="solution">
+                            <td>Solution 1</td>
+                        </tr>
+                        <tr class="solution">
+                            <td>Solution 2</td>
+                        </tr>
+                        <tr class="solution">
+                            <td>Solution 3</td>
+                        </tr>
+                        <tr class="solution">
+                            <td>Solution 4</td>
+                        </tr>
+                        <tr class="solution">
+                            <td>Solution 5</td>
+                        </tr>
+                    </table>
+                </div>
             </section>
         </div>
 
