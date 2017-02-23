@@ -86,7 +86,8 @@ header {
 	float: right;
 	padding: 10px;
 	margin:10px;
-
+	text-decoration: none;
+	color: black;
 }
 
 #signup-button {
@@ -96,11 +97,18 @@ header {
 	float: right;
 	padding: 10px;
 	margin:10px;
+	
+}
+#signup-button a, #login-button a {
+	text-decoration: none;
+	color: black;
+}
+#signup-button a:hover, #login-button a:hover {
+	color: white;
 }
 
 #login-button:hover {
 	background-color: #4CAF50;
-    color: white;
 }
 
 
@@ -136,21 +144,23 @@ header {
 	height: 80vh;
 	overflow: auto;
 	float: left;
-	width: 62%;
+	width: 65%;
 	padding-left: 1%;
 	padding-right: 1%;
 }
 
 .main-size {
 	width: 81%;
-	padding-right: 4%;
+	padding-right: 2%;
 }
 .right-bar {
+	border-left: 0.2em solid #555555;
+	border-bottom: 0.2em solid #555555;
 	position: relative;
 	height: 80vh;
 	overflow: auto;
-	float: left;
-	width: 19%;
+	float: right;
+	width: 15%;
 }
 
 /*Footer section*/
@@ -272,10 +282,7 @@ footer {
 	left: 100%;
 }
 
-.right-bar {
-	border: 2px solid #dec9b3;
-    border-left: 8px solid #dec9b3;
-}
+
 #preferences * {
 	border: 0;
 }
@@ -283,8 +290,6 @@ footer {
 	text-align: center;
 	padding-bottom: 5vh;
 	height: 35vh;
-	border: 2px solid #dec9b3;
-    border-left: 8px solid #dec9b3;
 }
 
 #preferences h3 {
@@ -329,7 +334,6 @@ input[type='submit']:hover {
     padding: 0.5em 1em;
     color: white;
     display: inline-block;
-    border-radius: 0.5em 0.5em 0 0;
     width: 100%;
 }
 .right-bar table, .right-bar td {
@@ -411,6 +415,8 @@ input[type='submit']:hover {
 }
 
 .main .timetable {
+	border-left: 0.2em solid lightgrey;
+	border-right: 0.2em solid lightgrey;
 	padding-top: 1em;
 }
 .main .timetable h3{
