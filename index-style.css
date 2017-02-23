@@ -1,8 +1,18 @@
+/* Testing for git branch/checkout */
 * {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
 }
+
+a {
+	text-decoration: none;
+}
+
+article, aside, footer, header, hgroup, main, nav, section {
+    display: block;
+}
+
 body {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
@@ -10,6 +20,101 @@ header {
 	height: 10vh;
 	position: relative;
 }
+
+.top-nav {
+	width: 100%;
+	background-image: url(./logo.png);
+	background-size: auto 130px;
+	background-repeat: no-repeat;
+	background-position: left;
+	background-color: #e6ffff;
+	overflow: hidden;
+
+}
+
+#title {
+	display: inline;
+    margin-left: 12%;
+    color: #52527a;
+    font-weight: 900;
+    font-size: 13pt;
+    line-height: 57px;
+    
+}
+
+#year {
+	display: inline;
+    color: #52527a;
+    font-weight: 600;
+    font-size: 10pt;
+    
+
+}
+
+/*#description {
+	display: inline;
+    color: #FFCCCC;
+    font-weight: 600;
+    font-size: 10pt;
+    
+}*/
+
+.nav-description {
+	user-select: none;
+	cursor: default;
+	overflow: hidden;
+
+}
+
+.nav-button {
+	background-color: #555555; 
+	/*border-radius: 75%;*/
+	color: black;
+	border: 2px solid #4CAF50;
+	text-align: center;
+	cursor: pointer;
+	text-decoration: none;
+	-webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+
+}
+
+#login-button {
+	background-color: white; 
+	border: 2px solid #4CAF50;
+	display: inline;
+	float: right;
+	padding: 10px;
+	margin:10px;
+
+}
+
+#signup-button {
+	background-color: white; 
+	border: 2px solid #4CAF50;
+	display: inline;
+	float: right;
+	padding: 10px;
+	margin:10px;
+}
+
+#login-button:hover {
+	background-color: #4CAF50;
+    color: white;
+}
+
+
+#signup-button:hover {
+	background-color: #4CAF50;
+    color: white;
+}
+
+/*.menu {
+	width: 66.66%;
+	position: relative;
+	float: right;
+}*/
+
 .content-wrapper {
 	position: relative;
 	height: 80vh;
@@ -43,13 +148,48 @@ header {
 .right-bar {
 	position: relative;
 	height: 80vh;
-	overflow: auto;	
-	float: right;
-	width: 15%;
+	overflow: auto;
+	float: left;
+	width: 19%;
 }
+
+/*Footer section*/
 footer {
+	text-align: center;
+	width: 100%;
+	background-color: #e6ffff;
 	height: 10vh;
 	position: relative;
+}
+
+/*.footer-links {
+	display: inline;
+}
+*/
+.connected {
+	height: 100%;
+}
+.icon{
+	height: 25px;
+	width: 25px;
+}
+
+.links{
+	display: inline-block;
+	height: 100%;
+	line-height: 100%;
+}
+.links a, .links img{
+	height: 1.2em;
+
+	text-decoration: none;
+}
+#stay-connected {
+	font-size: 1.2em;
+	height: 100%;
+	line-height: 10vh;
+	margin-right: 0.5em;
+	display: inline-block;
 }
 
 .content-wrapper::after {
@@ -59,6 +199,7 @@ footer {
     height: 0;
     visibility: hidden;
 }
+
 
 /*Side bars*/
 #course-list table, #course-list th, #course-list td {
@@ -315,11 +456,73 @@ input[type='submit']:hover {
 
 
 /*main end*/
-
-
+@media (max-width: 414px) {
+	.left-bar{
+		visibility: hidden;
+		display: none;
+	}
+	.right-bar {
+		visibility: hidden;
+		display: none;
+	}
+	.content-wrapper {
+		
+		position: relative;
+		height: 80vh;
+	}
+	.main {
+		position: relative;
+		height: 80vh;
+		overflow: auto;
+		float: left;
+		width: 100%;
+	}
+	.search-bar {
+		width: 100%;
+	}
+	.main #search-by-coursecode {
+		width: 50%;
+	}
+	#normal-search {
+		width: 23%;
+	}
+	#show-advanced {
+		width: 23%;
+	}
+	.main .timetable .arrowleft {
+		left: 1%;
+	}
+	.main .timetable .arrowright {
+		left: 90%;
+	}
+}
 @media screen and (min-width: 480px) {
     
 }
 @media screen and (min-width: 960px) {
 	
+
 }
+
+/*@media (max-width: 480px) {
+	.left-bar{
+		float: left;
+		width: 25%;
+	}
+	.right-bar {
+		visibility: hidden;
+		display: none;
+	}
+	.content-wrapper {
+		
+		position: relative;
+		height: 80vh;
+	}
+	.main {
+		position: relative;
+		height: 80vh;
+		overflow: auto;
+		float: right;
+		width: 75%;
+	}
+}*/
