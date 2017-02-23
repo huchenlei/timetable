@@ -5,11 +5,16 @@
 	box-sizing: border-box;
 	border:1px red solid;
 }
+
+article, aside, footer, header, hgroup, main, nav, section {
+    display: block;
+}
+
 body {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 header {
-	height: 10vh;
+	height: 50px;
 	position: relative;
 }
 
@@ -20,7 +25,8 @@ header {
 	background-repeat: no-repeat;
 	background-position: left;
 	background-color: #e6ffff;
-	
+	overflow: hidden;
+
 }
 
 #title {
@@ -30,6 +36,7 @@ header {
     font-weight: 900;
     font-size: 13pt;
     line-height: 57px;
+    
 }
 
 #year {
@@ -37,30 +44,66 @@ header {
     color: #52527a;
     font-weight: 600;
     font-size: 10pt;
+    
 
 }
 
-#description {
+/*#description {
 	display: inline;
     color: #FFCCCC;
     font-weight: 600;
     font-size: 10pt;
+    
+}*/
+
+.nav-description {
+	user-select: none;
+	cursor: default;
+	overflow: hidden;
+
+}
+
+.nav-button {
+	background-color: #555555; 
+	/*border-radius: 75%;*/
+	color: black;
+	border: 2px solid #4CAF50;
+	text-align: center;
+	cursor: pointer;
+	text-decoration: none;
+	-webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+
 }
 
 #login-button {
+	background-color: white; 
+	border: 2px solid #4CAF50;
 	display: inline;
 	float: right;
 	padding: 10px;
-	border: 10px;
 	margin:10px;
+
 }
 
 #signup-button {
+	background-color: white; 
+	border: 2px solid #4CAF50;
 	display: inline;
 	float: right;
 	padding: 10px;
-	border: 10px;
 	margin:10px;
+}
+
+#login-button:hover {
+	background-color: #4CAF50;
+    color: white;
+}
+
+
+#signup-button:hover {
+	background-color: #4CAF50;
+    color: white;
 }
 
 /*.menu {
@@ -95,9 +138,35 @@ header {
 	float: left;
 	width: 25%;
 }
+
+/*Footer section*/
 footer {
-	height: 10vh;
+
+	width: 100%;
+	background-color: #e6ffff;
+	/*height: 40px;*/
 	position: relative;
+}
+
+/*.footer-links {
+	display: inline;
+}
+*/
+.connected {
+	margin-left: 12%;
+}
+
+.icon{
+	height: 25px;
+	width: 25px;
+}
+
+.links{
+	display: inline;
+}
+
+#stay-connected {
+	display: inline;
 }
 
 .content-wrapper::after {
