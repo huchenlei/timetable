@@ -2,7 +2,6 @@
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
-	border:1px red solid;
 }
 body {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -18,9 +17,10 @@ header {
 .left-bar {
 	position: relative;
 	float: left;
-	width: 25%;
+	width: 19%;
 	height: 80vh;
 	overflow: auto;
+	border: 1px solid black;
 }
 
 .main {
@@ -28,14 +28,17 @@ header {
 	height: 80vh;
 	overflow: auto;
 	float: left;
-	width: 50%;
+	width: 62%;
+	padding-left: 1%;
+	padding-right: 1%;
 }
 .right-bar {
 	position: relative;
 	height: 80vh;
 	overflow: auto;	
 	float: left;
-	width: 25%;
+	width: 19%;
+	border: 1px solid black;
 }
 footer {
 	height: 10vh;
@@ -51,7 +54,7 @@ footer {
 }
 
 /*Side bars*/
-#course-list table, th, td {
+#course-list table, #course-list th, #course-list td {
     border: 1px solid black;
     width: 100%;
     text-align: center;
@@ -67,6 +70,7 @@ footer {
 
 .left-bar h2 {
 	text-align: center;
+	border: 1px solid black;
 }
 
 #course-list, #preferences {
@@ -96,45 +100,144 @@ footer {
 #preferences * {
 	border: 0;
 }
+#preferences {
+	text-align: center;
+}
 
 #preferences h3 {
 	border: 1px solid black;
 	text-align: center;
-}
-
-.preferences {
+}	
+#preferences table, #preferences td {
+	width: 100%;
 	text-align: center;
-}
-
-#preferences td {
 	border: 1px solid black;
 }
-#preferences select {
-	background-color: lightblue;
-}
-
-#submit {
+.left-bar #submit {
 	background-color: lightblue;
 	width: 20%;
 }
 
 .right-bar h2 {
+	border: 1px solid black;
 	text-align: center;
 }
-.right-bar table, td {
+.right-bar table, .right-bar td {
 	width: 100%;
+	text-align: center;
+	border: 1px solid black;
 }
 
-.right-bar div, table {
+.right-bar div, .right-bar table {
 	border: 0;
 }
 
 .right-bar td {
 	height: 50px;
 }
+/*Side bars end*/
+
+/*main*/
+
+.main .hide {
+	display: none;
+}
+
+.main .title {
+	background-color: #555555;
+	border: 0.1em solid #555555;
+	padding: 0.5em 1em;
+	color: white;
+	display:inline-block;
+	border-radius: 0.5em 0.5em 0 0;
+}
+
+.main .search-bar input {
+	height: 3em;
+	font-size: 1em;
+}
+.main .search-bar input[type='text']{
+	border: solid 0.15em #ccc;
+	padding: 0 1em;
+	width: 100%;
+}
+.main #search-by-coursecode {
+	width: 60%;
+}
+.main .search-bar input[type='button'] {
+	background-color: #008CBA;
+    border: solid 0.1em #008CBA;
+    border-radius: 0.4em;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    width: 19%;
+}
+.main .search-bar input[type='button']:hover {
+	cursor: pointer;
+	box-shadow: 0 1.5em 2em rgba(0,0,0,0.24),0 1em 2em 0 rgba(0,0,0,0.19);
+}
+.main .advanced-search {
+	background-color: #F9F9F9;
+	padding: 1em 2em;
+	text-align: center;
+	border-bottom: 0.1em solid #008CBA;
+}
+.main .advanced-search label {
+	font-weight: bold;
+	display: block;
+	font-size: 1em;
+	padding: 0.5em 0;
+}
+.main .advanced-search .group{
+	display: inline-block;
+	width: 44%;
+	margin-right: 5%;
+	margin-bottom: 2%;
+}
+
+.main .timetable {
+	padding-top: 1em;
+}
+.main .timetable h3{
+	text-align: center;
+}
+.main .timetable table {
+	width: 100%;
+}
+.main .timetable table,.main .timetable th, .main .timetable td {
+	border-bottom: 1px solid #ccc;
+	border-collapse: collapse;
+}
+.main .timetable table th {
+	height: 2em;
+	vertical-align: bottom;
+	text-align: center;
+}
+.main .timetable table tbody tr {
+	height: 4em;
+	color: #999;
+}
+.main .timetable .switch {
+	position: fixed;
+	top: 50%;
+	opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+.main .timetable .arrowleft {
+	left: 21%;
+}
+.main .timetable .arrowright {
+	left: 77%;
+}
+.main .timetable .switch:hover {
+	cursor: pointer;
+	opacity: 1;
+    filter: alpha(opacity=100);
+}
 
 
-
+/*main end*/
 
 
 @media screen and (min-width: 480px) {
