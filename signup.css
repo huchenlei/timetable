@@ -1,3 +1,8 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 
 form {
     border: 3px solid #f1f1f1;
@@ -31,6 +36,7 @@ button {
 
 .container {
     padding: 16px;
+    overflow: auto;
 }
 
 span.psw {
@@ -85,6 +91,45 @@ button {
 /* Add padding to container elements */
 .container {
     padding: 16px;
+}
+
+/*Footer section*/
+footer {
+    text-align: center;
+    width: 100%;
+    background-color: #e6ffff;
+    /*height: 4em;*/
+    position: relative;
+}
+
+/*.footer-links {
+    display: inline;
+}
+*/
+.connected {
+    height: 100%;
+}
+.icon{
+    height: 25px;
+    width: 25px;
+/*}*/
+
+.links{
+    display: inline-block;
+    height: 100%;
+    line-height: 100%;
+}
+.links a, .links img{
+    height: 1.2em;
+
+    text-decoration: none;
+}
+#stay-connected {
+    font-size: 1.2em;
+    height: 100%;
+    line-height: 10vh;
+    margin-right: 0.5em;
+    display: inline-block;
 }
 
 /* Clear floats */
