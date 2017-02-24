@@ -126,6 +126,17 @@ span.psw {
     padding-top: 16px;
 }
 
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+}
+
 /* Full-width input fields */
 input[type=text], input[type=password] {
     width: 100%;
@@ -206,18 +217,18 @@ footer {
 
 /* Clear floats */
 .clearfix::after {
-    content: '';
+    content: "";
     clear: both;
     display: table;
-    height: 0;
-    visibility: hidden;
+}
+
+.content-wrapper {
+    height: 80vh;
 }
 
 /* Change styles for cancel button and signup button on extra small screens */
-@media screen and (max-width: 400px) {
-    
+@media screen and (max-width: 300px) {
     .cancelbtn, .signupbtn {
-        float: none;
-        width: 100%;
+       width: 100%;
     }
 }
