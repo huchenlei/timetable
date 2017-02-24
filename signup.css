@@ -4,6 +4,123 @@
     box-sizing: border-box;
 }
 
+a {
+    text-decoration: none;
+}
+
+article, aside, footer, header, hgroup, main, nav, section {
+    display: block;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+header {
+    height: 10vh;
+    min-height: 48px;
+    position: relative;
+}
+
+.top-nav {
+    width: 100%;
+    background-image: url(./logo.png);
+    background-size: auto 130px;
+    background-repeat: no-repeat;
+    background-position: left;
+    background-color: #e6ffff;
+}
+
+#title {
+    display: inline;
+    margin-left: 12%;
+    color: #52527a;
+    font-weight: 900;
+    font-size: 13pt;
+    line-height: 57px;
+    
+}
+
+#year {
+    display: inline;
+    color: #52527a;
+    font-weight: 600;
+    font-size: 10pt;
+    
+
+}
+
+/*#description {
+    display: inline;
+    color: #FFCCCC;
+    font-weight: 600;
+    font-size: 10pt;
+    
+}*/
+
+.nav-description {
+    user-select: none;
+    cursor: default;
+    overflow: hidden;
+
+}
+
+.nav-button {
+    background-color: #555555; 
+    /*border-radius: 75%;*/
+    color: black;
+    border: 2px solid #4CAF50;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+
+}
+
+#login-button {
+    background-color: white; 
+    border: 2px solid #4CAF50;
+    display: inline-block;
+    float: right;
+    width: 8%;
+    padding: 0.5em;
+    margin: 1%;
+}
+
+#signup-button {
+    background-color: white; 
+    border: 2px solid #4CAF50;
+    display: inline-block;
+    float: right;
+    width: 8%;
+    padding: 0.5em;
+    margin: 1%;
+}
+
+#link-smart-button {
+    background-color: white; 
+    border: 2px solid #4CAF50;
+    display: none;
+    float: right;
+    width: 8%;
+    padding: 0.5em;
+    margin: 1%;
+}
+
+#signup-button a, #login-button a, #link-smart-button a {
+    text-decoration: none;
+    color: black;
+}
+#signup-button a:hover, #login-button a:hover, #link-smart-button a:hover {
+    color: white;
+}
+
+#login-button:hover, #signup-button:hover, #link-smart-button:hover{
+    background-color: #4CAF50;
+    
+}
+
 form {
     border: 3px solid #f1f1f1;
 }
