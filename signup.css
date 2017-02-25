@@ -49,7 +49,7 @@ header {
     font-weight: 900;
     font-size: 13pt;
     line-height: 57px;
-    
+
 }
 
 #year {
@@ -57,7 +57,7 @@ header {
     color: #52527a;
     font-weight: 600;
     font-size: 10pt;
-    
+
 
 }
 
@@ -66,11 +66,11 @@ header {
     color: #FFCCCC;
     font-weight: 600;
     font-size: 10pt;
-    
+
 }*/
 
 .nav-description {
-    user-select: none;
+    /*user-select: none;*/
     cursor: default;
     overflow: hidden;
 
@@ -184,7 +184,7 @@ footer {
 .icon{
     height: 25px;
     width: 25px;
-/*}*/
+}
 
 .links{
     display: inline-block;
@@ -215,7 +215,7 @@ footer {
 
 /* Change styles for cancel button and signup button on extra small screens */
 @media screen and (max-width: 400px) {
-    
+
     .cancelbtn, .signupbtn {
         float: none;
         width: 100%;
