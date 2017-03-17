@@ -1,0 +1,116 @@
+curl -X POST http://localhost:3000/courses/insertCourse \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d '{
+  "courseCode": "CSC108",
+  "title": "cs course",
+  "description": "easy",
+  "br": 1
+}'
+
+
+curl -X GET http://localhost:3000/courses/courseInfo/2016F/CSC108
+
+curl -X POST http://localhost:3000/courses/insertSection \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d '{
+  "courseCode": "CSC108",
+  "semester": "2016F",
+  "type": "lec",
+  "sectionCode": "0101",
+  "instructor": "kinder"
+}'
+
+curl -X PUT http://localhost:3000/courses/updateSection \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d '{
+  "courseCode": "CSC108",
+  "semester": "2016F",
+  "type": "lec",
+  "sectionCode": "0101",
+  "instructor": "jasmine"
+}'
+
+curl -X DELETE http://localhost:3000/courses/deleteSection \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d '{
+  "courseCode": "CSC108",
+  "semester": "2016F",
+  "type": "lec",
+  "sectionCode": "0101"
+}'
+
+curl -X POST http://localhost:3000/courses/insertTimeslot \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d '{
+  "courseCode": "CSC108",
+  "semester": "2016F",
+  "type": "lec",
+  "sectionCode": "0101",
+  "weekday": "mon",
+  "start": 12,
+  "end": 14,
+  "location": "ba2270"
+}'
+
+
+//add user test
+
+curl -X POST http://localhost:3000/users/addUser \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d '{
+  "userName": "limartinzj",
+  "password": "123456",
+  "fullName": "MartinLi",
+  "emailAdress": "limartinzj@gmail.com"
+}'
+
+//find user test
+
+curl -X GET http://localhost:3000/users/info/limartinzj
+
+//delete user test
+
+curl -X DELETE http://localhost:3000/users/info/limartinzj \
+    -d '{
+    "userName": "limartinzj"
+    }'
+
+//update user test
+
+curl -X PUT http://localhost:3000/users/info/limartinzj \
+    -H "Content-Type: application/json; charset=utf-8" \
+    -d '{
+    "userName": "limartinzj",
+    "passWord": "654321",
+    "fullName": "LIZHIJIAN",
+    "emailAdress": "martin.li@mail.utoronto.ca"
+    }'
+
+//add course section to user
+
+curl -X POST http://localhost:3000/users/info/limartinzj/addUserCourse \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d '{
+  "courseCode": "CSC108",
+  "semester": "2016F",
+  "type": "lec",
+  "sectionCode": "0101",
+  "instructor": "kinder"
+}'
+
+
+curl -X POST http://localhost:3000/users/insertPreference/limartinzj \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d '{
+  "type": "mon",
+  "value": "morning"
+}'
+
+curl -X POST http://localhost:3000/users/insertPreference/kinder \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d '{
+  "type": "mon",
+  "value": "morning"
+}'
+
+curl -X GET http://localhost:3000/users/smart/limartinzj/smart
