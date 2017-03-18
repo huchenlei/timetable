@@ -97,7 +97,7 @@ curl -X POST http://localhost:3000/users/insertPreference/limartinzj \
   "value": "morning"
 }'
 
-read -p $'\n insertPreference test (fail becaues no user named kinder)'
+read -p $'\ninsertPreference test (fail becaues no user named kinder)'
 curl -X POST http://localhost:3000/users/insertPreference/kinder \
      -H "Content-Type: application/json; charset=utf-8" \
      -d '{
