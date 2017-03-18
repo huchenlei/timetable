@@ -268,22 +268,31 @@ function deleteTimeslot(req, res) {
         start: req.body.start,
         location: req.body.location
       };
-
-      var index = section.timeslots.indexOf(newTime._id);
-      section.splice(index, 1);
-      section.save(function(err) {
+      database.courseTimeSchema.findOne(response, function(err, time){
         if (err) {
-          console.log("delete from section fail");
-          return res.sendStatus(400);
+          console.log("error finding the time");
+          res.sendStatus(400);
+        } else {
+          var index = section.timeslots.indexOf(time._id);
+          section.timeslots.splice(index, 1);
+          section.save(function(err) {
+            if (err) {
+              console.log("delete from section fail");
+              return res.sendStatus(400);
+            } else {
+              database.courseTimeSchema.remove(response, function(err) {
+                if (err) {
+                  console.log("delete timeslot fail");
+                  return res.sendStatus(400);
+                } else {
+                  return res.sendStatus(200);
+                }
+              });
+            }
+          });
         }
       });
-      database.courseTimeSchema.remove(response, function(err) {
-        if (err) {
-          console.log("delete timeslot fail");
-          return res.sendStatus(400);
-        }
-      });
-      return res.sendStatus(200);
+      
     }
   })
 }

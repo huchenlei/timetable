@@ -50,6 +50,19 @@ curl -X POST http://localhost:3000/courses/insertTimeslot \
   "location": "ba2270"
 }'
 
+read -p $'\ndelelteTimeslot'
+curl -X DELETE http://localhost:3000/courses/deleteTimeslot \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d '{
+  "courseCode": "CSC108",
+  "semester": "2016F",
+  "type": "lec",
+  "sectionCode": "0101",
+  "weekday": "mon",
+  "start": 12,
+  "end": 14,
+  "location": "ba2270"
+}'
 
 read -p $'\nadd a user'
 
