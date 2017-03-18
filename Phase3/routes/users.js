@@ -217,5 +217,5 @@ router.put('/info/:userName', updateUser);
 router.post('/info/:userName/:courses', addUserCourse);
 
 router.post('/insertPreference/:userName', checkUserExist, insertPreference);
-router.get('/preferenceList/:userName', getPreferenceList);
+//router.get('/preferenceList/:userName', getPreferenceList);
 module.exports = router;
