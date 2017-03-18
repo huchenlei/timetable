@@ -227,15 +227,17 @@ function insertTimeslots(req, res) {
         if (err) {
           console.log("update section fail");
           return res.sendStatus(400);
+        } else {
+          newTime.save(function(err) {
+            if (err) {
+              console.log("update timeslot fail");
+              return res.sendStatus(400);
+            } else {
+              return res.sendStatus(200);
+            }
+          });
         }
       });
-      newTime.save(function(err) {
-        if (err) {
-          console.log("update timeslot fail");
-          return res.sendStatus(400);
-        }
-      });
-      return res.sendStatus(200);
     }
   })
 }
