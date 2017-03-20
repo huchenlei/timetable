@@ -179,24 +179,9 @@ function insertPreference(req, res) {
       console.log(err.message);
       return res.sendStatus(400);
     } else {
-      database.userSchema.findOne({_id: newPreference.uid}, function(err, user) {
-        if (err || !user) {
-          console.log("error finding user");
-          return res.sendStatus(400);
-        } else {
-          user.preferences.push(response._id);
-          user.save(function(err) {
-            if (err) {
-              console.log("error updating user");
-              return res.sendStatus(400);
-            } else {
-              return res.json(user);
-            }
-          });
-        }
-      });
+      return res.sendStatus(200);
     }
-  })
+  });
 }
 
 function checkUserExist(req, res, next) {

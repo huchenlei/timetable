@@ -103,34 +103,32 @@ var preference = new Schema({
 
 preference.index({uid: 1, type: 1, value: 1}, {unique: true});
 
-mongoose.connect('mongodb://localhost/timetable');
+preference.pre('save', function(next) {
+  var preId = this._id;
+  userSchema.findOne({_id: this.uid}, function(err, result) {
+    if (err || !result) {
+      var error = new Error("error: finding user in post function adding preference");
+      next(error);
+    } else {
+      result.preferences.push(preId);
+      result.save(function(err) {
+        if (err) {
+          var error = new Error("error: updating user preferences");
+          next(error);
+        } else {
+          next();
+        }
+      });
+    }
+  });
+});
 
+mongoose.connect('mongodb://localhost/timetable');
 var courseSchema = mongoose.model('courses', course);
 var courseSectionSchema = mongoose.model('course_sections', courseSection);
 var courseTimeSchema = mongoose.model('course_times', courseTime);
 var userSchema = mongoose.model('users', user);
 var preferenceSchema = mongoose.model('preferences', preference);
-
-// preference.pre('save', function(next) {
-//   console.log("fdjsaklfjdklasf");
-//   userSchema.findOne({_id: this.uid}, function(err, result) {
-//     if (err || !result) {
-//       var error = new Error("error: finding user in post function adding preference");
-//       next(error);
-//     } else {
-//       result.preferences.push(this._id);
-//       console.log(result.preferences);
-//       result.save(function(err) {
-//         if (err) {
-//           var error = new Error("error: updating user preferences");
-//           next(error);
-//         } else {
-//           next();
-//         }
-//       });
-//     }
-//   });
-// });
 
 module.exports = {
   courseSchema: courseSchema,
