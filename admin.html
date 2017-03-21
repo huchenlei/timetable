@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Admin</title>
+        <link rel="stylesheet" href="admin.css">
+        <script src="index.js"></script>
+    </head>
+       
+<body>
+    <header class="top-nav">
+        <div id="title" class="nav-description">Courseware</div>
+        <div id="year" class="nav-description">2017</div>
+        <!-- <div id="description" class="nav-description">a smart UofT course scheduler</div> -->
+
+        <!-- <div class="menu-button"> </div> -->
+
+    </header>
+
+    <div class="content-wrapper">
+        <div class="h2-title"><h2>Admin</h2></div> 
+
+        <form action="/action_page.php">
+            <div class="container">
+                <label><b>Course code</b></label>
+                <input type="text" placeholder="Enter Course code" name="coursecode" required pattern="[a-zA-Z]{3,4}[0-9]{3,4}" title="invalid course code">
+
+                <label><b>Breadth requirement</b></label>
+                <input type="text" placeholder="Enter Breadth requirement" name="psw" required pattern="[1-5]{1}" title="invalid breadth requirement">
+         
+                <label><b>Time slot</b></label>
+                <input type="text" placeholder="Enter Time slot" name="psw" required pattern="[0-9]-[0-9]" title="e.g:6-9">    
+
+                <label><b>Course description</b></label>
+                <input type="text" placeholder="Enter Course description" name="psw" >   
+        
+                <button class="add-button" type="submit">Add/Update</button>
+                <button class="reset-button" type="submit">Reset</button>
+
+            </div>
+        </form>
+    </div>
+    
+
+</body>
+</html>
