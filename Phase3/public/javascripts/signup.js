@@ -49,5 +49,6 @@ else
     }
   }
 }
+checkCookie();
     
 });
