@@ -10,8 +10,7 @@ function addUser(req, res) {
     _id: req.body.userName,
     passWord: req.body.password,
     fullName: req.body.fullName,
-    emailAdress: req.body.emailAdress
-
+    emailAddress: req.body.emailAddress
   };
 
   database.userSchema.count({_id: req.body.userName},
