@@ -8,7 +8,7 @@ function addUser(req, res) {
 
   var profile = {
     _id: req.body.userName,
-    passWord: req.body.password,
+    passWord: req.body.passWord,
     fullName: req.body.fullName,
     emailAdress: req.body.emailAdress
 
@@ -75,10 +75,19 @@ function suspendUser(req, res) {
         return res.sendStatus(401);
       } else {
 
-        database.userSchema.remove({
+        database.userSchema.findOne({
           _id:req.params.userName
-        }, function(err, result){
-          return res.sendStatus(200);
+        }, function(err, user){
+          if (!user) {
+            return res.sendStatus(404);
+          }
+          user.remove(function(err) {
+            if (err) {
+              return res.sendStatus(400);
+            } else {
+              return res.sendStatus(200);
+            }
+          });
         });
           console.log("after delete");
       }
@@ -179,24 +188,9 @@ function insertPreference(req, res) {
       console.log(err.message);
       return res.sendStatus(400);
     } else {
-      database.userSchema.findOne({_id: newPreference.uid}, function(err, user) {
-        if (err || !user) {
-          console.log("error finding user");
-          return res.sendStatus(400);
-        } else {
-          user.preferences.push(response._id);
-          user.save(function(err) {
-            if (err) {
-              console.log("error updating user");
-              return res.sendStatus(400);
-            } else {
-              return res.json(user);
-            }
-          });
-        }
-      });
+      return res.sendStatus(200);
     }
-  })
+  });
 }
 
 function checkUserExist(req, res, next) {

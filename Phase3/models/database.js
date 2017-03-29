@@ -103,34 +103,133 @@ var preference = new Schema({
 
 preference.index({uid: 1, type: 1, value: 1}, {unique: true});
 
-mongoose.connect('mongodb://localhost/timetable');
 
+// middle wares for casacade deletion.
+preference.pre('save', function(next) {
+  var preId = this._id;
+  userSchema.findOne({_id: this.uid}, function(err, result) {
+    if (err || !result) {
+      var error = new Error("error: finding user in post function adding preference");
+      next(error);
+    } else {
+      result.preferences.push(preId);
+      result.save(function(err) {
+        if (err) {
+          var error = new Error("error: updating user preferences");
+          next(error);
+        } else {
+          next();
+        }
+      });
+    }
+  });
+});
+
+// remove all user preferences before removing user
+user.pre('remove', function(next) {
+  var uid = this._id;
+  preferenceSchema.remove({uid: uid}, function(err) {
+    next(err);
+  });
+});
+
+// remove all timeslot before removing a courseSection
+courseSection.pre('remove', function(next) {
+  var cid = this._id;
+  courseTimeSchema.remove({cid: cid}, function(err) {
+    next(err);
+  });
+});
+
+// remove courseSection from course section list before removing a courseSection
+courseSection.pre('remove', function(next) {
+  var section = this._id;
+  courseSchema.findOne({_id: this.courseCode}, function(err, course) {
+    if (err) {
+      next(err);
+    }
+    else {
+      if (!course) {
+        var error = new Error("This should not happen.");
+        next(error);
+      } else {
+        var index = course.sections.indexOf(section);
+        if (index > -1) {
+          course.sections.splice(index, 1);
+        }
+        course.save(function(err) {
+          next(err);
+        });
+      }
+    }
+  });
+});
+
+// remove courseSection from user section list before removing a courseSection
+courseSection.pre('remove', function(next) {
+  var section = this._id;
+  userSchema.findOne({courses: section}, function(err, users) {
+    if (err) {
+      next(err);
+    }
+    else {
+      if (users.length == 0) {
+        next();
+      } else {
+        for (var i in users) {
+          var user = users[i];
+          var index = user.courses.indexOf(section);
+          if (index > -1) {
+            user.courses.splice(index, 1);
+            user.save(function(err) {
+              if (err) next(err);
+            });
+          }
+        }
+        next();
+      }
+    }
+  });
+});
+
+// remove timeslot from courseSection list before removing a timeslot
+courseTime.pre('remove', function(next) {
+  var timeslot = this._id;
+  courseSectionSchema.findOne({_id: this.cid}, function(err, section) {
+    if (err) {
+      next(err);
+    }
+    else {
+      if (!section) {
+        var error = new Error("This should not happen.");
+        next(error);
+      } else {
+        var index = section.timeslots.indexOf(timeslot);
+        if (index > -1) {
+          section.timeslots.splice(index, 1);
+        }
+        section.save(function(err) {
+          next(err);
+        });
+      }
+    }
+  });
+});
+
+// remove all courseSections before removing a course
+course.pre('remove', function(next) {
+  var courseCode = this._id;
+  courseSectionSchema.remove({courseCode: courseCode}, function(err) {
+    next(err);
+  });
+});
+
+mongoose.connect('mongodb://localhost/timetable');
 var courseSchema = mongoose.model('courses', course);
 var courseSectionSchema = mongoose.model('course_sections', courseSection);
 var courseTimeSchema = mongoose.model('course_times', courseTime);
 var userSchema = mongoose.model('users', user);
 var preferenceSchema = mongoose.model('preferences', preference);
-
-// preference.pre('save', function(next) {
-//   console.log("fdjsaklfjdklasf");
-//   userSchema.findOne({_id: this.uid}, function(err, result) {
-//     if (err || !result) {
-//       var error = new Error("error: finding user in post function adding preference");
-//       next(error);
-//     } else {
-//       result.preferences.push(this._id);
-//       console.log(result.preferences);
-//       result.save(function(err) {
-//         if (err) {
-//           var error = new Error("error: updating user preferences");
-//           next(error);
-//         } else {
-//           next();
-//         }
-//       });
-//     }
-//   });
-// });
 
 module.exports = {
   courseSchema: courseSchema,

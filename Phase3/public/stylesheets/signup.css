@@ -33,13 +33,9 @@ header {
     position: relative;
 }
 
-.reset-button {
-    background-color: #f44336;
-}
-
 .top-nav {
     width: 100%;
-    background-image: url(./logo.png);
+    background-image: url(../logo.png);
     background-size: auto 130px;
     background-repeat: no-repeat;
     background-position: left;
@@ -109,7 +105,7 @@ button {
     background-color: #f44336;
 }
 
-.h2-title {
+.login-title {
     text-align:center;
 }
 
@@ -197,6 +193,7 @@ footer {
 }
 .links a, .links img{
     height: 1.2em;
+
     text-decoration: none;
 }
 #stay-connected {
@@ -215,8 +212,6 @@ footer {
     height: 0;
     visibility: hidden;
 }
-
-
 
 /* Change styles for cancel button and signup button on extra small screens */
 @media screen and (max-width: 400px) {
