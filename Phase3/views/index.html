@@ -1,0 +1,240 @@
+<!-- Testing for git branch/checkout -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>SmartTimetable</title>
+        <link rel="stylesheet" href="index-style.css">
+        <script src="index.js"></script>
+    </head>
+    <body>
+        <header class="top-nav" id="body-content">
+
+            <div id="title" class="nav-description">Courseware</div>
+            <div id="year" class="nav-description">2017</div>
+            <!-- <div id="description" class="nav-description">a smart UofT course scheduler</div> -->
+
+            <button id="login-button" class="nav-button">Login</button>
+            <button id="signup-button" class="nav-button">Sign Up</button>
+            <button id="link-smart-button" class="nav-button">Try smart</button>
+            <!-- <div class="menu-button"> </div> -->
+
+        </header>
+
+        <div class="content-wrapper">
+            <section class="left-bar">
+                <h2>Course List</h2>
+                <div id="course-list">
+                    <table>
+                      <tr class="course-item">
+                        <td>CSC108<button class="delete">x</button></td>
+                      </tr>
+                      <tr class="course-item">
+                        <td>CSC148<button class="delete">x</button></td>
+                      </tr>
+                      <tr class="course-item">
+                        <td>CSC207<button class="delete">x</button></td>
+                      </tr>
+                      <tr class="course-item">
+                        <td>CSC369<button class="delete">x</button></td>
+                      </tr>
+                      <tr class="course-item">
+                        <td>CSC373<button class="delete">x</button></td>
+                      </tr>
+                    </table>
+                </div>
+            </section>
+
+            <section class="main main-size">
+                <h3 class="title">Search Course</h3>
+                <div class="search-bar">
+                    <input type="text" placeholder="Course Code: csc108" id="search-by-coursecode">
+                    <input type="button" value='search' id="normal-search">
+                    <input type="button" value="Advanced" id="show-advanced">
+                    <div class="advanced-search hide">
+                        <div class="group long">
+                            <label>Course Level(s)</label>
+                            <input type="text" placeholder="100">
+                        </div>
+                        <div class="group long">
+                            <label>Instructor's Last Name</label>
+                            <input type="text" placeholder="Enter last name">
+                        </div>
+                        <div class="group long">
+                            <label>Breadth Requirement(s)</label>
+                            <input type="text" placeholder="1">
+                        </div>
+                        <div class="group long">
+                            <label>Time(s)</label>
+                            <input type="text" placeholder="Morning">
+                        </div>
+                        <div class="group long">
+                            <label>Day(s) of Week</label>
+                            <input type="text" placeholder="3">
+                        </div>
+                        <div class="group long">
+                            <label>Course Title</label>
+                            <input type="text" placeholder="Enter course title or subtitle">
+                        </div>
+                        <input type="button" class="center" value="search">
+                    </div>
+                </div>
+                <section class="timetable">
+                    <h3>Winter Semester 2017</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="emptyspace"></th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="6">8:00</td></tr>
+                            <tr><td colspan="6">9:00</td></tr>
+                            <tr><td colspan="6">10:00</td></tr>
+                            <tr><td colspan="6">11:00</td></tr>
+                            <tr><td colspan="6">12:00</td></tr>
+                            <tr><td colspan="6">13:00</td></tr>
+                            <tr><td colspan="6">14:00</td></tr>
+                            <tr><td colspan="6">15:00</td></tr>
+                            <tr><td colspan="6">16:00</td></tr>
+                            <tr><td colspan="6">17:00</td></tr>
+                            <tr><td colspan="6">18:00</td></tr>
+                            <tr><td colspan="6">19:00</td></tr>
+                            <tr><td colspan="6">20:00</td></tr>
+                            <tr><td colspan="6">21:00</td></tr>
+                            <tr><td colspan="6">22:00</td></tr>
+                        </tbody>
+                    </table>
+                    <img class="switch arrowleft" alt="switch-arrowleft"
+                     src='leftarrow.png'>
+                    <img class="switch arrowright movearrow" alt="switch-right"
+                     src='rightarrow.png'>
+                </section>
+            </section>
+            <button id="smart" class="smart-button button-position"><b>Try smart!</b></button>
+            <section class="right-bar hide">
+                <h2>Preferences</h2>
+                <div id="preferences">
+                    <form>
+                        <h3>Time Preferences</h3>
+                        <div class="preferences">
+                            <table>
+                                <tr>
+                                    <td>Monday</td>
+                                    <td>
+                                        <select name="Monday-time">
+                                            <option value="any">any</option>
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tuesday</td>
+                                    <td>
+                                        <select name="Tuesday-time">
+                                            <option value="any">any</option>
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Wednesday</td>
+                                    <td>
+                                        <select name="Wednesday-time">
+                                            <option value="any">any</option>
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Thursday</td>
+                                    <td>
+                                        <select name="Thursday-time">
+                                            <option value="any">any</option>
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Friday</td>
+                                    <td>
+                                        <select name="Friday-time">
+                                            <option value="any">any</option>
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                            <input id="submit" type="submit" name="preferences" value="Apply">
+                        </div>
+                    </form>
+                </div>
+                <h2>Smart Solutions</h2>
+                <div id="solutions">
+                    <table>
+                        <tr class="solution">
+                            <td>Solution 1</td>
+                        </tr>
+                        <tr class="solution">
+                            <td>Solution 2</td>
+                        </tr>
+                        <tr class="solution">
+                            <td>Solution 3</td>
+                        </tr>
+                        <tr class="solution">
+                            <td>Solution 4</td>
+                        </tr>
+                        <tr class="solution">
+                            <td>Solution 5</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+        </div>
+        <footer class="myFooter">
+            <section class="connected">
+                <h4 id="stay-connected">Stay Connnected</h4>
+                <div class="links">
+                    <a href="#">
+                        <img class="icon twitter" alt="twitter"
+                         src="http://brolik.com/images/icon-twitter.svg">
+                    </a>
+                    <a href="#">
+                        <img class="icon facebook" alt="facebook"
+                        src="http://brolik.com/images/icon-facebook.svg">
+                    </a>
+                    <a href="#">
+                        <img class="icon linkedin" alt="linkedin"
+                        src="http://brolik.com/images/icon-linkedin.svg">
+                    </a>
+                    <a href="#body-content">
+                        <img class="icon home" alt="home"
+                        src="./home-logo-md.png">
+                    </a>
+                </div>
+
+            </section>
+
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+        <script src="index.js"></script>
+    </body>
+</html>
