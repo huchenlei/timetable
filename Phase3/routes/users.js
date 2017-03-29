@@ -75,10 +75,19 @@ function suspendUser(req, res) {
         return res.sendStatus(401);
       } else {
 
-        database.userSchema.remove({
+        database.userSchema.findOne({
           _id:req.params.userName
-        }, function(err, result){
-          return res.sendStatus(200);
+        }, function(err, user){
+          if (!user) {
+            return res.sendStatus(404);
+          }
+          user.remove(function(err) {
+            if (err) {
+              return res.sendStatus(400);
+            } else {
+              return res.sendStatus(200);
+            }
+          });
         });
           console.log("after delete");
       }
