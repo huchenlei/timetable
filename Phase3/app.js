@@ -17,7 +17,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-nunjucks.configure(path.join(__dirname, "./views"), { autoescape: true, express: app });
+app.set('views', path.join(__dirname, './views'));
+nunjucks.configure(path.join(__dirname, "views"), { autoescape: true, express: app });
 app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', routes);

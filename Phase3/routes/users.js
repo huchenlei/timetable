@@ -25,7 +25,7 @@ function addUser(req, res) {
           return res.sendStatus(400);
         } else {
           if (success) {
-            return res.sendStatus(200);
+            return res.render("index.html", {username: req.body.userName});
           }
         }
       });
