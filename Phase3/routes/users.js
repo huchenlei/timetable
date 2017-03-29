@@ -8,7 +8,7 @@ function addUser(req, res) {
 
   var profile = {
     _id: req.body.userName,
-    passWord: req.body.password,
+    passWord: req.body.passWord,
     fullName: req.body.fullName,
     emailAddress: req.body.emailAddress
   };
