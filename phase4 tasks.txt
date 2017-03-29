@@ -1,0 +1,4 @@
+chenj209: merge smart solution, create a smart api, login, signout, session
+chenj177:  insertcourse. frontend beautify
+chenbowen: frontend smartsolution
+li-zhijian: search(frontend), advance search(frontend & backend), add/delete course to courselist
