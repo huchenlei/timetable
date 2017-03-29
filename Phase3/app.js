@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var nunjucks = require('nunjucks');
 // var routes = require('./routes/index');
 var users = require('./routes/users');
 var courses = require('./routes/course');
@@ -21,6 +21,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+nunjucks.configure(path.join(__dirname, "views"), { autoescape: true, express: app });
 app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/', routes);
