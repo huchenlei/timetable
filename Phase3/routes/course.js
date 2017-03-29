@@ -107,68 +107,21 @@ function insertSection(req, res) {
     });
 }
 
-// database.courseSectionSchema.pre('remove', function(next) {
-//     var query = database.courseTimeslotSchema.remove({cid: this._id});
-//     query.exec(function(err){
-//       if (err) {
-//         var error = new Error("Delete timeslot fail");
-//         next(error);
-//       } else {
-//         next();
-//       }
-//     });
-// });
-// function deleteSection(req, res) {
-//   var response = {
-//       courseCode: req.body.courseCode,
-//       semester: req.body.semester,
-//       type: req.body.type,
-//       sectionCode: req.body.sectionCode
-//   };
-//   database.courseSchema.findOne({
-//       _id: response.courseCode
-//   }).then(function(err, course){
-//       if (err) {
-//         console.log("error: looking for course");
-//         res.sendStatus(400);
-//       }
-//       if (!course) {
-//         console.log("course does not exists");
-//         return res.sendStatus(400);
-//       }
-//     }
-//     database.courseSectionSchema.findOne(responsefunction (err, section) {
-//       if (err) {
-//           console.log("section look up error");
-//           console.log(response);
-//           return res.sendStatus(400);
-//       } else {
-//         if (!section) {
-//           console.log("section does not exists");
-//           return res.sendStatus(400);
-//         }
-//       }
-//     })
-//   ).then(
-//     var index = course.sections.indexOf(section._id);
-//     course.sections.splice(index, 1);
-//     course.save(function(err, success){
-//       if (err) {
-//           console.log("delete course section from course error");
-//           return res.sendStatus(400);
-//       }
-//     });
-//   ).then(
-//     database.courseSectionSchema.findOne(response, function (err) {
-//       if (err) {
-//         console.log("error: delete section tuple");
-//         return res.sendStatus(400);
-//       } else {
-//         return res.json(course);
-//       }
-//     });
-//   );
-// }
+function deleteSection(req, res) {
+  var response = {
+      courseCode: req.body.courseCode,
+      semester: req.body.semester,
+      type: req.body.type,
+      sectionCode: req.body.sectionCode
+  };
+  courseSectionSchema.remove(response, function(err) {
+    if (err) {
+      console.log(err);
+      return res.sendStatus(400);
+    }
+    return res.sendStatus(200);
+  });
+}
 
 function updateSection(req, res) { // currently only instructor update is allowed
   database.courseSectionSchema.findOne({
@@ -310,7 +263,7 @@ router.get('/courseInfo/:semester/:courseCode', getCourseInfo);
 router.post('/insertSection', insertSection);
 //router.post('/sectionInfo', getSectionInfo);
 router.put('/updateSection', updateSection);
-//router.delete('/deleteSection', deleteSection);
+router.delete('/deleteSection', deleteSection);
 
 
 router.post('/insertTimeslot', insertTimeslots);
