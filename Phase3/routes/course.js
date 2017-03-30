@@ -42,6 +42,7 @@ function getCourseInfo(req, res) {
       _id: req.params.courseCode
     },
     function(err, course) {
+      console.log(req.params.courseCode)
       if (err) {
         return res.sendStatus(400);
       }
@@ -57,13 +58,12 @@ function getCourseInfo(req, res) {
     })
     .populate({
       path: 'sections',
-      match: {semester: req.params.semester},
       populate: {
         path: 'timeslots'
       }
     })
     .exec(function(err, sections){
-      return res.json(sections);
+      return res.jsonp(sections);
     });
 }
 
@@ -254,7 +254,7 @@ function deleteTimeslot(req, res) {
 
 // courseSchema
 router.post('/insertCourse', insertCourse); 
-router.get('/courseInfo/:semester/:courseCode', getCourseInfo);
+router.get('/:courseCode', getCourseInfo);
 //router.update('/updateCourse', updateCourse);
 
 //router.delete('/deleteCourse', deleteCourse);
