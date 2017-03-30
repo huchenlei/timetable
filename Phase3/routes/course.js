@@ -38,8 +38,9 @@ function insertCourse(req, res) {
 function getCourseInfo(req, res) {
   var results = [];
   database.courseSchema
-    .findOne({
-      _id: req.params.courseCode
+    .find({
+      //search all courses that fits the keyword
+      _id: new RegExp(req.params.courseCode, "i")
     },
     function(err, course) {
       console.log(req.params.courseCode)
@@ -245,7 +246,7 @@ function deleteTimeslot(req, res) {
           });
         }
       });
-      
+
     }
   })
 }
@@ -253,7 +254,7 @@ function deleteTimeslot(req, res) {
 
 
 // courseSchema
-router.post('/insertCourse', insertCourse); 
+router.post('/insertCourse', insertCourse);
 router.get('/:courseCode', getCourseInfo);
 //router.update('/updateCourse', updateCourse);
 
