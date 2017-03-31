@@ -59,7 +59,7 @@ app.get("/", function(req, res) {
 });
 
 app.get("/signup", function(req, res) {
-  res.render("signup.html");
+  res.render("signup2.html");
 });
 
 app.get("/login", function(req, res) {
