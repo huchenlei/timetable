@@ -311,7 +311,7 @@ footer {
 #preferences select {
 	background-color: transparent;
 }
-#preferences input[type='submit'] {
+#preferences input[type='submit'], input[type='button'] {
     background-color: #008CBA;
     border: solid 0.1em #008CBA;
     border-radius: 0.4em;
@@ -323,9 +323,10 @@ footer {
     position: relative;
     top: 2px;
     font-size: 1em;
+    margin-bottom: 0.5em;
 }
 
-input[type='submit']:hover {
+input[type='submit']:hover, input[type='button']:hover {
     cursor: pointer;
     box-shadow: 0 1.5em 2em rgba(0,0,0,0.24), 0 1em 2em 0 rgba(0,0,0,0.19);
 }
