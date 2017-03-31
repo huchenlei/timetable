@@ -16,20 +16,20 @@
             <div id="title" class="nav-description">Courseware</div>
             <div id="year" class="nav-description">2017</div>
             <!-- <div id="description" class="nav-description">a smart UofT course scheduler</div> -->
-
             {% if session.username %}
-            <a href="/logout" class="btn btn-info" role="button">Logout</a>
-            <span>Logged in as {{ session.username }}</span>
-            {% else %}
-            <a href="/login" class="btn btn-info" role="button">Login</a>
+            <span>Logged in as <strong>{{ session.username }}</strong></span>
             {% endif %}
-            <button id="signup-button" class="nav-button"><a href="/signup">Sign Up</a></button>
-
+            {% if session.username %}
+            <a href="/logout" id="login-button" class="btn btn-info" role="button">Logout</a>
+            {% else %}
+            <a href="/login" id="login-button" class="btn btn-info" role="button">Login</a>
+            {% endif %}
+            <a href="/signup" id="signup-button" class="btn btn-info" role="button">Sign Up</a>
             <button id="link-smart-button" class="nav-button">Try smart</button>
             <!-- <div class="menu-button"> </div> -->
 
         </header>
-
+        
         <div class="content-wrapper">
             <section class="left-bar">
                 <h2>Course List</h2>

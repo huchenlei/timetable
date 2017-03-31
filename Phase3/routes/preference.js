@@ -146,11 +146,14 @@ function parse_tValue(list){
 }
 
 
-function preference_sort(input, callback){
+function preference_sort(callback){
 
   //store first list of preference in to a variable called preference_list
   //now input[0] is class list
+  console.log("inside preference");
+  console.log(input);
   var preference_list = input.shift();
+
   var preference_len = preference_list.length;
   parse_tValue(preference_list);
 
@@ -242,14 +245,16 @@ function preference_sort(input, callback){
       return parseInt(b.score) - parseInt(a.score);
     });
   }
+  console.log("output of preference");
+  console.log(input);
   callback(input);
 }
-//test block
-var result = preference_sort(input);
-for (x = 0; x < result.length; x++){
-  for (y = 0; y < result[x].length; y++){
-    console.log(result[x][y]);
-  }
-}
+// //test block
+// var result = preference_sort(input);
+// for (x = 0; x < result.length; x++){
+//   for (y = 0; y < result[x].length; y++){
+//     console.log(result[x][y]);
+//   }
+// }
 
 module.exports = preference_sort;

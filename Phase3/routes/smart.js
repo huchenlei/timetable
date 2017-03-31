@@ -325,7 +325,7 @@ var backtrack = function(currentlist, courselist, result) {
 		for (var i = 0; i < courselist[deapth].length; i++) {
 			var ok = true;
 			for (var j = 0; j < deapth; j++) 
-				if (over_lap(courselist[deapth][i].time, currentlist[j].time))
+				if (over_lap(courselist[deapth][i].timeslots, currentlist[j].timeslots))
 					ok = false;
 			if (ok) {
 				currentlist.push(courselist[deapth][i]);
