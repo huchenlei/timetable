@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SmartTimetable</title>
         <link rel="stylesheet" href="stylesheets/index-style.css">
-        
+
     </head>
     <body>
         <header class="top-nav" id="body-content">
@@ -28,7 +28,12 @@
                 <div id="course-list">
                     <table>
                       <tr class="course-item">
-                        <td>CSC108<button class="delete">x</button></td>
+                        <td>
+                          <div>csc108</div>
+                          <div>An introduction to Python</div>
+                          <div>Section: L0101</div>
+                          <button class="delete">x</button>
+                        </td>
                       </tr>
                       <tr class="course-item">
                         <td>CSC148<button class="delete">x</button></td>
@@ -52,6 +57,9 @@
                     <input type="text" placeholder="Course Code: csc108" id="search-by-coursecode">
                     <input type="button" value='search' id="normal-search">
                     <input type="button" value="Advanced" id="show-advanced">
+                    <div id="normal-search-result">
+
+                    </div>
                     <div class="advanced-search hide">
                         <div class="group long">
                             <label>Course Level(s)</label>

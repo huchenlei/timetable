@@ -26,15 +26,15 @@ app.use('/courses', courses);
 app.use('/users', users);
 
 //GET /courses?courseCode=CSC     暂时用不到
-app.get('/courses', function(req, res) {
-  var keyword = req.query;
-  console.log(keyword.courseCode);
-  database.courseSchema.find({_id: new RegExp(keyword.courseCode, "i")}).populate({
-    path: 'course',
-  }).exec(function (err, courses) {
-    return res.jsonp(courses);
-  });
-});
+// app.get('/courses', function(req, res) {
+//   var keyword = req.query;
+//   console.log(keyword.courseCode);
+//   database.courseSchema.find({_id: new RegExp(keyword.courseCode, "i")}).populate({
+//     path: 'course',
+//   }).exec(function (err, courses) {
+//     return res.jsonp(courses);
+//   });
+// });
 
 app.get("/", function(req, res) {
   res.render("index.html");

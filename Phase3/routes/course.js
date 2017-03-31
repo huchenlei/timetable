@@ -57,14 +57,15 @@ function getCourseInfo(req, res) {
         }
       }
     })
+    .sort('courseCode')
     .populate({
       path: 'sections',
       populate: {
         path: 'timeslots'
       }
     })
-    .exec(function(err, sections){
-      return res.jsonp(sections);
+    .exec(function(err, course){
+      return res.jsonp(course);
     });
 }
 
