@@ -15,6 +15,7 @@ var course = new Schema({
   title: String,
   description: String,
   br: Number,
+  courseLevel: Number,
   sections: [{
     type: ObjectId,
     ref: 'course_sections'

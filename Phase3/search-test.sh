@@ -6,7 +6,19 @@ curl -X POST http://localhost:3000/courses/insertCourse \
   "courseCode": "CSC108",
   "title": "Intro to Python",
   "description": "easy",
-  "br": 1
+  "br": 1,
+  "courseLevel": 100
+}'
+
+read -p $'\ninsert br2 course'
+curl -X POST http://localhost:3000/courses/insertCourse \
+     -H "Content-Type: application/json; charset=utf-8" \
+     -d '{
+  "courseCode": "ENV400",
+  "title": "Intro to environmental studies",
+  "description": "easy",
+  "br": 2,
+  "courseLevel": 400
 }'
 
 read -p $'\ninsert csc148'
@@ -16,7 +28,8 @@ curl -X POST http://localhost:3000/courses/insertCourse \
   "courseCode": "CSC148",
   "title": "Advanced course to Python",
   "description": "medium",
-  "br": 1
+  "br": 1,
+  "courseLevel": 100
 }'
 
 read -p $'\nInsert section'
@@ -52,3 +65,6 @@ curl -X GET http://localhost:3000/courses/CSC148
 
 read -p $'\nget all csc courses'
 curl -X GET http://localhost:3000/courses?courseCode=CSC108
+
+read -p $'\nget courseInfo for CSC108'
+curl -X GET http://localhost:3000/br/2
