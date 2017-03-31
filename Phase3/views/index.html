@@ -15,11 +15,11 @@
             <div id="title" class="nav-description">Courseware</div>
             <div id="year" class="nav-description">2017</div>
             <!-- <div id="description" class="nav-description">a smart UofT course scheduler</div> -->
-            {{% if username %}}
-            <h2> Logged in as {{ username }}</h2>
-            {{% else %}}
+            {% if username %}
+            <button id="login-button" class="nav-button">Logged in as {{ username }}</button>
+            {% else %}
             <button id="login-button" class="nav-button">Login</button>
-            {{% endif %}}
+            {% endif %}
             <button id="signup-button" class="nav-button"><a href="/signup">Sign Up</a></button>
             <button id="link-smart-button" class="nav-button">Try smart</button>
             <!-- <div class="menu-button"> </div> -->
