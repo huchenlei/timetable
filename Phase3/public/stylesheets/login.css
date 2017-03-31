@@ -72,7 +72,7 @@ form {
   position: relative;
   z-index: 2;
 }
-form input {
+form input[type="text"],input[type="password"],input[type="button"] {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -90,6 +90,13 @@ form input {
   -webkit-transition-duration: 0.25s;
           transition-duration: 0.25s;
   font-weight: 300;
+}
+input[type="checkbox"] {
+	width: 250px;
+	padding: 10px 15px;
+  	margin: 0 auto 10px auto;
+  	display: block;
+  	color: white;
 }
 form input:hover {
   background-color: rgba(255, 255, 255, 0.4);
@@ -227,10 +234,4 @@ form button:hover {
     -webkit-transform: translateY(-700px) rotate(600deg);
             transform: translateY(-700px) rotate(600deg);
   }
-}
-#checkbox {
-  position: absolute;
-  top: 68%;
-  left: 45%;
-  color: white;
 }
