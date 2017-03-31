@@ -1,4 +1,7 @@
+var course_object;
+
 $(document).ready(function(){
+
     //normal search area is initially hidden
     $('#normal-search-result').hide();
     $("#show-advanced").on("click", function() {
@@ -22,6 +25,7 @@ $(document).ready(function(){
     /*
      * When click one of the search result, save the clicked section into
      * 'Course List' table
+     * Also add the course into user's database
      */
      $(document).on("click", "#normal-search-result li", function(){
        //add new tr to the table
@@ -35,7 +39,7 @@ $(document).ready(function(){
 
        //add new div to the td
        var new_div = document.createElement('div');
-       new_div.id = this.id;
+       new_div.id = course_object.id;
        new_div.innerHTML = this.innerHTML;
        new_td.append(new_div);
 
@@ -45,7 +49,21 @@ $(document).ready(function(){
        new_delete.innerHTML = 'x';
        new_td.append(new_delete);
 
-
+       //add course into user's databse
+       var name = "limartinzj";
+       var url = 'http://localhost:3000/users/info/' + name + '/addUserCourse';
+       $.post(url,
+         {
+           courseCode: course_object.courseCode,
+           semester: course_object.semester,
+           type: course_object.type,
+           sectionCode: course_object.sectionCode,
+           instructor: course_object.instructor
+         }, function(data, status) {
+           console.log(data);
+           console.log(status);
+          //  alert("Data:" + data + "\nStatus" + status);
+         });
      });
     /* Display all sections of courses searched
      * after typing some string inside search bar and press "search"
@@ -66,13 +84,24 @@ $(document).ready(function(){
         for (i = 0; i < len; i++) {
           var classItem = result[i];
           var newList = document.createElement('li');
+
           newList.id = 'classItem' + '000' + i;
           newList.classList.add('foo');
           var len2 = classItem.sections.length;
           if (len2 > 0) {
             for (n = 0; n < len2; n++) {
-              newList.innerHTML = classItem._id +
-                                  classItem.sections[n].sectionCode;
+              course_object = {
+                courseCode: classItem.sections[n].courseCode,
+                semester: classItem.sections[n].semester,
+                type: classItem.sections[n].type,
+                sectionCode: classItem.sections[n].sectionCode,
+                instructor: classItem.sections[n].instructor
+              };
+              newList.innerHTML = classItem.sections[n].courseCode +
+                                  classItem.sections[n].semester +
+                                  classItem.sections[n].type +
+                                  classItem.sections[n].sectionCode +
+                                  classItem.sections[n].instructor;
             }
           }
           else {
