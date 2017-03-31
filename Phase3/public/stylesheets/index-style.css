@@ -436,16 +436,31 @@ input[type='submit']:hover {
 	height: 2em;
 	vertical-align: bottom;
 	text-align: center;
+	width: 18%;
+}
+.main .timetable table .first {
+	width: 10%;
 }
 .main .timetable table tbody tr {
 	height: 4em;
 	color: #999;
 }
+
 .main .timetable .switch {
 	position: fixed;
 	top: 50%;
 	opacity: 0.5;
     filter: alpha(opacity=50);
+}
+.main .timetable td {
+	column-span: 1;
+}
+.main .timetable .course {
+	background: lightblue;
+	text-align: center;
+	color: black;
+	font-weight: bold;
+	font-size: 1.4em;
 }
 .main .timetable .arrowleft {
 	left: 23%;
