@@ -51,4 +51,4 @@ read -p $'\nget courseInfo for CSC148'
 curl -X GET http://localhost:3000/courses/CSC148
 
 read -p $'\nget all csc courses'
-curl -X GET http://localhost:3000/courses?courseCode=CSC
+curl -X GET http://localhost:3000/courses?courseCode=CSC108
