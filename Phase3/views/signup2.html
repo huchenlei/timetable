@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Sign up</title>
+  
+  
+  
+      <link rel="stylesheet" href="stylesheets/signup2.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
+</head>
+
+<body>
+  <div class="wrapper">
+  {% if error %}
+  <div class="alert alert-danger alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Failed!</strong> {{ error }}
+  </div>
+  {% endif %}
+	<div class="container">
+		<h1>Welcome</h1>
+    <form id="signup-form" action="/signup" method="post">
+  
+        <label><b>Username</b></label>
+        <input type="text" id="userName" name="userName">
+        <label><b>Fullname</b></label>
+        <input type="text"  id="fullname" name="fullName">
+        <label><b>Email</b></label>
+        <input type="text"  id="email" name="emailAdress" required pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" title="invalid email address">
+
+        <label><b>Password</b></label>
+        <input type="password"  id="psw" name="passWord" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+
+        <label><b>Repeat Password</b></label>
+        <input type="password"  id="psw-repeat" required>
+        
+
+
+        <div class="clearfix">
+          <a href="/"><button type="button" class="cancelbtn">Cancel</button></a>
+          <button type="submit" class="signupbtn">Sign Up</button>
+       
+      </div>
+    </form>
+	</div>
+  <div id="remember-me" >
+  <form class="Rememberme"><input type="checkbox" checked="checked"> Remember me</form>
+  </div>
+	
+	<ul class="bg-bubbles">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</div>
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script> 
+    $("#login-button").click(function(event){
+	 
+	 $('form').fadeOut(500);
+	 $('.wrapper').addClass('form-success');
+});
+</script>
+
+</body>
+</html>
