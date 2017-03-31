@@ -1,0 +1,92 @@
+<!--reference: https://www.w3schools.com/howto/howto_css_signup_form.asp
+https://www.w3schools.com/howto/howto_css_login_form.asp
+https://www.w3schools.com/tags/att_input_pattern.asp-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="stylesheets/login.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+
+  <body>
+    <header class="top-nav" id="body-content">
+
+      <div id="title" class="nav-description">Courseware</div>
+      <div id="year" class="nav-description">2017</div>
+
+
+    </header>
+     {% if error %}
+    <div class="alert alert-danger">
+      <strong>Failed!</strong> {{ error }}
+    </div>
+    {% endif %}
+    <div class="content-wrapper">
+      <div class="login-title">
+      <h2>Login</h2>
+
+      <form action="\login" method="post">
+        <div class="container">
+          
+          <label><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" id="uname" name="userName" required>
+
+          <label><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" id="psw" name="passWord" required>
+
+          <button type="submit">Login</button>
+          <input type="checkbox" checked="checked"> Remember me
+        </div>
+      </form>
+
+      <div class="container">
+        <span class="psw"><a href="#">Forgot password?</a></span>
+      </div>
+    </div>
+    </div>
+
+
+
+
+
+
+    <footer class="myFooter">
+      <section class="connected">
+          <h4 id="stay-connected">Stay Connnected</h4>
+          <div class="links">
+              <a href="#">
+                  <img class="icon twitter" alt="twitter"
+                   src="http://brolik.com/images/icon-twitter.svg">
+              </a>
+              <a href="#">
+                  <img class="icon facebook" alt="facebook"
+                  src="http://brolik.com/images/icon-facebook.svg">
+              </a>
+              <a href="#">
+                  <img class="icon linkedin" alt="linkedin"
+                  src="http://brolik.com/images/icon-linkedin.svg">
+              </a>
+              <a href="#body-content">
+                  <img class="icon home"  alt="home"
+                  src="./home-logo-md.png">
+              </a>
+          </div>
+
+      </section>
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+      <!-- Latest compiled JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="javascripts/login.js"></script>
+    </footer>
+
+  </body>
+</html>
