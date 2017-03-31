@@ -7,7 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SmartTimetable</title>
         <link rel="stylesheet" href="stylesheets/index-style.css">
-        
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     </head>
     <body>
         <header class="top-nav" id="body-content">
@@ -15,11 +16,12 @@
             <div id="title" class="nav-description">Courseware</div>
             <div id="year" class="nav-description">2017</div>
             <!-- <div id="description" class="nav-description">a smart UofT course scheduler</div> -->
-            
-            {% if username %}
-            <button id="login-button" class="nav-button">Logged in as {{ username }}</button>
+
+            {% if session.username %}
+            <a href="/logout" class="btn btn-info" role="button">Logout</a>
+            <span>Logged in as {{ session.username }}</span>
             {% else %}
-            <button id="login-button" class="nav-button">Login</button>
+            <a href="/login" class="btn btn-info" role="button">Login</a>
             {% endif %}
             <button id="signup-button" class="nav-button"><a href="/signup">Sign Up</a></button>
 
@@ -241,6 +243,9 @@
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+      <!-- Latest compiled JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="javascripts/index.js"></script>
     </body>
 </html>

@@ -1,6 +1,6 @@
 function userExport(database, router) {
 //add user, and if username already exists, send 400 status
-function addUser(req, res) {
+function signup(req, res) {
 
   var profile = {
     _id: req.body.userName,
@@ -12,8 +12,7 @@ function addUser(req, res) {
   database.userSchema.count({_id: req.body.userName},
   function(err, count){
     if (count > 0){
-      console.log("username already exists");
-      return res.sendStatus(403);
+      return res.render("signup.html", {error: "username already exists"});
     } else {
       new database.userSchema(profile).save(function (err, success){
         if (err) {
@@ -21,12 +20,45 @@ function addUser(req, res) {
           return res.sendStatus(400);
         } else {
           if (success) {
+            req.session.username = req.body.userName;
+            req.session.fullname = req.body.fullName;
+            req.session.emailaddress = req.body.emailAddress;
             return res.redirect("/");
           }
         }
       });
     }
   });
+}
+
+function login(req, res) {
+
+  var profile = {
+    _id: req.body.userName,
+    passWord: req.body.passWord
+  };
+
+  database.userSchema.findOne({_id: req.body.userName},
+  function(err, user){
+    if (!user){
+      return res.render("login.html", {error: "username does not exist"});
+    } else {
+        if (req.body.passWord == user.passWord) {
+          req.session.username = user._id;
+          req.session.fullname = user.fullName;
+          req.session.emailaddress = user.emailAddress;
+          return res.redirect("/");
+        }
+        else {
+          return res.render("login.html", {error: "password is incorrect"});
+        }
+    }
+  });
+}
+
+function logout(req, res) {
+  req.session.destroy();
+  res.redirect('/');
 }
 
 //get user's info
@@ -199,7 +231,9 @@ function checkUserExist(req, res, next) {
   })
 }
 
-router.post('/addUser', addUser);
+router.post('/signup', signup);
+router.post('/login', login);
+router.get('/logout', logout);
 router.get('/users/info/:userName', getUserInfo);
 router.delete('/users/info/:userName', suspendUser);
 router.put('/users/info/:userName', updateUser);

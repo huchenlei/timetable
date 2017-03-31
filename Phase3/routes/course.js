@@ -67,6 +67,29 @@ function getCourseInfo(req, res) {
     });
 }
 
+function populateCourseInfo(req, callback) {
+  var course_info = [];
+  database.courseSchema
+    .findOne({
+      _id: req.courseCode
+    })
+    .populate({
+      path: 'sections',
+      match: {semester: req.semester},
+      populate: {
+        path: 'timeslots'
+      }
+    })
+    .exec(function(err, course){
+      var result = course.sections;
+      for (var i = result.length - 1; i >= 0; i--) {
+        result[i].title = course.title;
+        result[i].br = course.br;
+        result[i].description = course.description;
+      }
+      callback(result);
+    });
+}
 
 function insertSection(req, res) {
   var response = {
@@ -250,6 +273,37 @@ function deleteTimeslot(req, res) {
   })
 }
 
+function find_all_sections(course, callback) {
+  for (var i = user.courses.length - 1; i >= 0; i--) {
+        user.courses[i]
+      }
+}
+var preference_sort = require('./preference');
+var compute_valid_solutions = require('./smart');
+function smart(req, res) {
+  database.userSchema
+    .findOne({_id: req.session.username})
+    .populate('preferences')
+    .populate({
+      path: 'courses',
+      match: {semester: req.params.semester},
+      populate: {
+        path: 'timeslots'
+      }
+    })
+    .exec(function(err, user) {
+      if (err | !user) {
+        console.log("should not happen");
+        return res.sendStatus(400);
+      }
+      var preferences = user.preferences;
+      var courses = [];
+      for (var i = user.courses.length - 1; i >= 0; i--) {
+        user.courses[i]
+      }
+    });
+}
+
 
 
 // courseSchema
@@ -268,5 +322,6 @@ router.delete('/deleteSection', deleteSection);
 
 router.post('/insertTimeslot', insertTimeslots);
 router.delete('/deleteTimeslot', deleteTimeslot);
+router.get('/smart', smart);
 
 module.exports = router;

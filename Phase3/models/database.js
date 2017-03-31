@@ -69,7 +69,7 @@ var user = new Schema({
   },
   passWord: String,
   fullName: String,
-  emailAdress: String,
+  emailAddress: String,
   admin: {
     type: Boolean,
     default: false

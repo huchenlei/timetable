@@ -353,3 +353,5 @@ var compute_valid_solutions = function(courselist) {
 		[csc108l0501, csc165l0101, mat137l0201, mat223l0102, phl245l0101, phl246l5101]	// solution_five, worse
 	];
 */
+
+module.exports= compute_valid_solutions;

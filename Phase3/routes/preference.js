@@ -251,3 +251,5 @@ for (x = 0; x < result.length; x++){
     console.log(result[x][y]);
   }
 }
+
+module.exports = preference_sort;

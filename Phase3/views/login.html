@@ -10,6 +10,8 @@ https://www.w3schools.com/tags/att_input_pattern.asp-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/login.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
 
   <body>
@@ -24,25 +26,30 @@ https://www.w3schools.com/tags/att_input_pattern.asp-->
     <div class="content-wrapper">
       <div class="login-title">
       <h2>Login</h2>
-      <form action="/action_page.php">
 
-
-
-      <div class="container">
-        <label><b>Email</b></label>
-        <input type="text" placeholder="Enter Username" id="uname" name="uname" required>
-
-        <label><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" id="psw" name="psw" required>
-
-        <button type="submit">Login</button>
-        <input type="checkbox" checked="checked"> Remember me
+      {% if error %}
+      <div class="alert alert-danger alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Failed!</strong> {{ error }}
       </div>
+      {% endif %}
+      <form action="\login" method="post">
+        <div class="container">
+          
+          <label><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" id="uname" name="userName" required>
+
+          <label><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" id="psw" name="passWord" required>
+
+          <button type="submit">Login</button>
+          <input type="checkbox" checked="checked"> Remember me
+        </div>
+      </form>
 
       <div class="container">
         <span class="psw"><a href="#">Forgot password?</a></span>
       </div>
-    </form>
     </div>
     </div>
 
@@ -77,6 +84,9 @@ https://www.w3schools.com/tags/att_input_pattern.asp-->
       <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+      <!-- Latest compiled JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="javascripts/login.js"></script>
     </footer>
 
