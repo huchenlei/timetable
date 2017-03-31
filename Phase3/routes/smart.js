@@ -336,11 +336,11 @@ var backtrack = function(currentlist, courselist, result) {
 	}
 }
 
-var compute_valid_solutions = function(courselist) {
+var compute_valid_solutions = function(courselist, callback) {
 	result = [];
 	currentlist = [];
 	backtrack(currentlist, courselist, result);
-	return result;
+	callback(result);
 }
 
 /* res = compute_valid_solutions(courselist);

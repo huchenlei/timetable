@@ -273,11 +273,23 @@ function deleteTimeslot(req, res) {
   })
 }
 
-function find_all_sections(course, callback) {
+function find_all_sections(user, callback) {
+  var results = [];
+  var counter = 0;
   for (var i = user.courses.length - 1; i >= 0; i--) {
-        user.courses[i]
+        var section = {
+          courseCode: user.courses[i].courseCode,
+          semester: user.courses[i].semester
+        }
+        populateCourseInfo(section, function(result) {
+          results.push(result);
+          counter++;
+        });
       }
+  while (counter < user.courses.length);
+  callback(results);
 }
+
 var preference_sort = require('./preference');
 var compute_valid_solutions = require('./smart');
 function smart(req, res) {
@@ -297,10 +309,18 @@ function smart(req, res) {
         return res.sendStatus(400);
       }
       var preferences = user.preferences;
-      var courses = [];
-      for (var i = user.courses.length - 1; i >= 0; i--) {
-        user.courses[i]
-      }
+      find_all_sections(user, function(results) {
+        var output = [];
+        output.push(preferences);
+        for (var i = results.length - 1; i >= 0; i--) {
+          output.push(results[i]);
+        }
+        preference_sort(output, function(sorted) {
+          compute_valid_solutions(sorted, function(solutions) {
+            return res.json(solutions);
+          });
+        })
+      })
     });
 }
 

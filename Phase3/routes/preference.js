@@ -146,7 +146,7 @@ function parse_tValue(list){
 }
 
 
-function preference_sort(input){
+function preference_sort(input, callback){
 
   //store first list of preference in to a variable called preference_list
   //now input[0] is class list
@@ -242,7 +242,7 @@ function preference_sort(input){
       return parseInt(b.score) - parseInt(a.score);
     });
   }
-  return input;
+  callback(input);
 }
 //test block
 var result = preference_sort(input);
