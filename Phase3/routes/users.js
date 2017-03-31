@@ -1,24 +1,18 @@
-var express = require('express');
-var database = require('../models/database');
-var router = express.Router();
-
-
+function userExport(database, router) {
 //add user, and if username already exists, send 400 status
-function addUser(req, res) {
+function signup(req, res) {
 
   var profile = {
     _id: req.body.userName,
     passWord: req.body.passWord,
     fullName: req.body.fullName,
-    emailAdress: req.body.emailAdress
-
+    emailAddress: req.body.emailAddress
   };
 
   database.userSchema.count({_id: req.body.userName},
   function(err, count){
     if (count > 0){
-      console.log("username already exists");
-      return res.sendStatus(403);
+      return res.render("signup.html", {error: "username already exists"});
     } else {
       new database.userSchema(profile).save(function (err, success){
         if (err) {
@@ -26,12 +20,45 @@ function addUser(req, res) {
           return res.sendStatus(400);
         } else {
           if (success) {
-            return res.sendStatus(200);
+            req.session.username = req.body.userName;
+            req.session.fullname = req.body.fullName;
+            req.session.emailaddress = req.body.emailAddress;
+            return res.redirect("/");
           }
         }
       });
     }
   });
+}
+
+function login(req, res) {
+
+  var profile = {
+    _id: req.body.userName,
+    passWord: req.body.passWord
+  };
+
+  database.userSchema.findOne({_id: req.body.userName},
+  function(err, user){
+    if (!user){
+      return res.render("login.html", {error: "username does not exist"});
+    } else {
+        if (req.body.passWord == user.passWord) {
+          req.session.username = user._id;
+          req.session.fullname = user.fullName;
+          req.session.emailaddress = user.emailAddress;
+          return res.redirect("/");
+        }
+        else {
+          return res.render("login.html", {error: "password is incorrect"});
+        }
+    }
+  });
+}
+
+function logout(req, res) {
+  req.session.destroy();
+  res.redirect('/');
 }
 
 //get user's info
@@ -204,12 +231,15 @@ function checkUserExist(req, res, next) {
   })
 }
 
-router.post('/addUser', addUser);
-router.get('/info/:userName', getUserInfo);
-router.delete('/info/:userName', suspendUser);
-router.put('/info/:userName', updateUser);
-router.post('/info/:userName/:courses', addUserCourse);
+router.post('/signup', signup);
+router.post('/login', login);
+router.get('/logout', logout);
+router.get('/users/info/:userName', getUserInfo);
+router.delete('/users/info/:userName', suspendUser);
+router.put('/users/info/:userName', updateUser);
+router.post('/users/info/:userName/:courses', addUserCourse);
 
-router.post('/insertPreference/:userName', checkUserExist, insertPreference);
+router.post('/users/insertPreference/:userName', checkUserExist, insertPreference);
 //router.get('/preferenceList/:userName', getPreferenceList);
-module.exports = router;
+}
+module.exports = userExport;

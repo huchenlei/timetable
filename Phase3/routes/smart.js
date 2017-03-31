@@ -325,7 +325,7 @@ var backtrack = function(currentlist, courselist, result) {
 		for (var i = 0; i < courselist[deapth].length; i++) {
 			var ok = true;
 			for (var j = 0; j < deapth; j++) 
-				if (over_lap(courselist[deapth][i].time, currentlist[j].time))
+				if (over_lap(courselist[deapth][i].timeslots, currentlist[j].timeslots))
 					ok = false;
 			if (ok) {
 				currentlist.push(courselist[deapth][i]);
@@ -336,11 +336,11 @@ var backtrack = function(currentlist, courselist, result) {
 	}
 }
 
-var compute_valid_solutions = function(courselist) {
+var compute_valid_solutions = function(courselist, callback) {
 	result = [];
 	currentlist = [];
 	backtrack(currentlist, courselist, result);
-	return result;
+	callback(result);
 }
 
 /* res = compute_valid_solutions(courselist);
@@ -353,3 +353,5 @@ var compute_valid_solutions = function(courselist) {
 		[csc108l0501, csc165l0101, mat137l0201, mat223l0102, phl245l0101, phl246l5101]	// solution_five, worse
 	];
 */
+
+module.exports= compute_valid_solutions;

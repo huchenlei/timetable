@@ -1,3 +1,4 @@
+{% block body %}
 <!-- Testing for git branch/checkout -->
 <!DOCTYPE html>
 <html lang="en">
@@ -6,7 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SmartTimetable</title>
         <link rel="stylesheet" href="stylesheets/index-style.css">
-        
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     </head>
     <body>
         <header class="top-nav" id="body-content">
@@ -14,14 +16,20 @@
             <div id="title" class="nav-description">Courseware</div>
             <div id="year" class="nav-description">2017</div>
             <!-- <div id="description" class="nav-description">a smart UofT course scheduler</div> -->
-
-            <a href="/login"><button id="login-button" class="nav-button">Login</button></a>
-            <a href="/signup"><button id="signup-button" class="nav-button">Sign Up</button></a>
+            {% if session.username %}
+            <span>Logged in as <strong>{{ session.username }}</strong></span>
+            {% endif %}
+            {% if session.username %}
+            <a href="/logout" id="login-button" class="btn btn-info" role="button">Logout</a>
+            {% else %}
+            <a href="/login" id="login-button" class="btn btn-info" role="button">Login</a>
+            {% endif %}
+            <a href="/signup" id="signup-button" class="btn btn-info" role="button">Sign Up</a>
             <button id="link-smart-button" class="nav-button">Try smart</button>
             <!-- <div class="menu-button"> </div> -->
 
         </header>
-
+        
         <div class="content-wrapper">
             <section class="left-bar">
                 <h2>Course List</h2>
@@ -327,6 +335,10 @@
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+      <!-- Latest compiled JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="javascripts/index.js"></script>
     </body>
 </html>
+{% endblock %}

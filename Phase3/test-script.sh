@@ -124,3 +124,5 @@ curl -X DELETE http://localhost:3000/users/info/limartinzj \
     -d '{
     "userName": "limartinzj"
     }'
+
+curl -X GET http://localhost:4000/courses/smart
