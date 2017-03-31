@@ -1,4 +1,4 @@
-var csc108l0101 = {
+/*var csc108l0101 = {
 	_id: "csc108",
 	tittle:'',
 	description:'',
@@ -301,9 +301,9 @@ var solutionlist = [
 		[csc108l0102, csc165l0101, mat137l0101, mat223l0102, phl245l0101, phl246l5101], // solution_three
 		[csc108l0501, csc165l0101, mat137l0101, mat223l0102, phl245l0101, phl246l5101], // solution_four
 		[csc108l0501, csc165l0101, mat137l0201, mat223l0102, phl245l0101, phl246l5101]	// solution_five, worse
-	];
+	];*/
 	
-//var solutionlist;
+var solutionlist;
 // index of current solution
 var cur;
 var currentlist;
@@ -410,8 +410,12 @@ var render_solution = function(index) {
 	for (var i = 0; i < solution.length; i++) 
 		draw_course(solution[i]);
 };
+var course_object;
 
 $(document).ready(function(){
+
+    //normal search area is initially hidden
+    $('#normal-search-result').hide();
     $("#show-advanced").on("click", function() {
         $(".advanced-search").toggleClass("hide");
     });
@@ -422,8 +426,8 @@ $(document).ready(function(){
         $(".arrowright").toggleClass("movearrow");
     });
     $("#getSolutions").on("click", function() {
-    	//$.get('/smart', function(data) {
-           	//solutionlist = JSON.parse(data);
+    	$.get('/smart', function(data) {
+           	solutionlist = JSON.parse(data);
            	cur = 0;
            	currentlist = solutionlist[cur];
            	render_solution(cur);
@@ -439,6 +443,113 @@ $(document).ready(function(){
 			$("#switch-right").on("click",function() {
 				render_solution((cur+1)%solutionlist.length);
 			});
-        //});
+        });
+
+    /*
+     * When 'x' is pressed, delete that particular course off
+     * 'Course List' table
+     */
+     $(document).on("click", ".delete", function() {
+       //var className = $(this).attr('class');
+       $(this).parents('tr').remove();
+
+     });
+    /*
+     * When click one of the search result, save the clicked section into
+     * 'Course List' table
+     * Also add the course into user's database
+     */
+     $(document).on("click", "#normal-search-result li", function(){
+       //add new tr to the table
+       var new_tr = document.createElement('tr');
+       new_tr.classList.add('course-item');
+       $('#course-list-table').append(new_tr);
+
+       //add new td to the tr
+       var new_td = document.createElement('td');
+       new_tr.append(new_td);
+
+       //add new div to the td
+       var new_div = document.createElement('div');
+       new_div.id = course_object.id;
+       new_div.innerHTML = this.innerHTML;
+       new_td.append(new_div);
+
+       //add a new delete button to td
+       var new_delete = document.createElement('button');
+       new_delete.classList.add('delete');
+       new_delete.innerHTML = 'x';
+       new_td.append(new_delete);
+
+       //add course into user's databse
+       var name = {{ session.username }};
+       var url = 'http://localhost:3000/users/info/' + name + '/addUserCourse';
+       $.post(url,
+         {
+           courseCode: course_object.courseCode,
+           semester: course_object.semester,
+           type: course_object.type,
+           sectionCode: course_object.sectionCode,
+           instructor: course_object.instructor
+         }, function(data, status) {
+           console.log(data);
+           console.log(status);
+          //  alert("Data:" + data + "\nStatus" + status);
+         });
+     });
+    /* Display all sections of courses searched
+     * after typing some string inside search bar and press "search"
+     */
+    $('#normal-search').click(function() {
+      var course_code = $('#search-by-coursecode').val();
+
+      var url = 'http://localhost:3000/courses/' + course_code + '?callback=?';
+
+      $('#normal-search-result').empty();
+      $.getJSON(url, function(result) {
+        //response data are now in the result variable
+        //result = array of objects
+        // everytime search is clicked show #normal-search-result
+        $('#normal-search-result').show();
+
+        var len = result.length;
+        for (i = 0; i < len; i++) {
+          var classItem = result[i];
+          var newList = document.createElement('li');
+
+          newList.id = 'classItem' + '000' + i;
+          newList.classList.add('foo');
+          var len2 = classItem.sections.length;
+          if (len2 > 0) {
+            for (n = 0; n < len2; n++) {
+              course_object = {
+                courseCode: classItem.sections[n].courseCode,
+                semester: classItem.sections[n].semester,
+                type: classItem.sections[n].type,
+                sectionCode: classItem.sections[n].sectionCode,
+                instructor: classItem.sections[n].instructor
+              };
+              newList.innerHTML = classItem.sections[n].courseCode +
+                                  classItem.sections[n].semester +
+                                  classItem.sections[n].type +
+                                  classItem.sections[n].sectionCode +
+                                  classItem.sections[n].instructor;
+            }
+          }
+          else {
+            newList.innerHTML = classItem._id;
+          }
+          $("#normal-search-result").append(newList);
+          console.log(classItem);
+        }
+      });
+    });
+
+    /*
+     *每次点body都会清空resultList and hide search result
+     */
+    $(document).on("click", "body", function(){
+      $('#normal-search-result').empty();
+      $('#normal-search-result').hide();
     });
 });

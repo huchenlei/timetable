@@ -11,7 +11,8 @@ function insertCourse(req, res) {
       _id: req.body.courseCode,
       title: req.body.title,
       description: req.body.description,
-      br: req.body.br
+      br: req.body.br,
+      courseLevel: req.body.courseLevel
   };
   database.courseSchema.count({_id: req.body.courseCode},
     function(err, count){
@@ -36,12 +37,13 @@ function insertCourse(req, res) {
 
 //Get a course info
 function getCourseInfo(req, res) {
-  var results = [];
   database.courseSchema
-    .findOne({
-      _id: req.params.courseCode
+    .find({
+      //search all courses that fits the keyword
+      _id: new RegExp(req.params.courseCode, "i")
     },
     function(err, course) {
+      console.log(req.params.courseCode)
       if (err) {
         return res.sendStatus(400);
       }
@@ -49,21 +51,24 @@ function getCourseInfo(req, res) {
         if (!course) {
           console.log("No course found.")
         } else {
+          console.log("success");
           req.title = course.title;
           req.br = course.br;
           req.description = course.description;
+          req.courseLevel = course.courseLevel;
         }
       }
     })
+    .sort('courseCode')
     .populate({
       path: 'sections',
-      match: {semester: req.params.semester},
       populate: {
         path: 'timeslots'
       }
     })
-    .exec(function(err, sections){
-      return res.json(sections);
+    .exec(function(err, course){
+      console.log("rstatus");
+      return res.jsonp(course);
     });
 }
 
@@ -268,7 +273,7 @@ function deleteTimeslot(req, res) {
           });
         }
       });
-      
+
     }
   })
 }
@@ -335,8 +340,8 @@ function smart(req, res) {
 
 
 // courseSchema
-router.post('/insertCourse', insertCourse); 
-router.get('/courseInfo/:semester/:courseCode', getCourseInfo);
+router.post('/insertCourse', insertCourse);
+router.get('/:courseCode', getCourseInfo);
 //router.update('/updateCourse', updateCourse);
 
 //router.delete('/deleteCourse', deleteCourse);

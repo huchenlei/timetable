@@ -395,6 +395,13 @@ input[type='submit']:hover, input[type='button']:hover {
 	cursor: pointer;
 	box-shadow: 0 1.5em 2em rgba(0,0,0,0.24),0 1em 2em 0 rgba(0,0,0,0.19);
 }
+
+.main #normal-search-result {
+	background-color: #F9F9F9;
+	padding: 1em 2em;
+	text-align: center;
+	border-bottom: 0.1em solid #008CBA;
+}
 .main .advanced-search {
 	background-color: #F9F9F9;
 	padding: 1em 2em;

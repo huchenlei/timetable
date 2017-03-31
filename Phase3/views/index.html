@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="stylesheets/index-style.css">
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     </head>
     <body>
         <header class="top-nav" id="body-content">
@@ -34,22 +35,7 @@
             <section class="left-bar">
                 <h2>Course List</h2>
                 <div id="course-list">
-                    <table>
-                      <tr class="course-item">
-                        <td>CSC108<button class="delete">x</button></td>
-                      </tr>
-                      <tr class="course-item">
-                        <td>CSC148<button class="delete">x</button></td>
-                      </tr>
-                      <tr class="course-item">
-                        <td>CSC207<button class="delete">x</button></td>
-                      </tr>
-                      <tr class="course-item">
-                        <td>CSC369<button class="delete">x</button></td>
-                      </tr>
-                      <tr class="course-item">
-                        <td>CSC373<button class="delete">x</button></td>
-                      </tr>
+                    <table id="course-list-table">
                     </table>
                 </div>
             </section>
@@ -60,6 +46,9 @@
                     <input type="text" placeholder="Course Code: csc108" id="search-by-coursecode">
                     <input type="button" value='search' id="normal-search">
                     <input type="button" value="Advanced" id="show-advanced">
+                    <div id="normal-search-result">
+
+                    </div>
                     <div class="advanced-search hide">
                         <div class="group long">
                             <label>Course Level(s)</label>
@@ -85,7 +74,8 @@
                             <label>Course Title</label>
                             <input type="text" placeholder="Enter course title or subtitle">
                         </div>
-                        <input type="button" class="center" value="search">
+                        <input id="advanced-search-button"
+                         type="button" class="center" value="search">
                     </div>
                 </div>
                 <section class="timetable">

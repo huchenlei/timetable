@@ -33,6 +33,27 @@ app.use(express.static(path.join(__dirname, "./public")));
 app.use('/courses', courses);
 require('./routes/users')(database, app);
 
+
+//find by course level, br, course title
+app.get('/courses', function(req, res) {
+  var keyword = req.query;
+  if (req.query._id) {
+    var code = req.query._id;
+    console.log(code);
+  }
+  console.log(keyword);
+  database.courseSchema.find(keyword)
+  .sort('_id')
+  .populate({
+    path: 'sections',
+    populate: {
+      path: 'timeslots'
+    }
+  }).exec(function (err, courses) {
+    res.json(courses);
+  });
+});
+
 app.get("/", function(req, res) {
   res.render("index.html");
 });
