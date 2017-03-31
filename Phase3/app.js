@@ -34,6 +34,10 @@ app.get("/signup", function(req, res) {
   res.render("signup.html");
 });
 
+app.get("/login", function(req, res) {
+  res.render("login.html");
+});
+
 app.listen(4000, function () {
   console.log('listening on port 4000!');
 });
