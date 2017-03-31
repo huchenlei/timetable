@@ -329,6 +329,16 @@
       <!-- Latest compiled JavaScript -->
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="javascripts/index.js"></script>
+        <script type="text/javascript">
+            var username = "{{ session.username }}";
+            var fullname = "{{ session.fullname }}";
+            var email = "{{ session.emailaddress }}";
+            var password = "{{ session.password }}";
+            localStorage.setItem("username", username);
+            localStorage.setItem("fullname", fullname);
+            localStorage.setItem("email", email);
+            localStorage.setItem("password", password);
+        </script>
     </body>
 </html>
 {% endblock %}

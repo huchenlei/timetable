@@ -1,12 +1,9 @@
-$(document).ready(function(){
-
 function getCookie(c_name){
   var c_value = document.cookie;
   var c_start = c_value.indexOf(" " + c_name + "=");
-  if (c_start == -1)
-    {
+  if (c_start == -1){
     c_start = c_value.indexOf(c_name + "=");
-    }
+  }
   if (c_start == -1)
     {
     c_value = null;
@@ -35,14 +32,13 @@ function setCookie(c_name,value,exdays)
 function checkCookie(){
   var username=getCookie("username");
   if (username!=null && username!="")
-    $("#uname").val(username);
-  else {
-    username=prompt("Please enter your username:","");
-    if (username!=null && username!=""){
-      setCookie("username",username,365);
-    }
-  }
+    $("#userName").val(username);
+  var password=getCookie("password");
+  if (password!=null && password!="")
+    $("#passWord").val(password);
 }
-checkCookie();
-    
+  
+
+$(document).ready(function(){
+  checkCookie();
 });

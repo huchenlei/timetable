@@ -337,7 +337,7 @@ var draw_option = function(course) {
     		if (j == course.timeslots[i].start-7) {
     			k.text("option " + cnt).on("click", function() {
     				for (var i = 0; i < currentlist.length; i++)
-    					if (currentlist[i]._id == course._id) {
+    					if (currentlist[i].courseCode == course.courseCode) {
     						currentlist.splice(i, 1, course);
     						clear_table();
     						render_solution(cur);
@@ -359,14 +359,14 @@ var draw_course = function(course) {
     		var k = $(".timetable tbody tr:nth-of-type(" + j + ") td:eq(" + col_num + ")");
     		k.addClass("course").css("background-color", course.color);
     		if (j == course.timeslots[i].start-7) {
-    			k.text(course._id);
+    			k.text(course.courseCode);
     			k.on("click", function() {
     				clear_table();
     				render_solution(cur);
     				cnt = 1;
     				for (var i = 0; i < solutionlist.length; i++) 
     					for (var j = 0; j < solutionlist[i].length; j++) {
-    						if (solutionlist[i][j]._id != course._id ||
+    						if (solutionlist[i][j].courseCode != course.courseCode ||
     							solutionlist[i][j] == course)
     							continue;
     						var success = true;
@@ -427,7 +427,7 @@ $(document).ready(function(){
     });
     $("#getSolutions").on("click", function() {
     	$.get('/smart', function(data) {
-           	solutionlist = JSON.parse(data);
+           	solutionlist = data;
            	cur = 0;
            	currentlist = solutionlist[cur];
            	render_solution(cur);
@@ -444,7 +444,7 @@ $(document).ready(function(){
 				render_solution((cur+1)%solutionlist.length);
 			});
         });
-
+	});
     /*
      * When 'x' is pressed, delete that particular course off
      * 'Course List' table
@@ -482,7 +482,7 @@ $(document).ready(function(){
        new_td.append(new_delete);
 
        //add course into user's databse
-       var name = {{ session.username }};
+       var name = localStorage.getItem("username");
        var url = 'http://localhost:3000/users/info/' + name + '/addUserCourse';
        $.post(url,
          {

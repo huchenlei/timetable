@@ -316,8 +316,9 @@ var over_lap = function(a, b) {
 	}
 	return false;
 }
-
-var backtrack = function(currentlist, courselist, result) {
+var result;
+var currentlist;
+var backtrack = function(courselist) {
 	if (currentlist.length == courselist.length) {
 		result.push(JSON.parse(JSON.stringify(currentlist)));
 	} else {
@@ -337,9 +338,13 @@ var backtrack = function(currentlist, courselist, result) {
 }
 
 var compute_valid_solutions = function(courselist, callback) {
+	console.log("inside smart");
+	console.log(courselist);
 	result = [];
 	currentlist = [];
-	backtrack(currentlist, courselist, result);
+	backtrack(courselist);
+	console.log("smart result");
+	console.log(result);
 	callback(result);
 }
 

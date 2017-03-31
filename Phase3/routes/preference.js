@@ -146,12 +146,14 @@ function parse_tValue(list){
 }
 
 
-function preference_sort(callback){
-
+function preference_sort(input, callback){
+  if (input[0].length == 0) {
+    input.shift();
+    callback(input);
+    return;
+  }
   //store first list of preference in to a variable called preference_list
   //now input[0] is class list
-  console.log("inside preference");
-  console.log(input);
   var preference_list = input.shift();
 
   var preference_len = preference_list.length;
@@ -245,9 +247,7 @@ function preference_sort(callback){
       return parseInt(b.score) - parseInt(a.score);
     });
   }
-  console.log("output of preference");
-  console.log(input);
-  callback(input);
+  return callback(input);
 }
 // //test block
 // var result = preference_sort(input);

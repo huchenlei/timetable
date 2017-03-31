@@ -66,6 +66,90 @@ app.get("/login", function(req, res) {
   res.render("login.html");
 });
 
+function populateCourseInfo(req, callback) {
+  var course_info = [];
+  database.courseSchema
+    .findOne({
+      _id: req.courseCode
+    })
+    .populate({
+      path: 'sections',
+      match: {semester: req.semester},
+      populate: {
+        path: 'timeslots'
+      }
+    })
+    .exec(function(err, course){
+      var result = course.sections;
+      for (var i = result.length - 1; i >= 0; i--) {
+        result[i].title = course.title;
+        result[i].br = course.br;
+        result[i].description = course.description;
+      }
+      callback(result);
+    });
+}
+function find_all_sections(user, callback) {
+  var results = [];
+  var counter = 0;
+  for (var i = user.courses.length - 1; i >= 0; i--) {
+        var section = {
+          courseCode: user.courses[i].courseCode,
+          semester: user.courses[i].semester
+        }
+        populateCourseInfo(section, function(result) {
+          results.push(result);
+          counter++;
+          console.log("counter " + counter);
+          if (counter == user.courses.length) {
+            callback(results);
+          }
+        });
+      }
+}
+
+var preference_sort = require('./routes/preference');
+var compute_valid_solutions = require('./routes/smart');
+function smart(req, res) {
+  database.userSchema
+    .findOne({_id: req.session.username})
+    .populate('preferences')
+    .populate({
+      path: 'courses',
+      populate: {
+        path: 'timeslots'
+      }
+    })
+    .exec(function(err, user) {
+      console.log(user);
+      if (err | !user) {
+        console.log("should not happen");
+        return res.sendStatus(400);
+      }
+      var preferences = user.preferences;
+      
+      console.log("preferences");
+      console.log(preferences);
+      find_all_sections(user, function(results) {
+        var output = [];
+        output.push(preferences);
+        for (var i = results.length - 1; i >= 0; i--) {
+          output.push(results[i]);
+        }
+        //return res.json(1);
+        console.log(1);
+        console.log(res);
+        preference_sort(output, function(sorted) {
+          console.log("final");
+          console.log(sorted);
+          compute_valid_solutions(sorted, function(solutions) {
+            return res.json(solutions);
+          });
+        });
+      });
+    });
+}
+app.get('/smart', smart);
 app.listen(3000, function () {
   console.log('listening on port 3000!');
 });

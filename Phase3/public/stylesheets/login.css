@@ -228,3 +228,9 @@ form button:hover {
             transform: translateY(-700px) rotate(600deg);
   }
 }
+#checkbox {
+  position: absolute;
+  top: 68%;
+  left: 45%;
+  color: white;
+}

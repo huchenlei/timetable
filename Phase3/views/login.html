@@ -21,12 +21,13 @@
   <div class="wrapper">
 	<div class="container">
 		<h1>Welcome</h1>
-		<form class="form" action="/login" method="post">
-			<input type="text" name="userName" placeholder="Username">
-			<input type="password" name="passWord" placeholder="Password">
-			<button type="submit" id="login-button">Login</button>
+		<form id="login-form" class="form" action="/login" method="post">
+			<input type="text" id="userName" name="userName" placeholder="Username">
+			<input type="password" id="passWord" name="passWord" placeholder="Password">
+			<button type="button" id="login-button">Login</button>
 		</form>
 	</div>
+
 	
 	<ul class="bg-bubbles">
 		<li></li>
@@ -41,13 +42,22 @@
 		<li></li>
 	</ul>
 </div>
+<div id="checkbox" class="checkbox">
+	  <label><input type="checkbox" id="rememberme" value="">Remember me</label>
+	</div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
       <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="javascripts/login.js"></script>
     <script> 
     $("#login-button").click(function(event){
-	 $('form').fadeOut(500);
-	 $('.wrapper').addClass('form-success');
+    	if ($("#rememberme").prop('checked')) {
+    		setCookie("username", $("#userName").val(), 10000);
+    		setCookie("password", $("#passWord").val(), 10000);
+    	}
+		$('#login-form').submit();
+		$('form').fadeOut(500);
+		$('.wrapper').addClass('form-success');
 });
 </script>
 
