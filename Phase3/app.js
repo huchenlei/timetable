@@ -8,6 +8,7 @@ var nunjucks = require('nunjucks');
 // var routes = require('./routes/index');
 var users = require('./routes/users');
 var courses = require('./routes/course');
+var database = require('./models/database');
 
 var app = express();
 
@@ -24,6 +25,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/courses', courses);
 app.use('/users', users);
 
+
+//find by course level, br, course title
+app.get('/courses', function(req, res) {
+  var keyword = req.query;
+  if (req.query._id) {
+    var code = req.query._id;
+    console.log(code);
+  }
+  console.log(keyword);
+  database.courseSchema.find(keyword)
+  .sort('_id')
+  .populate({
+    path: 'sections',
+    populate: {
+      path: 'timeslots'
+    }
+  }).exec(function (err, courses) {
+    res.json(courses);
+  });
+});
+
 app.get("/", function(req, res) {
   res.render("index.html");
 });
@@ -36,8 +58,8 @@ app.get("/login", function(req, res) {
   res.render("login.html");
 });
 
-app.listen(4000, function () {
-  console.log('listening on port 4000!');
+app.listen(3000, function () {
+  console.log('listening on port 3000!');
 });
 
 module.exports = app;

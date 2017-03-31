@@ -15,6 +15,7 @@ var course = new Schema({
   title: String,
   description: String,
   br: Number,
+  courseLevel: Number,
   sections: [{
     type: ObjectId,
     ref: 'course_sections'
@@ -224,6 +225,7 @@ course.pre('remove', function(next) {
   });
 });
 
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/timetable');
 var courseSchema = mongoose.model('courses', course);
 var courseSectionSchema = mongoose.model('course_sections', courseSection);
