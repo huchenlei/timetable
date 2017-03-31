@@ -10,13 +10,55 @@ $(document).ready(function(){
         $(".main").toggleClass("main-size");
         $(".arrowright").toggleClass("movearrow");
     });
+    /*
+     * When 'x' is pressed, delete that particular course off
+     * 'Course List' table
+     */
+     $(document).on("click", ".delete", function() {
+       //var className = $(this).attr('class');
+       $(this).parents('tr').remove();
+
+     });
+    /*
+     * When click one of the search result, save the clicked section into
+     * 'Course List' table
+     */
+     $(document).on("click", "#normal-search-result li", function(){
+       //add new tr to the table
+       var new_tr = document.createElement('tr');
+       new_tr.classList.add('course-item');
+       $('#course-list-table').append(new_tr);
+
+       //add new td to the tr
+       var new_td = document.createElement('td');
+       new_tr.append(new_td);
+
+       //add new div to the td
+       var new_div = document.createElement('div');
+       new_div.id = this.id;
+       new_div.innerHTML = this.innerHTML;
+       new_td.append(new_div);
+
+       //add a new delete button to td
+       var new_delete = document.createElement('button');
+       new_delete.classList.add('delete');
+       new_delete.innerHTML = 'x';
+       new_td.append(new_delete);
+
+
+     });
+    /* Display all sections of courses searched
+     * after typing some string inside search bar and press "search"
+     */
     $('#normal-search').click(function() {
       var course_code = $('#search-by-coursecode').val();
-      //console.log(course_code);
+
       var url = 'http://localhost:3000/courses/' + course_code + '?callback=?';
-      //console.log(url);
+
       $('#normal-search-result').empty();
       $.getJSON(url, function(result) {
+        //response data are now in the result variable
+        //result = array of objects
         // everytime search is clicked show #normal-search-result
         $('#normal-search-result').show();
 
@@ -41,8 +83,11 @@ $(document).ready(function(){
         }
       });
     });
+
+    /*
+     *每次点body都会清空resultList and hide search result
+     */
     $(document).on("click", "body", function(){
-      //每次点body都会清空resultList and hide search result
       $('#normal-search-result').empty();
       $('#normal-search-result').hide();
     });
