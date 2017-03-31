@@ -11,7 +11,8 @@ function insertCourse(req, res) {
       _id: req.body.courseCode,
       title: req.body.title,
       description: req.body.description,
-      br: req.body.br
+      br: req.body.br,
+      courseLevel: req.body.courseLevel
   };
   database.courseSchema.count({_id: req.body.courseCode},
     function(err, count){
@@ -36,7 +37,6 @@ function insertCourse(req, res) {
 
 //Get a course info
 function getCourseInfo(req, res) {
-  var results = [];
   database.courseSchema
     .find({
       //search all courses that fits the keyword
@@ -51,9 +51,11 @@ function getCourseInfo(req, res) {
         if (!course) {
           console.log("No course found.")
         } else {
+          console.log("success");
           req.title = course.title;
           req.br = course.br;
           req.description = course.description;
+          req.courseLevel = course.courseLevel;
         }
       }
     })
@@ -65,6 +67,7 @@ function getCourseInfo(req, res) {
       }
     })
     .exec(function(err, course){
+      console.log("rstatus");
       return res.jsonp(course);
     });
 }

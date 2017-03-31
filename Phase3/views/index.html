@@ -26,27 +26,7 @@
             <section class="left-bar">
                 <h2>Course List</h2>
                 <div id="course-list">
-                    <table>
-                      <tr class="course-item">
-                        <td>
-                          <div>csc108</div>
-                          <div>An introduction to Python</div>
-                          <div>Section: L0101</div>
-                          <button class="delete">x</button>
-                        </td>
-                      </tr>
-                      <tr class="course-item">
-                        <td>CSC148<button class="delete">x</button></td>
-                      </tr>
-                      <tr class="course-item">
-                        <td>CSC207<button class="delete">x</button></td>
-                      </tr>
-                      <tr class="course-item">
-                        <td>CSC369<button class="delete">x</button></td>
-                      </tr>
-                      <tr class="course-item">
-                        <td>CSC373<button class="delete">x</button></td>
-                      </tr>
+                    <table id="course-list-table">
                     </table>
                 </div>
             </section>
@@ -85,7 +65,8 @@
                             <label>Course Title</label>
                             <input type="text" placeholder="Enter course title or subtitle">
                         </div>
-                        <input type="button" class="center" value="search">
+                        <input id="advanced-search-button"
+                         type="button" class="center" value="search">
                     </div>
                 </div>
                 <section class="timetable">
