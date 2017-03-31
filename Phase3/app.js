@@ -34,7 +34,9 @@ app.get('/courses', function(req, res) {
     console.log(code);
   }
   console.log(keyword);
-  database.courseSchema.find(keyword).populate({
+  database.courseSchema.find(keyword)
+  .sort('_id')
+  .populate({
     path: 'sections',
     populate: {
       path: 'timeslots'
