@@ -33,7 +33,7 @@ $(document).ready(function(){
 		    	generateSuccessAlert("Course added!", "alert-container1");
 		    },
 		    error: function() {
-		    	generateFailureAlert("Course exists", "alert-container1");
+		    	generateFailureAlert("Course not valid", "alert-container1");
 		    }
 		  });
     });
@@ -49,12 +49,13 @@ $(document).ready(function(){
 		      instructor: $("#section-upload-form #instructor").val()
 		    },
 		    success: function (response) {
-		    	var container = document.getElementById();
 		    	generateSuccessAlert("Section added!", "alert-container2");
 		    },
 		    error: function() {
-		    	var container = document.getElementById();
-		    	generateFailureAlert("Section exists", "alert-container2");
+		    	generateFailureAlert("Section not valid", "alert-container2");
+		    },
+		    statusCode: {
+		    	400: generateFailureAlert("Section not valid", "alert-container2")
 		    }
 		  });
     });
@@ -73,12 +74,13 @@ $(document).ready(function(){
 		      location: $("#location").val()
 		    },
 		    success: function (response) {
-		    	var container = document.getElementById();
 		    	generateSuccessAlert("Timeslot added!", "alert-container3");
 		    },
 		    error: function() {
-		    	var container = document.getElementById();
 		    	generateFailureAlert("Timeslot not valid", "alert-container3");
+		    },
+		    statusCode: {
+		    	400: generateFailureAlert("Timeslot not valid", "alert-container3")
 		    }
 		  });
     })
