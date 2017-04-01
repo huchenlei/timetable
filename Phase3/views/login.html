@@ -22,9 +22,9 @@
 	<div class="container">
 		<h1>Welcome</h1>
 		<form id="login-form" class="form" action="/login" method="post">
-			<input type="text" id="userName" name="userName" placeholder="Username">
+			<input type="text" id="userName" name="userName" placeholder="Username" autofocus>
 			<input type="password" id="passWord" name="passWord" placeholder="Password">
-			<button type="button" id="login-button">Login</button>
+			<button type="submit" id="login-button">Login</button>
 			<div id="checkbox" class="checkbox">
 			  <label><input type="checkbox" id="rememberme" value="">Remember me</label>
 			</div>
@@ -52,6 +52,7 @@
   <script src="javascripts/login.js"></script>
     <script> 
     $("#login-button").click(function(event){
+    	event.preventDefault();
     	if ($("#rememberme").prop('checked')) {
     		setCookie("username", $("#userName").val(), 10000);
     		setCookie("password", $("#passWord").val(), 10000);
