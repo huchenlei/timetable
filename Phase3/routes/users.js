@@ -87,7 +87,7 @@ function getUserInfo(req, res) {
   })
   .populate('preferences')
   .exec(function(err, userName){
-    return res.json(userName);
+    return res.jsonp(userName);
   });
 }
 
@@ -232,6 +232,8 @@ function checkUserExist(req, res, next) {
     }
   })
 }
+
+
 
 router.post('/signup', signup);
 router.post('/login', login);

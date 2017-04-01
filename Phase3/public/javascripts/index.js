@@ -1,308 +1,4 @@
-/*var csc108l0101 = {
-	_id: "csc108",
-	tittle:'',
-	description:'',
-	sectionCode: "L0101",
-	timeslots: [{
-		weekday: "mon",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 16,
-		end: 17,
-		type: "lec"
-	},{
-		weekday: "wed",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 16,
-		end: 17,
-		type: "lec"
-	},{
-		weekday: "fri",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 16,
-		end: 17,
-		type: "tut"
-	}],
-	score: 5
-}
-var csc108l0102 = {
-	_id: "csc108",
-	sectionCode: "L0102",
-	tittle:'',
-	description:'',
-	timeslots: [{
-		weekday: "mon",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 10,
-		end: 11,
-		type: "lec"
-	},{
-		weekday: "wed",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 10,
-		end: 11,
-		type: "lec"
-	},{
-		weekday: "fri",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 10,
-		end: 1,
-		type: "tut"
-	}],
-	score: 4
-}
-var csc108l0201 = {
-	_id: "csc108",
-	sectionCode: "L0201",
-	tittle:'',
-	description:'',
-	timeslots: [{
-		weekday: "mon",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 13,
-		end: 14,
-		type: "lec"
-	},{
-		weekday: "wed",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 13,
-		end: 14,
-		type: "lec"
-	},{
-		weekday: "fri",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 13,
-		end: 14,
-		type: "tut"
-	}],
-	score: 3
-}
-var csc108l0501 = {
-	_id: "csc108",
-	sectionCode: "L0501",
-	tittle:'',
-	description:'',
-	timeslots: [{
-		weekday: "wed",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 18,
-		end: 21,
-		type: "lec"
-	}],
-	score: 3
-}
-var csc165l0101 = {
-	_id: "csc165",
-	sectionCode: "L0101",
-	tittle:'',
-	description:'',
-	timeslots: [{
-		weekday: "mon",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 11,
-		end: 13,
-		type: "lec"
-	},{
-		weekday: "wed",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 11,
-		end: 12,
-		type: "lec"
-	},{
-		weekday: "fri",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 11,
-		end: 13,
-		type: "tut"
-	}],
-	score: 0
-}
-var csc165l0201 = {
-	_id: "csc165",
-	sectionCode: "L0201",
-	tittle:'',
-	description:'',
-	timeslots: [{
-		weekday: "mon",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 14,
-		end: 16,
-		type: "lec"
-	},{
-		weekday: "wed",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 12,
-		end: 13,
-		type: "lec"
-	},{
-		weekday: "fri",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 14,
-		end: 16,
-		type: "tut"
-	}],
-	score: 0
-}
-var mat137l0101 = {
-	_id: "mat137",
-	sectionCode: "L0101",
-	tittle:'',
-	description:'',
-	timeslots: [{
-		weekday: "mon",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 9,
-		end: 10,
-		type: "lec"
-	},{
-		weekday: "wed",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 9,
-		end: 10,
-		type: "lec"
-	},{
-		weekday: "fri",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 9,
-		end: 10,
-		type: "tut"
-	}],
-	score: 0
-}
-var mat137l0201 = {
-	_id: "mat137",
-	sectionCode: "L0201",
-	tittle:'',
-	description:'',
-	timeslots: [{
-		weekday: "mon",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 10,
-		end: 11,
-		type: "lec"
-	},{
-		weekday: "wed",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 10,
-		end: 11,
-		type: "lec"
-	},{
-		weekday: "fri",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 10,
-		end: 11,
-		type: "tut"
-	}],
-	score: 0
-}
-var mat223l0101 = {
-	_id: "mat223",
-	sectionCode: "L0101",
-	tittle:'',
-	description:'',
-	timeslots: [{
-		weekday: "tue",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 10,
-		end: 12,
-		type: "lec"
-	},{
-		weekday: "wed",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 14,
-		end: 15,
-		type: "tut"
-	}],
-	score: 0
-}
-var mat223l0102 = {
-	_id: "mat223",
-	sectionCode: "L0102",
-	tittle:'',
-	description:'',
-	timeslots: [{
-		weekday: "tue",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 10,
-		end: 12,
-		type: "lec"
-	},{
-		weekday: "wed",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 13,
-		end: 14,
-		type: "tut"
-	}],
-	score: 0
-}
-var phl245l0101 = {
-	_id: "phl245",
-	sectionCode: "L0101",
-	timeslots: [{
-		weekday: "mon",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 14,
-		end: 16,
-		type: "lec"
-	},{
-		weekday: "wed",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 14,
-		end: 15,
-		type: "lec"
-	}],
-	score: 0
-}
-var phl246l5101 = {
-	_id: "phl246",
-	sectionCode: "L5101",
-	tittle:'',
-	description:'',
-	timeslots: [{
-		weekday: "mon",
-		instructor: "Dianne",
-		location: "BA1070",
-		start: 18,
-		end: 21,
-		type: "lec"
-	}],
-	score: 0
-}
-var solutionlist = [
-		[csc108l0101, csc165l0101, mat137l0101, mat223l0102, phl245l0101, phl246l5101], // solution_one, best
-		[csc108l0101, csc165l0101, mat137l0201, mat223l0102, phl245l0101, phl246l5101], // solution_two
-		[csc108l0102, csc165l0101, mat137l0101, mat223l0102, phl245l0101, phl246l5101], // solution_three
-		[csc108l0501, csc165l0101, mat137l0101, mat223l0102, phl245l0101, phl246l5101], // solution_four
-		[csc108l0501, csc165l0101, mat137l0201, mat223l0102, phl245l0101, phl246l5101]	// solution_five, worse
-	];*/
-	
+
 var solutionlist;
 // index of current solution
 var cur;
@@ -410,9 +106,53 @@ var render_solution = function(index) {
 	for (var i = 0; i < solution.length; i++) 
 		draw_course(solution[i]);
 };
+
+var course_list = [];
 var course_object;
+var course_taking;
+
+
+
 
 $(document).ready(function(){
+
+	var name = localStorage.getItem("username");
+	if (name != '') {
+		console.log("user exist");
+		var url = 'http://localhost:3000/users/info/' + name + '?callback=?';
+		$.getJSON(url, function(result) {
+			//store user's current classes inside
+			course_taking = result.courses;
+
+			for (i = 0; i < result.courses.length; i ++) {
+				// console.log(result.courses[i]);
+				var session = result.courses[i];
+				var new_tr = document.createElement('tr');
+		       	new_tr.classList.add('course-item');
+		       	$('#course-list-table').append(new_tr);
+
+		       	//add new td to the tr
+		       	var new_td = document.createElement('td');
+		       	new_tr.append(new_td);
+
+		       	//add new div to the td
+		       	var new_div = document.createElement('div');
+		       	new_div.id = session.courseCode;
+		       	new_div.innerHTML = session.courseCode + ' ' +
+		       						session.type + ' ' +
+		       						session.sectionCode ;
+		       	new_td.append(new_div);
+
+		       	//add a new delete button to td
+		       	var new_delete = document.createElement('button');
+		       	new_delete.classList.add('delete');
+		       	new_delete.innerHTML = 'x';
+		       	new_td.append(new_delete);
+			}
+		});
+	}
+
+
 
     //normal search area is initially hidden
     $('#normal-search-result').hide();
@@ -445,6 +185,9 @@ $(document).ready(function(){
 			});
         });
 	});
+
+
+
     /*
      * When 'x' is pressed, delete that particular course off
      * 'Course List' table
@@ -454,37 +197,53 @@ $(document).ready(function(){
        $(this).parents('tr').remove();
 
      });
+
+
+
     /*
      * When click one of the search result, save the clicked section into
      * 'Course List' table
      * Also add the course into user's database
      */
      $(document).on("click", "#normal-search-result li", function(){
-       //add new tr to the table
-       var new_tr = document.createElement('tr');
-       new_tr.classList.add('course-item');
-       $('#course-list-table').append(new_tr);
 
-       //add new td to the tr
-       var new_td = document.createElement('td');
-       new_tr.append(new_td);
+        //add new tr to the table
+        var new_tr = document.createElement('tr');
+        new_tr.classList.add('course-item');
+        $('#course-list-table').append(new_tr);
 
-       //add new div to the td
-       var new_div = document.createElement('div');
-       new_div.id = course_object.id;
-       new_div.innerHTML = this.innerHTML;
-       new_td.append(new_div);
+        //add new td to the tr
+        var new_td = document.createElement('td');
+        new_tr.append(new_td);
 
-       //add a new delete button to td
-       var new_delete = document.createElement('button');
-       new_delete.classList.add('delete');
-       new_delete.innerHTML = 'x';
-       new_td.append(new_delete);
+        //add new div to the td
+        var new_div = document.createElement('div');
+        new_div.id = course_object.id;
+        new_div.innerHTML = this.innerHTML;
+        new_td.append(new_div);
 
-       //add course into user's databse
-       var name = localStorage.getItem("username");
-       var url = 'http://localhost:3000/users/info/' + name + '/addUserCourse';
-       $.post(url,
+        //add a new delete button to td
+        var new_delete = document.createElement('button');
+        new_delete.classList.add('delete');
+        new_delete.innerHTML = 'x';
+        new_td.append(new_delete);
+
+        //add course into user's databse
+        var name = localStorage.getItem("username");
+        var url = 'http://localhost:3000/users/info/' + name + '/addUserCourse';
+        var res = this.innerHTML.substr(0,6);
+
+        console.log(res);
+        console.log(course_list);
+        for(i = 0; i < course_list.length; i++) {
+        	console.log('2');
+        	console.log(course_list[i].courseCode);
+        	if (course_list[i].courseCode == res ) {
+        		course_object = course_list[i];
+        	}
+        }
+        	
+        $.post(url,
          {
            courseCode: course_object.courseCode,
            semester: course_object.semester,
@@ -492,11 +251,18 @@ $(document).ready(function(){
            sectionCode: course_object.sectionCode,
            instructor: course_object.instructor
          }, function(data, status) {
-           console.log(data);
+           console.log(data.courses);
            console.log(status);
           //  alert("Data:" + data + "\nStatus" + status);
          });
+        	
+        
+        
      });
+
+
+
+
     /* Display all sections of courses searched
      * after typing some string inside search bar and press "search"
      */
@@ -510,6 +276,7 @@ $(document).ready(function(){
         //response data are now in the result variable
         //result = array of objects
         // everytime search is clicked show #normal-search-result
+        
         $('#normal-search-result').show();
 
         var len = result.length;
@@ -529,21 +296,25 @@ $(document).ready(function(){
                 sectionCode: classItem.sections[n].sectionCode,
                 instructor: classItem.sections[n].instructor
               };
+              course_list[i] = course_object;
+              console.log(course_list);
               newList.innerHTML = classItem.sections[n].courseCode +
                                   classItem.sections[n].semester +
                                   classItem.sections[n].type +
                                   classItem.sections[n].sectionCode +
                                   classItem.sections[n].instructor;
+              //console.log(course_object);
             }
           }
           else {
             newList.innerHTML = classItem._id;
           }
           $("#normal-search-result").append(newList);
-          console.log(classItem);
+
         }
       });
     });
+    
 
     /*
      *每次点body都会清空resultList and hide search result
