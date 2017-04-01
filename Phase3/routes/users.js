@@ -23,6 +23,7 @@ function signup(req, res) {
             req.session.username = req.body.userName;
             req.session.fullname = req.body.fullName;
             req.session.emailaddress = req.body.emailAddress;
+            req.session.admin = false;
             return res.redirect("/");
           }
         }
@@ -47,6 +48,7 @@ function login(req, res) {
           req.session.username = user._id;
           req.session.fullname = user.fullName;
           req.session.emailaddress = user.emailAddress;
+          req.session.admin = user.admin;
           return res.redirect("/");
         }
         else {

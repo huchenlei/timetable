@@ -66,6 +66,10 @@ app.get("/login", function(req, res) {
   res.render("login.html");
 });
 
+app.get("/admin", function(req, res) {
+  res.render("admin2.html");
+});
+
 function populateCourseInfo(req, callback) {
   var course_info = [];
   database.courseSchema

@@ -18,7 +18,7 @@ function insertCourse(req, res) {
     function(err, count){
       if (count > 0) {
         console.log("course exists");
-        return res.sendStatus(400);
+        return res.sendStatus(403);
       }
       else {
         new database.courseSchema(response).save(function (err, success) {

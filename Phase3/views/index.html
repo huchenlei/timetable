@@ -26,6 +26,9 @@
             <a href="/login" id="login-button" class="btn btn-info" role="button">Login</a>
             {% endif %}
             <a href="/signup" id="signup-button" class="btn btn-info" role="button">Sign Up</a>
+            {% if session.admin %}
+            <a href="/admin" id="admin-button" class="btn btn-info" role="button">Add course</a>
+            {% endif %}
             <button id="link-smart-button" class="nav-button">Try smart</button>
             <!-- <div class="menu-button"> </div> -->
 
