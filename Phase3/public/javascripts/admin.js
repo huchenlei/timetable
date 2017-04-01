@@ -45,7 +45,7 @@ $(document).ready(function(){
 		      courseCode: $("#section-upload-form #courseCode").val(),
 		      semester: $("#section-upload-form #semester").val(),
 		      type: $("#section-upload-form #type").val(),
-		      sectionCode: $("#section-upload-form #sectionCode").val(),
+		      sectionCode: $("#section-upload-form #sectioncode").val(),
 		      instructor: $("#section-upload-form #instructor").val()
 		    },
 		    success: function (response) {
@@ -67,7 +67,7 @@ $(document).ready(function(){
 		      courseCode: $("#time-upload-form #courseCode").val(),
 		      semester: $("#time-upload-form #semester").val(),
 		      type: $("#time-upload-form #type").val(),
-		      sectionCode: $("#time-upload-form #sectionCode").val(),
+		      sectionCode: $("#time-upload-form #sectioncode").val(),
 		      weekday: $("#weekday").val(),
 		      start: $("#start").val(),
 		      end: $("#end").val(),
