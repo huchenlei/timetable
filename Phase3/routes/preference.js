@@ -129,6 +129,9 @@ function parse_tValue(list){
     var item = list[i];
     if (item.preference != undefined){
       switch (item.value) {
+        case "any":
+          item.t_value = 0;
+          break;
         case "morning":
           item.t_value = 1;
           break;

@@ -318,19 +318,31 @@ var over_lap = function(a, b) {
 }
 var result;
 var currentlist;
+var counter = 0;
 var backtrack = function(courselist) {
+	if (counter == 0) {
+		console.log("first time inside backtrack");
+		console.log(courselist);
+		counter++;
+	}
 	if (currentlist.length == courselist.length) {
+		console.log("inside backtrack");
+		console.log(currentlist);
+		console.log("courselist");
+		console.log(courselist);
 		result.push(JSON.parse(JSON.stringify(currentlist)));
 	} else {
 		var deapth = currentlist.length;
 		for (var i = 0; i < courselist[deapth].length; i++) {
 			var ok = true;
 			for (var j = 0; j < deapth; j++) 
-				if (over_lap(courselist[deapth][i].timeslots, currentlist[j].timeslots))
+				if (over_lap(courselist[deapth][i].timeslots, currentlist[j].timeslots)) {
 					ok = false;
+					console.log("here");
+				}
 			if (ok) {
 				currentlist.push(courselist[deapth][i]);
-				backtrack(currentlist, courselist, result);
+				backtrack(courselist);
 				currentlist.pop();
 			}
 		}

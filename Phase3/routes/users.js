@@ -230,21 +230,32 @@ function updateUser(req, res) {
   });
 }
 
-function insertPreference(req, res) {
+function insertPreference_helper(req, res, type, value, callback) {
   var newPreference = {
     uid: req.params.userName,
-    type: req.body.type,
-    value: req.body.value
+    type: type,
+    value: value
   };
   var response = new database.preferenceSchema(newPreference);
   response.save(function (err) {
     if (err) {
       console.log(err.message);
-      return res.sendStatus(400);
-    } else {
-      return res.sendStatus(200);
+      return callback();
     }
+    console.log("saved");
+    return callback();
   });
+}
+
+function insertPreference(req, res) {
+  console.log("inserting preferences");
+  insertPreference_helper(req, res, "mon", req.body.mon, function(){
+  insertPreference_helper(req, res, "tue", req.body.tue, function(){
+  insertPreference_helper(req, res, "wed", req.body.wed, function(){
+  insertPreference_helper(req, res, "thu", req.body.thu, function(){
+  insertPreference_helper(req, res, "fri", req.body.fri, function(){
+    return res.redirect("/");
+  });});});});});
 }
 
 function checkUserExist(req, res, next) {

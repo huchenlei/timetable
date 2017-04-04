@@ -174,7 +174,6 @@ var name = localStorage.getItem("username");
 $(document).ready(function(){
 
 	
-
     load_courselst();
 
     //normal search area is initially hidden
