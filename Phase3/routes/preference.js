@@ -229,9 +229,9 @@ function preference_sort(input, callback){
       for (y = 0; y < input[x].length; y++) {
         var class_item = input[x][y];
         //if class_session have same day as pref_item then score ++
-        var day_compare = class_item.days.includes(pref_item.preference);
+        var day_compare = class_item.days.includes(pref_item.type);
         if (day_compare){
-          class_item.score ++;
+          class_item.score++;
         }
         //if class_session have same t_value as pref_item then score += 2
         var time_bool = class_item.t_value == pref_item.t_value;
@@ -242,13 +242,16 @@ function preference_sort(input, callback){
       }
     }
   }
-
   //Sort the input list by scores
   for (x = 0; x < inputlen; x++){
     var session_list = input[x];
+    console.log("section list");
+    console.log(session_list);
     session_list.sort(function(a, b) {
       return parseInt(b.score) - parseInt(a.score);
     });
+    console.log("sorting");
+    console.log(session_list);
   }
   return callback(input);
 }

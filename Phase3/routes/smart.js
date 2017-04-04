@@ -321,15 +321,10 @@ var currentlist;
 var counter = 0;
 var backtrack = function(courselist) {
 	if (counter == 0) {
-		console.log("first time inside backtrack");
-		console.log(courselist);
 		counter++;
 	}
 	if (currentlist.length == courselist.length) {
-		console.log("inside backtrack");
-		console.log(currentlist);
-		console.log("courselist");
-		console.log(courselist);
+
 		result.push(JSON.parse(JSON.stringify(currentlist)));
 	} else {
 		var deapth = currentlist.length;
@@ -338,7 +333,6 @@ var backtrack = function(courselist) {
 			for (var j = 0; j < deapth; j++) 
 				if (over_lap(courselist[deapth][i].timeslots, currentlist[j].timeslots)) {
 					ok = false;
-					console.log("here");
 				}
 			if (ok) {
 				currentlist.push(courselist[deapth][i]);
@@ -350,13 +344,9 @@ var backtrack = function(courselist) {
 }
 
 var compute_valid_solutions = function(courselist, callback) {
-	console.log("inside smart");
-	console.log(courselist);
 	result = [];
 	currentlist = [];
 	backtrack(courselist);
-	console.log("smart result");
-	console.log(result);
 	callback(result);
 }
 
