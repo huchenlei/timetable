@@ -153,9 +153,7 @@ var name = localStorage.getItem("username");
             //add new div to the td
             var new_div = document.createElement('div');
             new_div.id = session._id;
-            new_div.innerHTML = session.courseCode + ' ' +
-                      session.type + ' ' +
-                      session.sectionCode ;
+            new_div.innerHTML = session.courseCode;
             new_td.append(new_div);
 
             //add a new delete button to td
@@ -293,7 +291,6 @@ $(document).ready(function(){
           var newList = document.createElement('li');
 
           newList.id = 'classItem' + '000' + i;
-          newList.classList.add('foo');
           var len2 = classItem.sections.length;
           if (len2 > 0) {
             for (n = 0; n < len2; n++) {
@@ -306,11 +303,7 @@ $(document).ready(function(){
               };
               course_list[i] = course_object;
               console.log(course_list);
-              newList.innerHTML = classItem.sections[n].courseCode +
-                                  classItem.sections[n].semester +
-                                  classItem.sections[n].type +
-                                  classItem.sections[n].sectionCode +
-                                  classItem.sections[n].instructor;
+              newList.innerHTML = classItem.sections[n].courseCode;
               //console.log(course_object);
             }
           }

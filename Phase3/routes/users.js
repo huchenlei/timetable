@@ -249,13 +249,20 @@ function insertPreference_helper(req, res, type, value, callback) {
 
 function insertPreference(req, res) {
   console.log("inserting preferences");
-  insertPreference_helper(req, res, "mon", req.body.mon, function(){
-  insertPreference_helper(req, res, "tue", req.body.tue, function(){
-  insertPreference_helper(req, res, "wed", req.body.wed, function(){
-  insertPreference_helper(req, res, "thu", req.body.thu, function(){
-  insertPreference_helper(req, res, "fri", req.body.fri, function(){
-    return res.redirect("/");
-  });});});});});
+  database.preferenceSchema.remove({uid: req.params.userName}, function(err) {
+    if (err) {
+      console.log("error inserting preferenceSchema");
+      return res.redirect("/");
+    } else {
+      insertPreference_helper(req, res, "mon", req.body.mon, function(){
+      insertPreference_helper(req, res, "tue", req.body.tue, function(){
+      insertPreference_helper(req, res, "wed", req.body.wed, function(){
+      insertPreference_helper(req, res, "thu", req.body.thu, function(){
+      insertPreference_helper(req, res, "fri", req.body.fri, function(){
+        return res.redirect("/");
+      });});});});});
+    }
+  });
 }
 
 function checkUserExist(req, res, next) {
