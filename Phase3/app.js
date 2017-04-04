@@ -39,9 +39,7 @@ app.get('/courses', function(req, res) {
   var keyword = req.query;
   if (req.query._id) {
     var code = req.query._id;
-    console.log(code);
   }
-  console.log(keyword);
   database.courseSchema.find(keyword)
   .sort('_id')
   .populate({
@@ -104,7 +102,6 @@ function find_all_sections(user, callback) {
         populateCourseInfo(section, function(result) {
           results.push(result);
           counter++;
-          console.log("counter " + counter);
           if (counter == user.courses.length) {
             callback(results);
           }
@@ -125,7 +122,6 @@ function smart(req, res) {
       }
     })
     .exec(function(err, user) {
-      console.log(user);
       if (err | !user) {
         console.log("should not happen");
         return res.sendStatus(400);
@@ -140,9 +136,6 @@ function smart(req, res) {
         for (var i = results.length - 1; i >= 0; i--) {
           output.push(results[i]);
         }
-        //return res.json(1);
-        console.log(1);
-        console.log(res);
         preference_sort(output, function(sorted) {
           console.log("final");
           console.log(sorted);

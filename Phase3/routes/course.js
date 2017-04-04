@@ -68,7 +68,7 @@ function getCourseInfo(req, res) {
     })
     .exec(function(err, course){
       console.log("rstatus");
-      return res.jsonp(course);
+      return res.json(course);
     });
 }
 

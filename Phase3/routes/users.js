@@ -87,7 +87,7 @@ function getUserInfo(req, res) {
   })
   .populate('preferences')
   .exec(function(err, userName){
-    return res.jsonp(userName);
+    return res.json(userName);
   });
 }
 
@@ -155,6 +155,31 @@ function addUserCourse(req, res) {
           });
         }
       });
+    }
+  });
+}
+
+function deleteUserCourse(req, res) {
+  database.userSchema.findOne({
+    _id:req.params.userName
+  }, function(err, user){
+    if (!user) {
+      console.log("usernot found");
+      return res.sendStatus(400);
+    } else {
+        var idx = user.courses.indexOf(req.params.id);
+        if (idx > -1) {
+          user.courses.splice(idx, 1);
+        }
+        user.save(function(err, success){
+          if (err) {
+            console.log("user saving error");
+            return res.sendStatus(400);
+          } else {
+            console.log("user saving success");
+            return res.json(user);
+          }
+        });
     }
   });
 }
@@ -242,7 +267,7 @@ router.get('/users/info/:userName', getUserInfo);
 router.delete('/users/info/:userName', suspendUser);
 router.put('/users/info/:userName', updateUser);
 router.post('/users/info/:userName/:courses', addUserCourse);
-
+router.delete('/users/deleteCourse/:userName/:id', deleteUserCourse);
 router.post('/users/insertPreference/:userName', checkUserExist, insertPreference);
 //router.get('/preferenceList/:userName', getPreferenceList);
 }
