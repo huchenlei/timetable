@@ -127,7 +127,7 @@ function parse_tValue(list){
   var len_list = list.length;
   for (i = 0; i < len_list; i++) {
     var item = list[i];
-    if (item.preference != undefined){
+    if (item.type != undefined){
       switch (item.value) {
         case "any":
           item.t_value = 0;
@@ -158,10 +158,13 @@ function preference_sort(input, callback){
   //store first list of preference in to a variable called preference_list
   //now input[0] is class list
   var preference_list = input.shift();
-
+  console.log(0);
+  console.log(input);
   var preference_len = preference_list.length;
   parse_tValue(preference_list);
 
+  console.log(1);
+  console.log(input);
   // for (i = 0; i < preference_len; i++) {
   //   var item = preference_list[i];
   //   /*
@@ -222,7 +225,8 @@ function preference_sort(input, callback){
     }
   }
   //Comparing between preference list and class + section list
-
+  console.log(2);
+  console.log(input);
   for (i = 0; i < preference_len; i++){
     var pref_item = preference_list[i];
     for (x = 0; x < inputlen; x++){
@@ -234,7 +238,11 @@ function preference_sort(input, callback){
           class_item.score++;
         }
         //if class_session have same t_value as pref_item then score += 2
-        var time_bool = class_item.t_value == pref_item.t_value;
+        var time_bool = (class_item.t_value == pref_item.t_value);
+        console.log("time");
+        console.log(class_item.t_value);
+        console.log(pref_item.t_value);
+        console.log(time_bool);
         if (time_bool && day_compare){
           class_item.score += 2;
         }
@@ -242,6 +250,8 @@ function preference_sort(input, callback){
       }
     }
   }
+  console.log(3);
+  console.log(input);
   //Sort the input list by scores
   for (x = 0; x < inputlen; x++){
     var session_list = input[x];
@@ -253,6 +263,8 @@ function preference_sort(input, callback){
     console.log("sorting");
     console.log(session_list);
   }
+  console.log(4);
+  console.log(input);
   return callback(input);
 }
 // //test block

@@ -249,6 +249,7 @@ function insertPreference_helper(req, res, type, value, callback) {
 
 function insertPreference(req, res) {
   console.log("inserting preferences");
+  console.log(req.params.userName);
   database.preferenceSchema.remove({uid: req.params.userName}, function(err) {
     if (err) {
       console.log("error inserting preferenceSchema");
