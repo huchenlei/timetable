@@ -206,6 +206,18 @@ $(document).ready(function(){
      * Also add the course into user's database
      */
      $(document).on("click", "#normal-search-result li", function(){
+        var name = localStorage.getItem("username");
+        var url = 'http://localhost:3000/users/info/' + name + '/addUserCourse';
+        var res = this.innerHTML.substr(0,6);
+        console.log(res);
+        console.log(course_list);
+        for(i = 0; i < course_list.length; i++) {
+          console.log('2');
+          console.log(course_list[i].courseCode);
+          if (course_list[i].courseCode == res ) {
+            course_object = course_list[i];
+          }
+        }
 
         //add new tr to the table
         var new_tr = document.createElement('tr');
@@ -219,7 +231,7 @@ $(document).ready(function(){
         //add new div to the td
         var new_div = document.createElement('div');
         new_div.id = course_object.id;
-        new_div.innerHTML = this.innerHTML;
+        new_div.innerHTML = course_object.courseCode;
         new_td.append(new_div);
 
         //add a new delete button to td
@@ -229,20 +241,8 @@ $(document).ready(function(){
         new_td.append(new_delete);
 
         //add course into user's databse
-        var name = localStorage.getItem("username");
-        var url = 'http://localhost:3000/users/info/' + name + '/addUserCourse';
-        var res = this.innerHTML.substr(0,6);
+        
 
-        console.log(res);
-        console.log(course_list);
-        for(i = 0; i < course_list.length; i++) {
-        	console.log('2');
-        	console.log(course_list[i].courseCode);
-        	if (course_list[i].courseCode == res ) {
-        		course_object = course_list[i];
-        	}
-        }
-        	
         $.post(url,
          {
            courseCode: course_object.courseCode,
@@ -298,10 +298,10 @@ $(document).ready(function(){
               };
               course_list[i] = course_object;
               console.log(course_list);
-              newList.innerHTML = classItem.sections[n].courseCode +
-                                  classItem.sections[n].semester +
-                                  classItem.sections[n].type +
-                                  classItem.sections[n].sectionCode +
+              newList.innerHTML = classItem.sections[n].courseCode + ' ' +
+                                  classItem.sections[n].semester + ' ' +
+                                  classItem.sections[n].type[0].toUpperCase() +
+                                  classItem.sections[n].sectionCode + ' ' +
                                   classItem.sections[n].instructor;
               //console.log(course_object);
             }
