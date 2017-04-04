@@ -406,11 +406,20 @@ input[type='submit']:hover, input[type='button']:hover {
 	box-shadow: 0 1.5em 2em rgba(0,0,0,0.24),0 1em 2em 0 rgba(0,0,0,0.19);
 }
 
+.foo {
+	list-style-type: none;
+	cursor: pointer;
+	border: solid 0.1em #008CBA; 
+	width: 50%;
+}
+
 .main #normal-search-result {
-	background-color: #F9F9F9;
+	
 	padding: 1em 2em;
 	text-align: center;
 	border-bottom: 0.1em solid #008CBA;
+	height: 75px;
+	overflow: auto;
 }
 
 .main #normal-search-result li {

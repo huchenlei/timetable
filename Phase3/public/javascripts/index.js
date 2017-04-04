@@ -214,6 +214,18 @@ $(document).ready(function(){
      * Also add the course into user's database
      */
      $(document).on("click", "#normal-search-result li", function(){
+        var name = localStorage.getItem("username");
+        var url = 'http://localhost:3000/users/info/' + name + '/addUserCourse';
+        var res = this.innerHTML.substr(0,6);
+        console.log(res);
+        console.log(course_list);
+        for(i = 0; i < course_list.length; i++) {
+          console.log('2');
+          console.log(course_list[i].courseCode);
+          if (course_list[i].courseCode == res ) {
+            course_object = course_list[i];
+          }
+        }
 
         // //add new tr to the table
         // var new_tr = document.createElement('tr');
@@ -251,6 +263,7 @@ $(document).ready(function(){
         	}
         }
         	
+
         $.post(url,
          {
            courseCode: course_object.courseCode,
@@ -304,6 +317,7 @@ $(document).ready(function(){
               course_list[i] = course_object;
               console.log(course_list);
               newList.innerHTML = classItem.sections[n].courseCode;
+
               //console.log(course_object);
             }
           }
