@@ -10,7 +10,7 @@ curl -X POST http://localhost:3000/courses/insertCourse \
 }'
 
 read -p $'\nget courseInfo'
-curl -X GET http://localhost:3000/courses/courseInfo/2016F/CSC108
+curl -X GET http://localhost:3000/courses/ACMB01H3F
 
 read -p $'\nInsert section'
 curl -X POST http://localhost:3000/courses/insertSection \

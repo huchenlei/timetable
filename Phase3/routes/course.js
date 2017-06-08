@@ -5,6 +5,22 @@ var router = express.Router();
 /* A course should consists of departmentID, courseNum, br (breadthRequirement),
  * timeslot, and courseDescription
  */
+
+
+function getNewCourse(req, res) {
+  var code = req.params.code;
+  console.log("Receive " + code);
+  database.courseSchema.findOne({code: code},
+    function(err, course){
+      if (!course) {
+        console.log("course not found");
+        return res.sendStatus(404);
+      }
+      else {
+        return res.json(course);
+      }
+    });
+}
 //Create a course
 function insertCourse(req, res) {
   var response = {
@@ -268,7 +284,7 @@ function deleteTimeslot(req, res) {
 
 // courseSchema
 router.post('/insertCourse', insertCourse);
-router.get('/:courseCode', getCourseInfo);
+router.get('/:code', getNewCourse);
 //router.update('/updateCourse', updateCourse);
 
 //router.delete('/deleteCourse', deleteCourse);
