@@ -1,0 +1,5 @@
+1. add enter key bind
+2. diff section same timeslot
+3. get solution refresh page
+4. exclude specific section
+5. merge section in same timeslot.
