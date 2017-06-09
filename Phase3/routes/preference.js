@@ -1,23 +1,23 @@
 var p1 = {
-  preference : "mon",
+  preference : "MONDAY",
   value : "evening"
-}
+};
 var p2 = {
-  preference : "tue",
+  preference : "TUESDAY",
   value : "evening"
-}
+};
 var p3 = {
-  preference : "wed",
+  preference : "WEDNESDAY",
   value : "morning"
-}
+};
 var p4 = {
-  preference : "thur",
-  value : "morning"
-}
+  preference : "THURSDAY",
+  value : "afternoon"
+};
 var p5 = {
-  preference : "fri",
+  preference : "FRIDAY",
   value : "morning"
-}
+};
 
 //csc108 L0101 Monday 16:00 - 17:00, Wednesday 16:00 - 17:00, Friday
 //16:00 - 17:00
@@ -36,7 +36,7 @@ var c108l0101 = {
           {weekday:"fri", location: "BA1070", start:9, end:10}
         ],
   score: 0
-}
+};
 
 //csc108 L0201 Monday 9:00 - 10:00, Wednesday 9:00 - 10:00, Friday
 //9:00 - 10:00
@@ -54,7 +54,7 @@ var c108l0201 = {
           {weekday:"fri", location: "MS1050", start:9, end:10}
         ],
   score: 0
-}
+};
 
 //csc108 L0201 Monday 19:00 - 21:00
 var c108l0501 = {
@@ -69,7 +69,7 @@ var c108l0501 = {
           {weekday:"mon", location: "MS1050", start:19, end:21},
         ],
   score: 0
-}
+};
 
 //csc165 L0501 Wednesday 18:00 - 21:00, Friday
 //9:00 - 10:00 Tutorial
@@ -86,7 +86,7 @@ var c165l0501 = {
           {weekday:"fri", location: "MS1050", start:9, end:10}
         ],
   score: 0
-}
+};
 
 //csc165 L0101 Tuesday 18:00 - 21:00, Friday
 //9:00 - 10:00 Tutorial
@@ -98,12 +98,12 @@ var c165l0101 = {
   br: 3,
   type:"lec",
   instructor: "Liu",
-  timeslots: [
-          {weekday:"tue", location: "MS1050", start:18, end:21},
-          {weekday:"fri", location: "MS1050", start:9, end:10}
+  times: [
+          {day:"TUESDAY", location: "MS1050", start:18, end:21},
+          {day:"FRIDAY", location: "MS1050", start:9, end:10}
         ],
   score: 0
-}
+};
 
 /*
  * A minimal approach to apply preferece to array of array of class sessions
@@ -116,163 +116,54 @@ var input = [
   [p1, p2, p3, p4, p5 ],
   [c108l0101, c108l0201, c108l0501],
   [c165l0101, c165l0501]
-]
-
-/* This function takes a list of objects and add property: t_value to
- * every object in the list.
- */
-
-function parse_tValue(list){
-
-  var len_list = list.length;
-  for (i = 0; i < len_list; i++) {
-    var item = list[i];
-    if (item.type != undefined){
-      switch (item.value) {
-        case "any":
-          item.t_value = 0;
-          break;
-        case "morning":
-          item.t_value = 1;
-          break;
-        case "afternoon":
-          item.t_value = 2;
-          break;
-        case "evening":
-          item.t_value = 3;
-          break;
-        default:
-          console.log("Wrong input");
-      }
-    }
-  }
-}
-
+];
 
 function preference_sort(input, callback){
-  if (input[0].length == 0) {
-    input.shift();
-    callback(input);
-    return;
+  if (input == null) return callback(input);
+  p_lst = input[0];   // preference list
+  // split meeting-sections to 3 list: l, t and p
+  raw_lst = input.slice(1);
+  c_lst = [];   // course list
+  for (i = 0; i < raw_lst.length; i++) {
+    lectures = [];
+    tut = [];
+    pract = [];
+    for (j = 0; j < raw_lst[i].length; j++) {
+      if (raw_lst[i][j].code[0] == 'L') lectures.push(raw_lst[i][j]);
+      else if (raw_lst[i][j].code[0] == 'T') tut.push(raw_lst[i][j]);
+      else pract.push(raw_lst[i][j]);
+    }
+    if (lectures.length != 0) c_lst.push(lectures);
+    if (tut.length != 0) c_lst.push(tut);
+    if (pract.length != 0) c_lst.push(pract);
   }
-  //store first list of preference in to a variable called preference_list
-  //now input[0] is class list
-  var preference_list = input.shift();
-  console.log(0);
-  console.log(input);
-  var preference_len = preference_list.length;
-  parse_tValue(preference_list);
 
-  console.log(1);
-  console.log(input);
-  // for (i = 0; i < preference_len; i++) {
-  //   var item = preference_list[i];
-  //   /*
-  //    * Assign t_value to object in preference list
-  //    * t_value = 1 if its morning class, t_value = 2 if its afternoon class,
-  //    * and t_value = 3 if its evening class.
-  //    */
-  //   switch (item.value) {
-  //     case "morning":
-  //       item.t_value = 1;                 //morning classes
-  //       break;
-  //     case "afternoon":
-  //       item.t_value = 2;                 //afternoon classes
-  //       break;
-  //     case "evening":
-  //       item.t_value = 3;                 //night classes
-  //       break;
-  //   }
-  //   // console.log(preference_list[i]);
-  // }
-
-  // console.log("break line here");
-  var inputlen = input.length;
-  for (x = 0; x < inputlen; x++) {
-    for (y = 0; y < input[x].length; y++) {
-    /*
-     * Assign t_value to object in input list
-     * t_value = 1 if its morning class, t_value = 2 if its afternoon class,
-     * and t_value = 3 if its evening class.
-     */
-      // console.log(input[x][y]);
-      var class_item = input[x][y];
-      class_item.days = "";
-      // console.log(class_item.timeslots);
-      var time_len = class_item.timeslots.length;
-
-      //add class_item.days property
-      for (z = 0; z < time_len; z++){
-        item_time = class_item.timeslots[z];
-        class_item.days = class_item.days.concat(item_time.weekday);
-      }
-      //add class_item.t_value property
-      for (z = 0; z < time_len; z++){
-        item_time = class_item.timeslots[z];
-        if (item_time.start < 12) {             //morning classes
-          class_item.t_value = 1;
-          break;
-        } else if (item_time.start >= 12 && item_time.start < 18){
-          class_item.t_value = 2;             //afternoon classes
-          break;
-        } else if (item_time.start >= 18){
-          class_item.t_value = 3;             //evening classes
-          break;
-        } else {
-          console.log("shouldn't reach this code");
+  for (i = 0; i < c_lst.length; i++) {
+    s_lst = c_lst[i];   // section list
+    for (j = 0; j < s_lst.length; j++) {
+      section = s_lst[j];   // current section
+      section.score = 0;
+      for (k = 0; k < section.timeslots.length; k++) {
+        t = section.times[k];   // current timeslot
+        time = "";
+        if (t.start < 12) time = "morning";
+        else if (t.start < 18) time = "afternoon";
+        else time = "evening";
+        for (z = 0; z < p_lst.length; z++) {
+          p = p_lst[z];    // current preference
+          // loop each preference
+          if (p.preference == t.day && p.value == time)
+            section.score += t.duration;
         }
       }
     }
-  }
-  //Comparing between preference list and class + section list
-  console.log(2);
-  console.log(input);
-  for (i = 0; i < preference_len; i++){
-    var pref_item = preference_list[i];
-    for (x = 0; x < inputlen; x++){
-      for (y = 0; y < input[x].length; y++) {
-        var class_item = input[x][y];
-        //if class_session have same day as pref_item then score ++
-        var day_compare = class_item.days.includes(pref_item.type);
-        if (day_compare){
-          class_item.score++;
-        }
-        //if class_session have same t_value as pref_item then score += 2
-        var time_bool = (class_item.t_value == pref_item.t_value);
-        console.log("time");
-        console.log(class_item.t_value);
-        console.log(pref_item.t_value);
-        console.log(time_bool);
-        if (time_bool && day_compare){
-          class_item.score += 2;
-        }
-        // console.log(class_item);
-      }
-    }
-  }
-  console.log(3);
-  console.log(input);
-  //Sort the input list by scores
-  for (x = 0; x < inputlen; x++){
-    var session_list = input[x];
-    console.log("section list");
-    console.log(session_list);
-    session_list.sort(function(a, b) {
-      return parseInt(b.score) - parseInt(a.score);
+    s_lst.sort(function (a, b) {
+      return b.score - a.score;
     });
-    console.log("sorting");
-    console.log(session_list);
   }
-  console.log(4);
-  console.log(input);
-  return callback(input);
+  return callback(c_lst);
 }
-// //test block
-// var result = preference_sort(input);
-// for (x = 0; x < result.length; x++){
-//   for (y = 0; y < result[x].length; y++){
-//     console.log(result[x][y]);
-//   }
-// }
+
+
 
 module.exports = preference_sort;
