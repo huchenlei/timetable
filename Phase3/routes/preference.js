@@ -143,7 +143,7 @@ function preference_sort(input, callback){
     for (j = 0; j < s_lst.length; j++) {
       section = s_lst[j];   // current section
       section.score = 0;
-      for (k = 0; k < section.timeslots.length; k++) {
+      for (k = 0; k < section.times.length; k++) {
         t = section.times[k];   // current timeslot
         time = "";
         if (t.start < 12) time = "morning";

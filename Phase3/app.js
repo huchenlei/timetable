@@ -71,11 +71,26 @@ app.get("/admin", function(req, res) {
 function populateCourseInfo(req, callback) {
   var course_info = [];
   database.courseSchema
-    .find({code: new RegExp(req.courseCode, 'i')})
+    .find({
+      code: new RegExp(req.courseCode, 'i'),
+      campus: "UTSG",
+      term: new RegExp("2017 Summer", 'i')
+    })
     .exec(function(err, courses){
+      console.log("courses from database")
+      console.log(courses);
       const result = [];
       for (var i = 0; i < courses.length; i++) {
-        result.append(courses.meeting_sections);
+        sections = courses[i].meeting_sections;
+        courseCode = courses[i].code.substr(0, 6);
+        console.log("adding");
+        console.log(courseCode);
+        for (j = 0; j < sections.length; j++) {
+          sections[j] = sections[j].toObject();
+          sections[j].courseCode = courseCode;
+        }
+        console.log(sections);
+        result.push(sections);
       }
       callback(result);
     });
@@ -87,10 +102,16 @@ function find_all_sections(user, callback) {
         var section = {
           courseCode: user.courses[i],
         }
+        console.log("section");
+        console.log(section);
         populateCourseInfo(section, function(result) {
-          results.concat(result);
+          results = results.concat(result);
+          console.log("result");
+          console.log(result);
           counter++;
           if (counter == user.courses.length) {
+            console.log("result from databse");
+            console.log(results);
             callback(results);
           }
         });
@@ -115,13 +136,12 @@ function smart(req, res) {
       find_all_sections(user, function(results) {
         var output = [];
         output.push(preferences);
-        for (var i = results.length - 1; i >= 0; i--) {
-          output.push(results[i]);
-        }
+        output = output.concat(results);
         preference_sort(output, function(sorted) {
-          console.log("final");
-          console.log(sorted);
+          
           compute_valid_solutions(sorted, function(solutions) {
+            console.log("final");
+            console.log(solutions);
             return res.json(solutions);
           });
         });
