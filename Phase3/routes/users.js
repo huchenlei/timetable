@@ -79,11 +79,6 @@ function getUserInfo(req, res) {
         // req.emailAdress = user.emailAdress;
       }
     }
-  }).populate({
-    path: 'courses',
-    populate: {
-      path: 'timeslots'
-    }
   })
   .populate('preferences')
   .exec(function(err, userName){
@@ -134,27 +129,21 @@ function addUserCourse(req, res) {
       console.log("usernot found");
       return res.sendStatus(400);
     } else {
-      database.courseSectionSchema.findOne({
-        courseCode: req.body.courseCode,
-        sectionCode: req.body.sectionCode,
-        semester: req.body.semester,
-        type: req.body.type
-      }, function(err, section){
-        if (!section){
-          console.log("cannot find section");
-        } else {
-          user.courses.push(section._id);
-          user.save(function(err, success){
-            if (err) {
-              console.log("user saving error");
-              return res.sendStatus(400);
-            } else {
-              console.log("user saving success");
-              return res.json(user);
-            }
-          });
-        }
-      });
+      console.log("user found");
+      var idx = user.courses.indexOf(req.body.code);
+      if (idx == -1) {
+        user.courses.push(req.body.code);
+      }
+      // TODO: warning course exists
+      user.save(function(err, success){
+          if (err) {
+            console.log("user saving error");
+            return res.sendStatus(400);
+          } else {
+            console.log("user saving success");
+            return res.json(user);
+          }
+        });
     }
   });
 }

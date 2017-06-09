@@ -143,26 +143,26 @@ var name = localStorage.getItem("username");
         // console.log(result.courses[i]);
         var session = result.courses[i];
         var new_tr = document.createElement('tr');
-            new_tr.classList.add('course-item');
-            $('#course-list-table').append(new_tr);
+        new_tr.classList.add('course-item');
+        $('#course-list-table').append(new_tr);
 
-            //add new td to the tr
-            var new_td = document.createElement('td');
-            new_tr.append(new_td);
+        //add new td to the tr
+        var new_td = document.createElement('td');
+        new_tr.append(new_td);
 
-            //add new div to the td
-            var new_div = document.createElement('div');
-            new_div.id = session._id;
-            new_div.innerHTML = session.courseCode;
-            new_td.append(new_div);
+        //add new div to the td
+        var new_div = document.createElement('div');
+        new_div.id = session;
+        new_div.innerHTML = session;
+        new_td.append(new_div);
 
-            //add a new delete button to td
-            var new_delete = document.createElement('button');
-            new_delete.classList.add('delete');
-            new_delete.innerHTML = 'x';
-            new_delete.id = session._id; 
-            new_delete.onclick = delete_course;
-            new_td.append(new_delete);
+        //add a new delete button to td
+        var new_delete = document.createElement('button');
+        new_delete.classList.add('delete');
+        new_delete.innerHTML = 'x';
+        new_delete.id = session; 
+        new_delete.onclick = delete_course;
+        new_td.append(new_delete);
       }
     });
   }
@@ -214,18 +214,18 @@ $(document).ready(function(){
      * Also add the course into user's database
      */
      $(document).on("click", "#normal-search-result li", function(){
-        var name = localStorage.getItem("username");
-        var url = 'http://localhost:3000/users/info/' + name + '/addUserCourse';
-        var res = this.innerHTML.substr(0,6);
-        console.log(res);
-        console.log(course_list);
-        for(i = 0; i < course_list.length; i++) {
-          console.log('2');
-          console.log(course_list[i].courseCode);
-          if (course_list[i].courseCode == res ) {
-            course_object = course_list[i];
-          }
-        }
+        // var name = localStorage.getItem("username");
+        // var url = 'http://localhost:3000/users/info/' + name + '/addUserCourse';
+        // var res = this.innerHTML.substr(0,6);
+        // console.log(res);
+        // console.log(course_list);
+        // for(i = 0; i < course_list.length; i++) {
+        //   console.log('2');
+        //   console.log(course_list[i].courseCode);
+        //   if (course_list[i].courseCode == res ) {
+        //     course_object = course_list[i];
+        //   }
+        // }
 
         // //add new tr to the table
         // var new_tr = document.createElement('tr');
@@ -251,26 +251,10 @@ $(document).ready(function(){
         //add course into user's databse
         var name = localStorage.getItem("username");
         var url = 'http://localhost:3000/users/info/' + name + '/addUserCourse';
-        var res = this.innerHTML.substr(0,6);
-        var course_object;
-        console.log(res);
-        console.log(course_list);
-        for(i = 0; i < course_list.length; i++) {
-        	console.log('2');
-        	console.log(course_list[i].courseCode);
-        	if (course_list[i].courseCode == res ) {
-        		course_object = course_list[i];
-        	}
-        }
         	
-
         $.post(url,
          {
-           courseCode: course_object.courseCode,
-           semester: course_object.semester,
-           type: course_object.type,
-           sectionCode: course_object.sectionCode,
-           instructor: course_object.instructor
+           code: this.innerHTML
          }, function(data, status) {
            console.log(data.courses);
            console.log(status);
@@ -297,36 +281,25 @@ $(document).ready(function(){
         // everytime search is clicked show #normal-search-result
         
         $('#normal-search-result').show();
-
-        var len = result.length;
+        let len = result.length;
+        const courses = new Set();
         for (i = 0; i < len; i++) {
-          var classItem = result[i];
-          var newList = document.createElement('li');
-
-          newList.id = 'classItem' + '000' + i;
-          var len2 = classItem.sections.length;
-          if (len2 > 0) {
-            for (n = 0; n < len2; n++) {
-              course_object = {
-                courseCode: classItem.sections[n].courseCode,
-                semester: classItem.sections[n].semester,
-                type: classItem.sections[n].type,
-                sectionCode: classItem.sections[n].sectionCode,
-                instructor: classItem.sections[n].instructor
-              };
-              course_list[i] = course_object;
-              console.log(course_list);
-              newList.innerHTML = classItem.sections[n].courseCode;
-
-              //console.log(course_object);
-            }
+          const new_code = result[i].code.substr(0, 6);
+          if (!courses.has(new_code)) {
+            courses.add(new_code);
           }
-          else {
-            newList.innerHTML = classItem._id;
-          }
-          $("#normal-search-result").append(newList);
-
         }
+        console.log(courses)
+        len = courses.length;
+        i = 0;
+        courses.forEach(
+          (classItem) => {
+            var newList = document.createElement('li');
+            newList.id = 'classItem' + '000' + i;
+            newList.innerHTML = classItem;
+            $("#normal-search-result").append(newList);
+          }
+        );
       });
     });
     

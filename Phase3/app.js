@@ -71,22 +71,11 @@ app.get("/admin", function(req, res) {
 function populateCourseInfo(req, callback) {
   var course_info = [];
   database.courseSchema
-    .findOne({
-      _id: req.courseCode
-    })
-    .populate({
-      path: 'sections',
-      match: {semester: req.semester},
-      populate: {
-        path: 'timeslots'
-      }
-    })
-    .exec(function(err, course){
-      var result = course.sections;
-      for (var i = result.length - 1; i >= 0; i--) {
-        result[i].title = course.title;
-        result[i].br = course.br;
-        result[i].description = course.description;
+    .find({code: new RegExp(req.courseCode, 'i')})
+    .exec(function(err, courses){
+      const result = [];
+      for (var i = 0; i < courses.length; i++) {
+        result.append(courses.meeting_sections);
       }
       callback(result);
     });
@@ -96,11 +85,10 @@ function find_all_sections(user, callback) {
   var counter = 0;
   for (var i = user.courses.length - 1; i >= 0; i--) {
         var section = {
-          courseCode: user.courses[i].courseCode,
-          semester: user.courses[i].semester
+          courseCode: user.courses[i],
         }
         populateCourseInfo(section, function(result) {
-          results.push(result);
+          results.concat(result);
           counter++;
           if (counter == user.courses.length) {
             callback(results);
@@ -115,12 +103,6 @@ function smart(req, res) {
   database.userSchema
     .findOne({_id: req.session.username})
     .populate('preferences')
-    .populate({
-      path: 'courses',
-      populate: {
-        path: 'timeslots'
-      }
-    })
     .exec(function(err, user) {
       if (err | !user) {
         console.log("should not happen");

@@ -97,10 +97,7 @@ var user = new Schema({
     type: ObjectId,
     ref: 'preferences'
   }],
-  courses: [{
-    type: ObjectId,
-    ref: 'course_sections'
-  }]
+  courses: [String]
 });
 
 var preference = new Schema({

@@ -6,18 +6,17 @@ var router = express.Router();
  * timeslot, and courseDescription
  */
 
-
 function getNewCourse(req, res) {
   var code = req.params.code;
   console.log("Receive " + code);
-  database.courseSchema.findOne({code: code},
-    function(err, course){
-      if (!course) {
+  database.courseSchema.find({code: new RegExp(code, 'i')},
+    function(err, courses){
+      if (courses.length == 0) {
         console.log("course not found");
         return res.sendStatus(404);
       }
       else {
-        return res.json(course);
+        return res.json(courses);
       }
     });
 }
