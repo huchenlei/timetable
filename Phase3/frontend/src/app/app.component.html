@@ -1,0 +1,59 @@
+<!--The whole content below can be removed with the new code.-->
+<div class="toc">
+    <div class="ui left vertical inverted labeled sidebar menu pushable push visible">
+
+        <div class="item logo-branding">
+            Timetable
+        </div>
+        <div class="item course-queue">
+            <div class="header">
+                Courses
+            </div>
+            <app-course-item
+                *ngFor="let course of selectedCourses"
+                href=""
+                class="course ui grid"
+                [course]="course"
+                (deleteCourse)="deleteCourse($event)">
+            </app-course-item>
+        </div>
+        <div class="item preferences">
+            <div class="header">
+                Preferences
+            </div>
+            <app-preference-selector>
+            </app-preference-selector>
+            <br />
+            <button class="fluid ui animated fade button" style="background-color:#51B8A3">
+                <div class="visible content">Get solution</div>
+                <div class="hidden content">
+                  <i class="right arrow icon"></i>
+                </div>
+            </button>
+        </div>
+
+        <div class="item user-profile">
+
+        </div>
+    </div>
+</div>
+
+<div class="ui pusher" style="margin-left: 260px; padding:25px;">
+    <div class="ui container">
+        <div class="ui segment">
+          <div class="ui secondary pointing menu">
+            <a class="active item">
+              Home
+            </a>
+            <a class="item">
+              Messages
+            </a>
+            <a class="item">
+              Friends
+            </a>
+          </div>
+        </div>
+        <app-timetable></app-timetable>
+
+    </div>
+</div>
