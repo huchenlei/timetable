@@ -102,23 +102,23 @@ function find_all_sections(user, callback) {
         var section = {
           courseCode: user.courses[i],
         }
-        console.log("section");
-        console.log(section);
+        //console.log("section");
+        //console.log(section);
         populateCourseInfo(section, function(result) {
           results = results.concat(result);
-          console.log("result");
-          console.log(result);
+          //console.log("result");
+          //console.log(result);
           counter++;
           if (counter == user.courses.length) {
-            console.log("result from databse");
-            console.log(results);
+            //console.log("result from databse");
+            //console.log(results);
             callback(results);
           }
         });
       }
 }
 
-var preference_sort = require('./routes/preference');
+var split_list = require('./routes/split_list');
 var compute_valid_solutions = require('./routes/smart');
 function smart(req, res) {
   database.userSchema
@@ -137,11 +137,9 @@ function smart(req, res) {
         var output = [];
         output.push(preferences);
         output = output.concat(results);
-        preference_sort(output, function(sorted) {
+        split_list(output, function(splited) {
           
-          compute_valid_solutions(sorted, function(solutions) {
-            console.log("final");
-            console.log(solutions);
+          compute_valid_solutions(splited, function(solutions) {
             return res.json(solutions);
           });
         });

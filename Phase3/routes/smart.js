@@ -6,13 +6,11 @@ var over_lap = function(a, b) {
 				return true;
 	return false;
 }
-var result;
+var solutionlist;
 var currentlist;
 var backtrack = function(courselist) {
-	if (currentlist.length == courselist.length) {
-		result.push(JSON.parse(JSON.stringify(currentlist)));
-		console.log("pushed");
-	}
+	if (currentlist.length == courselist.length) 
+		solutionlist.push(JSON.parse(JSON.stringify(currentlist)));
 	else {
 		var deapth = currentlist.length;
 		for (var i = 0; i < courselist[deapth].length; i++) {
@@ -30,10 +28,38 @@ var backtrack = function(courselist) {
 	}
 }
 
-var compute_valid_solutions = function(courselist, callback) {
-	result = [];
+var compute_valid_solutions = function(input, callback) {
+	solutionlist = [];
 	currentlist = [];
-	backtrack(courselist);
-	callback(result);
+
+	c_lst = input[1];
+	p_lst = input[0];
+	backtrack(c_lst);
+
+	
+	for (i = 0; i < solutionlist.length; i++) {
+		s = solutionlist[i];	// a solution
+		s.score = 0;
+		for (j = 0; j < s.length; j++) {
+			section = s[j];   // a course section
+			for (k = 0; k < section.times.length; k++) {
+				t = section.times[k];   // current timeslot
+				time = "";
+				if (t.start < 43200) time = "morning";
+				else if (t.start < 64800) time = "afternoon";
+				else time = "evening";
+				for (z = 0; z < p_lst.length; z++) {
+					p = p_lst[z];    // current preference
+					if (p.type == t.day && p.value == time)
+						s.score += t.duration;
+				}
+			}
+		}
+	}
+    
+    solutionlist.sort(function (a, b) {
+		return b.score - a.score;
+    });
+	callback(solutionlist);
 }
 module.exports= compute_valid_solutions;
