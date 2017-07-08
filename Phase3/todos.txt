@@ -3,3 +3,5 @@
 3. get solution refresh page
 4. exclude specific section
 5. merge section in same timeslot.
+6. show conflict courses
+7. remove user

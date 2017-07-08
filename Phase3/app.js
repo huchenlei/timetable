@@ -102,16 +102,10 @@ function find_all_sections(user, callback) {
         var section = {
           courseCode: user.courses[i],
         }
-        //console.log("section");
-        //console.log(section);
         populateCourseInfo(section, function(result) {
           results = results.concat(result);
-          //console.log("result");
-          //console.log(result);
           counter++;
           if (counter == user.courses.length) {
-            //console.log("result from databse");
-            //console.log(results);
             callback(results);
           }
         });
