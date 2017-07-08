@@ -5,9 +5,12 @@
         <div class="item logo-branding">
             Timetable
         </div>
+        <div class="item">
+          <app-search-bar></app-search-bar>
+        </div>
         <div class="item course-queue">
             <div class="header">
-                Courses
+                Courses ({{selectedCourses.length}})
             </div>
             <app-course-item
                 *ngFor="let course of selectedCourses"
@@ -43,13 +46,13 @@
         <div class="ui segment">
           <div class="ui secondary pointing menu">
             <a class="active item">
-              Home
+              Fall 2017
             </a>
             <a class="item">
-              Messages
+              Winter 2018
             </a>
-            <a class="item">
-              Friends
+            <a class="item disabled">
+              Summer 2018
             </a>
           </div>
         </div>
