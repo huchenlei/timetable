@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { CourseItemComponent } from './components/course-item/course-item.component'
+import { Course } from './models/course';
 
 @Component({
   selector: 'app-root',
@@ -14,4 +15,9 @@ export class AppComponent {
   deleteCourse(course : string): void {
       this.selectedCourses.splice(this.selectedCourses.indexOf(course), 1);
   }
+
+  addCourse(course : Course) : void {
+    this.selectedCourses.push(course.code);
+  }
+  
 }

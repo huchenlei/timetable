@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { SuiModule } from 'ng2-semantic-ui';
+import { FormsModule }              from '@angular/forms';
+import { HttpModule }               from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { CourseItemComponent } from './components/course-item/course-item.component';
@@ -22,7 +25,10 @@ import { TranslatePipe } from './pipes/translate.pipe';
     SearchBarComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    SuiModule
   ],
   providers: [ PreferenceService, CourseService ],
   bootstrap: [ AppComponent ]
