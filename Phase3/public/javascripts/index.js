@@ -27,7 +27,7 @@ var draw_option = function(course) {
 			if (j == course.times[i].start/3600-7) {
 				if (course.code.length == 1) {
 					k.text("Option: " + course.code[0]).on("click", function() {
-						for (var i = 0; var i < currentlist.length; i++)
+						for (var i = 0; i < currentlist.length; i++)
 							if (currentlist[i].courseCode == course.courseCode && currentlist[i].code[0][0] == course.code[0][0]) {
 								currentlist.splice(i, 1, course);
 								render_solution(cur);
@@ -161,6 +161,7 @@ function load_preference() {
 
 
 function load_courselst() {
+	localStorage.term = '2017 Fall';
 	$('#course-list-table').empty();
 	let courselist;
 	if (localStorage.courselist) {
@@ -227,6 +228,7 @@ $(document).ready(function(){
 	  	type: 'POST',
 	  	url: '/smart', 
 	  	data: {
+	  		term: localStorage.term,
 		  	courselist: localStorage.courselist,
 		  	preferences: localStorage.preferences
 		}, 

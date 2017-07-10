@@ -73,8 +73,7 @@ function populateCourseInfo(req, callback) {
   database.courseSchema
     .find({
       code: new RegExp(req.courseCode, 'i'),
-      campus: "UTSG",
-      term: new RegExp("2017 Fall", 'i')
+      campus: "UTSG"
     })
     .exec(function(err, courses){
       const result = [];
@@ -115,6 +114,7 @@ var compute_valid_solutions = require('./routes/smart');
 function smart(req, res) {
   const courselist = JSON.parse(req.body.courselist);
   const preferences_raw = JSON.parse(req.body.preferences);
+  const term = req.body.term;
   const preferences = [];
   for (var type in preferences_raw) {
     preferences.push({
@@ -128,11 +128,13 @@ function smart(req, res) {
       var output = [];
       output.push(preferences);
       output = output.concat(results);
-      split_list(output, function(splited) {
-        compute_valid_solutions(splited, function(solutions) {
+      split_list(output, function(list) {
+        compute_valid_solutions(list, term, function(solutions) {
+          console.log(solutions);
+          console.log(list[1]);
           return res.json({
             solutions: JSON.stringify(solutions),
-            courses: JSON.stringify(results)
+            courses: JSON.stringify(list[1])
           });
         });
       });
