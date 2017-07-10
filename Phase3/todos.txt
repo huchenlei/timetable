@@ -1,7 +1,4 @@
-1. add enter key bind
-2. diff section same timeslot
-3. get solution refresh page
-4. exclude specific section
-5. merge section in same timeslot.
-6. show conflict courses
-7. remove user
+1. deal with conflict 
+2. add smart2
+3. switch semester
+4. improve draw option

@@ -9,9 +9,27 @@ import { CourseItemComponent } from './components/course-item/course-item.compon
 })
 export class AppComponent {
   title = 'app';
-  selectedCourses = ['CSC108', 'CSC165', 'MAT137', 'PSY100', 'ECO100']
-  solutionlist = [['CSC108L0101'], []]
+  selectedCourses = {
+    CSC108: {
+      F: {
+        lec: [
+          {
+            code: [],
+            timeslots: []
+          },
+          {
+            code: []
+          }
+        ]
+        tut: []
+        prac: []
+      S:
+      SUMMMER: 
+    }  
+  }
+  solutionlist = [['CSC108L0101', 'fjdklajfdl', 'fdjalk'], []]
   preferences = []
+
 
   deleteCourse(course : string): void {
       this.selectedCourses.splice(this.selectedCourses.indexOf(course), 1);

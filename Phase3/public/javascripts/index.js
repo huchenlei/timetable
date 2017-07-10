@@ -219,6 +219,7 @@ $(document).ready(function(){
 		  	preferences: localStorage.preferences
 		}, 
 		success: function(data) {
+
 			solutionlist = data;
 			cur = 0;
 			currentlist = solutionlist[cur];
@@ -317,5 +318,12 @@ $(document).ready(function(){
 	$("body").on("click", function(){
 	  $('#normal-search-result').empty();
 	  $('#normal-search-result').hide();
+	});
+
+	$('body').on('keypress', 'input', function(args) {
+	    if (args.keyCode == 13) {
+	        $('#normal-search').click();
+	        return false;
+	    }
 	});
 });
