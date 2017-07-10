@@ -101,19 +101,7 @@ var draw_course = function(course) {
 		}
 	}
 };
-/*
-var remove_course = function(course) {
-	for (var i = 0; i < course.times.length; i++) {
-	  var col_num = convert_day[course.times[i].day];
-	  for (var j = course.times[i].start/3600-7; j < course.times[i].end/3600-7; j++) {
-		var k = $(".timetable tbody tr:nth-of-type(" + j + ") td:eq(" + col_num + ")");
-		k.removeClass("course").css("background-color", "white");
-		if (j == course.times[i].start/3600-7)
-		  k.text("").unbind("click");
-	  }
-  }
-};
-*/
+
 var clear_table = function() {
 	console.log("clear");
 	var k = $(".timetable tbody tr").find("td:gt(0)");
@@ -137,58 +125,66 @@ var course_taking;
 
 
 function delete_course() {
-	//var className = $(this).attr('class');
-   var name = localStorage.getItem("username");
-   var url = 'http://localhost:3000/users/deleteCourse/' + name + '/' + this.id;
-   $.ajax({
-	  url: url,
-	  type: 'DELETE',
-	  success: function(response) {
-	   load_courselst();
-	  },
-	  error: function(response) {
-		console.log(response);
-	  }
-	});
+   const courselist = JSON.parse(localStorage.courselist);
+   i = courselist.indexOf(this.id)
+   if (i >= 0) {
+   	  courselist.splice(i , 1);
+   }
+   localStorage.courselist = JSON.stringify(courselist);
+   load_courselst();
+}
+
+function load_preference() {
+	let preferences = {}
+	if (localStorage.preferences && localStorage.preferences != '{}') {
+		preferences_data = JSON.parse(localStorage.preferences);
+	} else {
+		preferences_data = {
+			mon: 'any',
+			tue: 'any',
+			wed: 'any',
+			thu: 'any',
+			fri: 'any'
+		};
+		localStorage.preferences = JSON.stringify(preferences);
+	}
+	$('#mon_preference').val(preferences_data.mon);
+	$('#tue_preference').val(preferences_data.tue);
+	$('#wed_preference').val(preferences_data.wed);
+	$('#thu_preference').val(preferences_data.thu);
+	$('#fri_preference').val(preferences_data.fri);
 }
 
 
 function load_courselst() {
-	var name = localStorage.getItem("username");
-	if (name != '') {
-		console.log("user exist");
-		var url = 'http://localhost:3000/users/info/' + name;
-		$.get(url, function(result) {
-			//store user's current classes inside
-			course_taking = result.courses;
-			$('#course-list-table').empty();
-			for (i = 0; i < result.courses.length; i ++) {
-				// console.log(result.courses[i]);
-				var session = result.courses[i];
-				var new_tr = document.createElement('tr');
-				new_tr.classList.add('course-item');
-				$('#course-list-table').append(new_tr);
+	$('#course-list-table').empty();
+	courselist = JSON.parse(localStorage.courselist);
+	console.log(courselist.length);
+	for (i = 0; i < courselist.length; i ++) {
+		course = courselist[i];
+		var new_tr = document.createElement('tr');
+		new_tr.classList.add('course-item');
+		$('#course-list-table').append(new_tr);
 
-				//add new td to the tr
-				var new_td = document.createElement('td');
-				new_tr.append(new_td);
+		//add new td to the tr
+		var new_td = document.createElement('td');
+		new_tr.append(new_td);
 
-				//add new div to the td
-				var new_div = document.createElement('div');
-				new_div.id = session;
-				new_div.innerHTML = session;
-				new_td.append(new_div);
+		//add new div to the td
+		var new_div = document.createElement('div');
+		new_div.id = course;
+		new_div.innerHTML = course;
+		new_td.append(new_div);
 
-				//add a new delete button to td
-				var new_delete = document.createElement('button');
-				new_delete.classList.add('delete');
-				new_delete.innerHTML = 'x';
-				new_delete.id = session; 
-				new_delete.onclick = delete_course;
-				new_td.append(new_delete);
-			}
-		});
+		//add a new delete button to td
+		var new_delete = document.createElement('button');
+		new_delete.classList.add('delete');
+		new_delete.innerHTML = 'x';
+		new_delete.id = course; 
+		new_delete.onclick = delete_course;
+		new_td.append(new_delete);
 	}
+
 }
 
 
@@ -196,7 +192,7 @@ $(document).ready(function(){
 
   
 	load_courselst();
-
+	load_preference();
 	//normal search area is initially hidden
 	$('#normal-search-result').hide();
 	$("#show-advanced").on("click", function() {
@@ -209,7 +205,14 @@ $(document).ready(function(){
 		$(".arrowright").toggleClass("movearrow");
 	});
 	$("#getSolutions").on("click", function() {
-	  $.get('/smart', function(data) {
+	  $.ajax({
+	  	type: 'POST',
+	  	url: '/smart', 
+	  	data: {
+		  	courselist: localStorage.courselist,
+		  	preferences: localStorage.preferences
+		}, 
+		success: function(data) {
 			solutionlist = data;
 			cur = 0;
 			currentlist = solutionlist[cur];
@@ -219,16 +222,30 @@ $(document).ready(function(){
 			  $("#solutions table").append("<tr class='solution'><td>Solution " + (i+1) + "</td></tr>");
 			}
 			$("#solutions td").on("click", function() {
-		  render_solution($("#solutions td").index(this));
-		});
-		$("#switch-left").on("click",function() {
-		render_solution((cur-1+solutionlist.length)%solutionlist.length);
+			  render_solution($("#solutions td").index(this));
+			});
+			$("#switch-left").on("click",function() {
+			  render_solution((cur-1+solutionlist.length)%solutionlist.length);
+		    });
+		    $("#switch-right").on("click",function() {
+			  render_solution((cur+1)%solutionlist.length);
+		    });
+		}
 	  });
-	  $("#switch-right").on("click",function() {
-		render_solution((cur+1)%solutionlist.length);
-	  });
-		});
-  });
+  	});
+
+  	$("#save_preference").on("click", function() {
+  		const preferences_data = {
+  			mon: $("#mon_preference").val(),
+  			tue: $("#tue_preference").val(),
+  			wed: $("#wed_preference").val(),
+  			thu: $("#thu_preference").val(),
+  			fri: $("#fri_preference").val()
+  		};
+  		console.log(preferences_data);
+  		localStorage.preferences = JSON.stringify(preferences_data);
+  		load_preference();
+  	});
 
 	/*
 	 * When click one of the search result, save the clicked section into
@@ -270,17 +287,16 @@ $(document).ready(function(){
 			newList.id = 'classItem' + '000' + i;
 			newList.innerHTML = classItem;
 			newList.onclick = () => {
-			//add course into user's databse
-			  var name = localStorage.getItem("username");
-			  var url = 'http://localhost:3000/users/info/' + name + '/addUserCourse';
-		  
-			  $.post(url,
-			   {
-				 code: classItem
-			   }, function(data, status) {
-				 load_courselst();
-				//  alert("Data:" + data + "\nStatus" + status);
-			   });
+			   if (!localStorage.courselist) {
+			   	  localStorage.courselist = JSON.stringify([classItem]);
+			   } else {
+			   	  const courselist = JSON.parse(localStorage.courselist);
+			   	  if (courselist.indexOf(classItem) == -1) {
+			   	  	courselist.push(classItem);
+			   	  }
+			   	  localStorage.courselist = JSON.stringify(courselist);
+			   }
+			   load_courselst();
 			};
 			$("#normal-search-result").append(newList);
 		  }

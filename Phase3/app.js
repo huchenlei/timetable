@@ -74,7 +74,7 @@ function populateCourseInfo(req, callback) {
     .find({
       code: new RegExp(req.courseCode, 'i'),
       campus: "UTSG",
-      term: new RegExp("2017 Summer", 'i')
+      term: new RegExp("2017 Fall", 'i')
     })
     .exec(function(err, courses){
       console.log("courses from database")
@@ -95,17 +95,17 @@ function populateCourseInfo(req, callback) {
       callback(result);
     });
 }
-function find_all_sections(user, callback) {
+function find_all_sections(courses, callback) {
   var results = [];
   var counter = 0;
-  for (var i = user.courses.length - 1; i >= 0; i--) {
+  for (var i = courses.length - 1; i >= 0; i--) {
         var section = {
-          courseCode: user.courses[i],
+          courseCode: courses[i],
         }
         populateCourseInfo(section, function(result) {
           results = results.concat(result);
           counter++;
-          if (counter == user.courses.length) {
+          if (counter == courses.length) {
             callback(results);
           }
         });
@@ -115,32 +115,56 @@ function find_all_sections(user, callback) {
 var split_list = require('./routes/split_list');
 var compute_valid_solutions = require('./routes/smart');
 function smart(req, res) {
-  database.userSchema
-    .findOne({_id: req.session.username})
-    .populate('preferences')
-    .exec(function(err, user) {
-      if (err | !user) {
-        console.log("should not happen");
-        return res.sendStatus(400);
-      }
-      var preferences = user.preferences;
+  // database.userSchema
+  //   .findOne({_id: req.session.username})
+  //   .populate('preferences')
+  //   .exec(function(err, user) {
+  //     if (err | !user) {
+  //       console.log("should not happen");
+  //       return res.sendStatus(400);
+  //     }
+  //     var preferences = user.preferences;
       
-      console.log("preferences");
-      console.log(preferences);
-      find_all_sections(user, function(results) {
-        var output = [];
-        output.push(preferences);
-        output = output.concat(results);
-        split_list(output, function(splited) {
+  //     console.log("preferences");
+  //     console.log(preferences);
+  //     find_all_sections(user, function(results) {
+  //       var output = [];
+  //       output.push(preferences);
+  //       output = output.concat(results);
+  //       split_list(output, function(splited) {
           
-          compute_valid_solutions(splited, function(solutions) {
-            return res.json(solutions);
-          });
+  //         compute_valid_solutions(splited, function(solutions) {
+  //           return res.json(solutions);
+  //         });
+  //       });
+  //     });
+  //   });
+  const courselist = JSON.parse(req.body.courselist);
+  const preferences_raw = JSON.parse(req.body.preferences);
+  const preferences = [];
+  for (var type in preferences_raw) {
+    preferences.push({
+      type: type,
+      value: preferences_raw[type]
+    });
+  }
+  console.log(preferences);
+  console.log(courselist);
+  find_all_sections(courselist, function(results) {
+      console.log("show results");
+      console.log(results);
+      var output = [];
+      output.push(preferences);
+      output = output.concat(results);
+      split_list(output, function(splited) {
+        compute_valid_solutions(splited, function(solutions) {
+          return res.json(solutions);
         });
       });
     });
+
 }
-app.get('/smart', smart);
+app.post('/smart', smart);
 app.listen(3000, function () {
   console.log('listening on port 3000!');
 });
