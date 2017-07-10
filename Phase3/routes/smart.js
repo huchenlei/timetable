@@ -55,8 +55,11 @@ var compute_valid_solutions = function(input, term, callback) {
 				else time = "evening";
 				for (var z = 0; z < p_lst.length; z++) {
 					p = p_lst[z];    // current preference
-					if (p.type == t.day && p.value == time)
-						s.score += t.duration;
+					if (p.type == t.day) 
+						if (p.value == time)
+							s.score += t.duration;
+						else if (p.value == "no-class") 
+							s.score -= t.duration;
 				}
 			}
 		}

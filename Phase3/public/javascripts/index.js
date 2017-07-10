@@ -213,6 +213,7 @@ function getSolutions() {
 	if (JSON.parse(localStorage.courselist).length == 0) {
 		solutionlist = undefined;
 		clear_table();
+		$("#solutions table").empty();
 	} else {
 		$.ajax({
 			type: 'POST',
@@ -286,7 +287,7 @@ $(document).ready(function(){
 	});
 
 	$("#save_preference").on("click", function() {
-		const preferences_data = {
+		var preferences_data = {
   			mon: $("#mon_preference").val(),
   			tue: $("#tue_preference").val(),
   			wed: $("#wed_preference").val(),
