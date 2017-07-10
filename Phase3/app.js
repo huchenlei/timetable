@@ -24,10 +24,12 @@ app.use(function(req, res, next) {
   res.locals.session = req.session;
   next();
 });
-app.use(cookieParser());
-app.set('views', path.join(__dirname, './views'));
-nunjucks.configure(path.join(__dirname, "views"), { autoescape: true, express: app });
-app.use(express.static(path.join(__dirname, "./public")));
+// app.use(cookieParser());
+// app.set('views', path.join(__dirname, './views'));
+// nunjucks.configure(path.join(__dirname, "views"), { autoescape: true, express: app });
+// app.use(express.static(path.join(__dirname, "./public")));
+
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
 
 //app.use('/', routes);
 app.use('/courses', courses);
