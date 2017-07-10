@@ -4,76 +4,56 @@ import { CourseMin } from '../../models/course-min';
 import { TimetableSlot } from '../../models/timetable-slot';
 const sample = [
   [{
-    "code": "L5101",
-    "size": 150,
-    "enrolment": 0,
-    "times": [{
-      "day": "THURSDAY",
-      "start": 64800,
-      "end": 75600,
-      "duration": 10800,
-      "location": "SF 1101"
-    }],
-    "instructors": ["J Sin"],
-    "courseCode": "CSC108"
-  }, {
-    "code": "L0101",
-    "size": 130,
-    "enrolment": 0,
-    "times": [{
-      "day": "WEDNESDAY",
-      "start": 46800,
-      "end": 57600,
-      "duration": 10800,
-      "location": "MP 202"
+      "courseCode": "CSC120",
+      "code": ["L0101"],
+      "times": [{
+        "day": "MONDAY",
+        "start": 46800,
+        "end": 50400,
+        "duration": 3600,
+        "location": "NF 003"
+      }, {
+        "day": "WEDNESDAY",
+        "start": 46800,
+        "end": 50400,
+        "duration": 3600,
+        "location": "NF 003"
+      }, {
+        "day": "FRIDAY",
+        "start": 46800,
+        "end": 50400,
+        "duration": 3600,
+        "location": "NF 003"
+      }, {
+        "day": "THURSDAY",
+        "start": 54000,
+        "end": 61200,
+        "duration": 7200,
+        "location": ""
+      }]
     }, {
-      "day": "FRIDAY",
-      "start": 46800,
-      "end": 57600,
-      "duration": 10800,
-      "location": "MP 202"
-    }],
-    "instructors": ["G Patil B Navarro Lameda"],
-    "courseCode": "MAT137"
-  }, {
-    "code": "T0101",
-    "size": 35,
-    "enrolment": 0,
-    "times": [{
-      "day": "MONDAY",
-      "start": 39600,
-      "end": 43200,
-      "duration": 3600,
-      "location": "BA 2145"
-    }, {
-      "day": "WEDNESDAY",
-      "start": 39600,
-      "end": 43200,
-      "duration": 3600,
-      "location": "BA 2145"
-    }],
-    "instructors": [],
-    "courseCode": "MAT137"
-  }, {
-    "code": "L5101",
-    "size": 150,
-    "enrolment": 0,
-    "times": [{
-      "day": "TUESDAY",
-      "start": 64800,
-      "end": 75600,
-      "duration": 10800,
-      "location": "BA 1130"
-    }, {
-      "day": "WEDNESDAY",
-      "start": 64800,
-      "end": 72000,
-      "duration": 7200,
-      "location": "BA 1130"
-    }],
-    "instructors": ["I Dema"],
-    "courseCode": "CSC165"
-  }]
+      "courseCode": "CSC108",
+      "code": ["L0101"],
+      "times": [{
+        "day": "MONDAY",
+        "start": 36000,
+        "end": 39600,
+        "duration": 3600,
+        "location": "MP 102"
+      }, {
+        "day": "WEDNESDAY",
+        "start": 36000,
+        "end": 39600,
+        "duration": 3600,
+        "location": "MP 102"
+      }, {
+        "day": "FRIDAY",
+        "start": 36000,
+        "end": 39600,
+        "duration": 3600,
+        "location": "MP 102"
+      }]
+    }]
 ];
 
 @Component({
