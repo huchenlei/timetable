@@ -151,14 +151,15 @@ function smart(req, res) {
   console.log(preferences);
   console.log(courselist);
   find_all_sections(courselist, function(results) {
-      console.log("show results");
-      console.log(results);
       var output = [];
       output.push(preferences);
       output = output.concat(results);
       split_list(output, function(splited) {
         compute_valid_solutions(splited, function(solutions) {
-          return res.json(solutions);
+          return res.json({
+            solutions: JSON.stringify(solutions),
+            courses: JSON.stringify(results)
+          });
         });
       });
     });

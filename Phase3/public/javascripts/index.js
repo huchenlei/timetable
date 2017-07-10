@@ -193,6 +193,13 @@ function load_courselst() {
 
 }
 
+function store_course_data(courselist) {
+	localStorage.course_data = JSON.stringify(courselist);
+}
+
+function load_course_data() {
+	return JSON.parse(localStorage.course_data);
+}
 
 $(document).ready(function(){
 
@@ -219,8 +226,9 @@ $(document).ready(function(){
 		  	preferences: localStorage.preferences
 		}, 
 		success: function(data) {
-
-			solutionlist = data;
+			solutionlist = JSON.parse(data.solutions);
+			const course_data = JSON.parse(data.courses);
+			store_course_data(course_data);
 			cur = 0;
 			currentlist = solutionlist[cur];
 			render_solution(cur);
