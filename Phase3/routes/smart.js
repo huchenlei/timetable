@@ -6,21 +6,21 @@ var over_lap = function(a, b) {
 				return true;
 	return false;
 }
-var solutionlist;
-var currentlist;
+var solutionlist, currentlist, course_data;
 var backtrack = function(courselist) {
 	if (currentlist.length == courselist.length) 
 		solutionlist.push(JSON.parse(JSON.stringify(currentlist)));
 	else {
-		var deapth = currentlist.length;
-		for (var i = 0; i < courselist[deapth].length; i++) {
+		var depth = currentlist.length;
+		for (var i = 0; i < courselist[depth].length; i++) {
 			var ok = true;
-			for (var j = 0; j < deapth; j++) 
-				if (over_lap(courselist[deapth][i].times, currentlist[j].times)) {
+			for (var j = 0; j < depth; j++) 
+				if (over_lap(courselist[depth][i].times, currentlist[j].times)) {
 					ok = false;
+					break;
 				}
 			if (ok) {
-				currentlist.push(courselist[deapth][i]);
+				currentlist.push(courselist[depth][i]);
 				backtrack(courselist);
 				currentlist.pop();
 			}
@@ -28,12 +28,19 @@ var backtrack = function(courselist) {
 	}
 }
 
-var compute_valid_solutions = function(input, callback) {
+var compute_valid_solutions = function(input, term, callback) {
 	solutionlist = [];
 	currentlist = [];
 
-	c_lst = input[1];
+	course_data = input[1];
 	p_lst = input[0];
+	c_lst = [];
+	for (var key in course_data) 
+		for (var type in course_data[key][term]) 
+			c_lst.push(course_data[key][term][type]);
+
+	console.log(c_lst);
+
 	backtrack(c_lst);
 
 	

@@ -73,45 +73,35 @@ function populateCourseInfo(req, callback) {
   database.courseSchema
     .find({
       code: new RegExp(req.courseCode, 'i'),
-      campus: "UTSG",
-      term: new RegExp("2017 Summer", 'i')
+      campus: "UTSG"
     })
     .exec(function(err, courses){
-      console.log("courses from database")
-      console.log(courses);
       const result = [];
       for (var i = 0; i < courses.length; i++) {
         sections = courses[i].meeting_sections;
+        term = courses[i].term;
         courseCode = courses[i].code.substr(0, 6);
-        console.log("adding");
-        console.log(courseCode);
         for (j = 0; j < sections.length; j++) {
           sections[j] = sections[j].toObject();
           sections[j].courseCode = courseCode;
+          sections[j].term = term;
         }
-        console.log(sections);
         result.push(sections);
       }
       callback(result);
     });
 }
-function find_all_sections(user, callback) {
+function find_all_sections(courses, callback) {
   var results = [];
   var counter = 0;
-  for (var i = user.courses.length - 1; i >= 0; i--) {
+  for (var i = courses.length - 1; i >= 0; i--) {
         var section = {
-          courseCode: user.courses[i],
+          courseCode: courses[i],
         }
-        //console.log("section");
-        //console.log(section);
         populateCourseInfo(section, function(result) {
           results = results.concat(result);
-          //console.log("result");
-          //console.log(result);
           counter++;
-          if (counter == user.courses.length) {
-            //console.log("result from databse");
-            //console.log(results);
+          if (counter == courses.length) {
             callback(results);
           }
         });
@@ -120,33 +110,38 @@ function find_all_sections(user, callback) {
 
 var split_list = require('./routes/split_list');
 var compute_valid_solutions = require('./routes/smart');
+
 function smart(req, res) {
-  database.userSchema
-    .findOne({_id: req.session.username})
-    .populate('preferences')
-    .exec(function(err, user) {
-      if (err | !user) {
-        console.log("should not happen");
-        return res.sendStatus(400);
-      }
-      var preferences = user.preferences;
-      
-      console.log("preferences");
-      console.log(preferences);
-      find_all_sections(user, function(results) {
-        var output = [];
-        output.push(preferences);
-        output = output.concat(results);
-        split_list(output, function(splited) {
-          
-          compute_valid_solutions(splited, function(solutions) {
-            return res.json(solutions);
+  const courselist = JSON.parse(req.body.courselist);
+  const preferences_raw = JSON.parse(req.body.preferences);
+  const term = req.body.term;
+  const preferences = [];
+  for (var type in preferences_raw) {
+    preferences.push({
+      type: type,
+      value: preferences_raw[type]
+    });
+  }
+  console.log(preferences);
+  console.log(courselist);
+  find_all_sections(courselist, function(results) {
+      var output = [];
+      output.push(preferences);
+      output = output.concat(results);
+      split_list(output, function(list) {
+        compute_valid_solutions(list, term, function(solutions) {
+          console.log(solutions);
+          console.log(list[1]);
+          return res.json({
+            solutions: JSON.stringify(solutions),
+            courses: JSON.stringify(list[1])
           });
         });
       });
     });
+
 }
-app.get('/smart', smart);
+app.post('/smart', smart);
 app.listen(3000, function () {
   console.log('listening on port 3000!');
 });

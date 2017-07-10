@@ -11,6 +11,8 @@ import { Course } from './models/course';
 export class AppComponent {
   title = 'app';
   selectedCourses = ['CSC108', 'CSC165', 'MAT137', 'PSY100', 'ECO100']
+  solutionlist = [['CSC108L0101'], []]
+  preferences = []
 
   deleteCourse(course : string): void {
       this.selectedCourses.splice(this.selectedCourses.indexOf(course), 1);

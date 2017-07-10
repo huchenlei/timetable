@@ -227,14 +227,14 @@
             <section class="right-bar hide">
                 <h2>Preferences</h2>
                 <div id="preferences">
-                    <form action="/users/insertPreference/{{ session.username }}"  method="post">
+                    <form>
                         <h3>Time Preferences</h3>
                         <div class="preferences">
                             <table>
                                 <tr>
                                     <td>Monday</td>
                                     <td>
-                                        <select name="mon">
+                                        <select name="mon" id="mon_preference">
                                             <option value="any">any</option>
                                             <option value="morning">monring</option>
                                             <option value="afternoon">afternoon</option>
@@ -245,7 +245,7 @@
                                 <tr>
                                     <td>Tuesday</td>
                                     <td>
-                                        <select name="tue">
+                                        <select name="tue" id="tue_preference">
                                             <option value="any">any</option>
                                             <option value="morning">monring</option>
                                             <option value="afternoon">afternoon</option>
@@ -256,7 +256,7 @@
                                 <tr>
                                     <td>Wednesday</td>
                                     <td>
-                                        <select name="wed">
+                                        <select name="wed" id="wed_preference">
                                             <option value="any">any</option>
                                             <option value="morning">monring</option>
                                             <option value="afternoon">afternoon</option>
@@ -267,7 +267,7 @@
                                 <tr>
                                     <td>Thursday</td>
                                     <td>
-                                        <select name="thu">
+                                        <select name="thu" id="thu_preference">
                                             <option value="any">any</option>
                                             <option value="morning">monring</option>
                                             <option value="afternoon">afternoon</option>
@@ -278,16 +278,16 @@
                                 <tr>
                                     <td>Friday</td>
                                     <td>
-                                        <select name="fri">
+                                        <select name="fri" id="fri_preference">
                                             <option value="any">any</option>
-                                            <option value="mon">monring</option>
+                                            <option value="morning">monring</option>
                                             <option value="afternoon">afternoon</option>
                                             <option value="evening">evening</option>
                                         </select>
                                     </td>
                                 </tr>
                             </table>
-                            <input id="submit" type="submit" name="preferences" value="Apply">
+                            <input id="save_preference" type="button" name="preferences" value="Apply">
                         </div>
                     </form>
                     <input type="button" id="getSolutions" value="Get Solutions">

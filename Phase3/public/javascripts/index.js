@@ -6,6 +6,7 @@ var currentlist = [];
 var convert_day = { "MONDAY": 1,"TUESDAY": 2,"WEDNESDAY": 3,"THURSDAY": 4,"FRIDAY": 5};
 var back = ["PaleGoldenRod","lightblue","LightSalmon", "lightgreen", "lightpink", "Chocolate", "GreenYellow", "GoldenRod"];
 var option_back = ["MediumPurple", "Fuchsia", "Aqua"];
+var semester = '2017 FALL';
 // check if two course overlap
 var over_lap = function(a, b) {
 	for (var i = 0; i < a.length; i++)
@@ -16,48 +17,52 @@ var over_lap = function(a, b) {
 };
 
 var draw_option = function(course) {
-	var color = option_back[Math.floor(Math.random() * option_back.length)];
+	//var color = option_back[Math.floor(Math.random() * option_back.length)];
+	color = option_back[0];
 	for (var i = 0; i < course.times.length; i++) {
 		var col_num = convert_day[course.times[i].day];
 		for (var j = course.times[i].start/3600-7; j < course.times[i].end/3600-7; j++) {
 			var k = $(".timetable tbody tr:nth-of-type(" + j + ") td:eq(" + col_num + ")");
 			k.addClass("course").css("background-color", color);
 			if (j == course.times[i].start/3600-7) {
-				if (k.text() == "" || !k.text().includes("Option")) {
-					k.text("Option: " + course.code).on("click", function() {
-						for (i = 0; i < currentlist.length; i++)
-							if (currentlist[i].courseCode == course.courseCode && currentlist[i].code[0] == course.code[0]) {
+				if (course.code.length == 1) {
+					k.text("Option: " + course.code[0]).on("click", function() {
+						for (var i = 0; i < currentlist.length; i++)
+							if (currentlist[i].courseCode == course.courseCode && currentlist[i].code[0][0] == course.code[0][0]) {
 								currentlist.splice(i, 1, course);
 								render_solution(cur);
 								break;
 							}
 					});
-				} else if (!k.text().includes(course.code)) {
-					k.text(k.text() + "/" + course.code);
+				} else {
+					k.text("Options: " + course.code[0] + "/...");
 					k.off().on("click", function() {
-						codes = k.text().slice(8).split("/");
 						div = $("<div></div>").addClass("stacklist");
 						ul = $("<ul></ul>").css("list-style-type", "none");
 						ul.css("width", k.css("width"));
-						ul.append($("<li></li>").text("Select One"));
-						for (var z = 0; z < codes.length; z++)
-							ul.append($("<li></li>").text(codes[z]).on("click", function(e) {
+						ul.append($("<li></li>").text("Select One").on("click", function(e) {
+							e.stopPropagation();
+							render_solution(cur);
+						}));
+						for (var i = 0; i < course.code.length; i++)
+							ul.append($("<li></li>").text(course.code[i]).on("click", function(e) {
 								e.stopPropagation();
-								code = $(this).text();
-								courseCode = course.courseCode;
-								index = 0;
-								for (var w = 0; w < currentlist.length; w++) 
-									if (currentlist[w].courseCode == courseCode && currentlist[w].code[0] == code[0]) {
-										index = w;
+								var index = ul.index(this);
+								// swap code[0] and code[index];
+								var temp = course.code[0];
+								course.code[0] = course.code[index];
+								course.code[index] = temp;
+
+								var replace_index = 0;
+								for (var j = 0; j < currentlist.length; j++) 
+									if (currentlist[j].courseCode == course.courseCode && currentlist[j].code[0][0] == course.code[0][0]) {
+										replace_index = w;
 										break;
 									}
-								for (var w = 0; w < solutionlist.length; w++) 
-									for (var x = 0; x < solutionlist[w].length; x++) 
-										if (solutionlist[w][x].courseCode == courseCode && solutionlist[w][x].code == code) {
-											currentlist.splice(index, 1, solutionlist[w][x]);
-											render_solution(cur);
-											return;
-										}
+								
+								currentlist.splice(replace_index, 1, course);
+								render_solution(cur);
+								return;
 							}));
 						k.append(div.append(ul));
 					});
@@ -69,51 +74,38 @@ var draw_option = function(course) {
 };
 
 var draw_course = function(course) {
-	if (course.hasOwnProperty('color') == false) 
-		course.color = back[Math.floor(Math.random() * back.length)]
+	//if (course.hasOwnProperty('color') == false) 
+		//course.color = back[Math.floor(Math.random() * back.length)];
+	course.color = back[0];
 	for (var i = 0; i < course.times.length; i++) {
 		var col_num = convert_day[course.times[i].day];
 		for (var j = course.times[i].start/3600-7; j < course.times[i].end/3600-7; j++) {
 			var k = $(".timetable tbody tr:nth-of-type(" + j + ") td:eq(" + col_num + ")");
 			k.addClass("course").css("background-color", course.color);
 			if (j == course.times[i].start/3600-7) {
-				k.text(course.courseCode + "\n" + course.code);
+				k.text(course.courseCode + "\n" + course.code[0]);
 				k.on("click", function() {
 					render_solution(cur);
-					for (var x = 0; x < solutionlist.length; x++) 
-						for (var y = 0; y < solutionlist[x].length; y++) {
-							if (solutionlist[x][y].courseCode != course.courseCode 
-								|| solutionlist[x][y].code[0] != course.code[0] 
-								|| solutionlist[x][y] == course)
-								continue;
-							var success = true;
-							for (var z = 0; z < currentlist.length; z++)
-								if (currentlist[z] != course && over_lap(solutionlist[x][y].times, currentlist[z].times)) {
-									success = false;
-									break;
-								}
-							if (success) 
-								draw_option(solutionlist[x][y]);
-						}
-
+					course_data = load_course_data();
+					console.log(course_data);
+					opt_lst = course_data[course.courseCode][semester][course.code[0][0]];
+					draw_option(course);
+					for (var i = 0; i < opt_lst.length; i++) {
+						var ok = true;
+						for (var j = 0; j < currentlist.length; j++)
+							if (currentlist[j] != course && over_lap(opt_lst[i].times, currentlist[j].times)) {
+								ok = false;
+								break;
+							}
+						if (ok) draw_option(opt_lst[i]);
+					}
+					
 				});
 			}
 		}
 	}
 };
-/*
-var remove_course = function(course) {
-	for (var i = 0; i < course.times.length; i++) {
-	  var col_num = convert_day[course.times[i].day];
-	  for (var j = course.times[i].start/3600-7; j < course.times[i].end/3600-7; j++) {
-		var k = $(".timetable tbody tr:nth-of-type(" + j + ") td:eq(" + col_num + ")");
-		k.removeClass("course").css("background-color", "white");
-		if (j == course.times[i].start/3600-7)
-		  k.text("").unbind("click");
-	  }
-  }
-};
-*/
+
 var clear_table = function() {
 	console.log("clear");
 	var k = $(".timetable tbody tr").find("td:gt(0)");
@@ -137,66 +129,89 @@ var course_taking;
 
 
 function delete_course() {
-	//var className = $(this).attr('class');
-   var name = localStorage.getItem("username");
-   var url = 'http://localhost:3000/users/deleteCourse/' + name + '/' + this.id;
-   $.ajax({
-	  url: url,
-	  type: 'DELETE',
-	  success: function(response) {
-	   load_courselst();
-	  },
-	  error: function(response) {
-		console.log(response);
-	  }
-	});
+   const courselist = JSON.parse(localStorage.courselist);
+   i = courselist.indexOf(this.id)
+   if (i >= 0) {
+   	  courselist.splice(i , 1);
+   }
+   localStorage.courselist = JSON.stringify(courselist);
+   load_courselst();
+}
+
+function load_preference() {
+	let preferences = {}
+	if (localStorage.preferences && localStorage.preferences != '{}') {
+		preferences_data = JSON.parse(localStorage.preferences);
+	} else {
+		preferences_data = {
+			mon: 'any',
+			tue: 'any',
+			wed: 'any',
+			thu: 'any',
+			fri: 'any'
+		};
+		localStorage.preferences = JSON.stringify(preferences);
+	}
+	$('#mon_preference').val(preferences_data.mon);
+	$('#tue_preference').val(preferences_data.tue);
+	$('#wed_preference').val(preferences_data.wed);
+	$('#thu_preference').val(preferences_data.thu);
+	$('#fri_preference').val(preferences_data.fri);
 }
 
 
 function load_courselst() {
-	var name = localStorage.getItem("username");
-	if (name != '') {
-		console.log("user exist");
-		var url = 'http://localhost:3000/users/info/' + name;
-		$.get(url, function(result) {
-			//store user's current classes inside
-			course_taking = result.courses;
-			$('#course-list-table').empty();
-			for (i = 0; i < result.courses.length; i ++) {
-				// console.log(result.courses[i]);
-				var session = result.courses[i];
-				var new_tr = document.createElement('tr');
-				new_tr.classList.add('course-item');
-				$('#course-list-table').append(new_tr);
-
-				//add new td to the tr
-				var new_td = document.createElement('td');
-				new_tr.append(new_td);
-
-				//add new div to the td
-				var new_div = document.createElement('div');
-				new_div.id = session;
-				new_div.innerHTML = session;
-				new_td.append(new_div);
-
-				//add a new delete button to td
-				var new_delete = document.createElement('button');
-				new_delete.classList.add('delete');
-				new_delete.innerHTML = 'x';
-				new_delete.id = session; 
-				new_delete.onclick = delete_course;
-				new_td.append(new_delete);
-			}
-		});
+	localStorage.term = '2017 Fall';
+	$('#course-list-table').empty();
+	let courselist;
+	if (localStorage.courselist) {
+		courselist = JSON.parse(localStorage.courselist);
+	} else {
+		courselist = [];
+		localStorage.courselist = JSON.stringify(courselist);
 	}
+	console.log(courselist.length);
+	for (i = 0; i < courselist.length; i ++) {
+		course = courselist[i];
+		var new_tr = document.createElement('tr');
+		new_tr.classList.add('course-item');
+		$('#course-list-table').append(new_tr);
+
+		//add new td to the tr
+		var new_td = document.createElement('td');
+		new_tr.append(new_td);
+
+		//add new div to the td
+		var new_div = document.createElement('div');
+		new_div.id = course;
+		new_div.innerHTML = course;
+		new_td.append(new_div);
+
+		//add a new delete button to td
+		var new_delete = document.createElement('button');
+		new_delete.classList.add('delete');
+		new_delete.innerHTML = 'x';
+		new_delete.id = course; 
+		new_delete.onclick = delete_course;
+		new_td.append(new_delete);
+	}
+
 }
+
+function store_course_data(courselist) {
+	localStorage.course_data = JSON.stringify(courselist);
+}
+
+function load_course_data() {
+	return JSON.parse(localStorage.course_data);
+}
+
 
 
 $(document).ready(function(){
 
-  
 	load_courselst();
-
+	load_preference();
 	//normal search area is initially hidden
 	$('#normal-search-result').hide();
 	$("#show-advanced").on("click", function() {
@@ -209,8 +224,18 @@ $(document).ready(function(){
 		$(".arrowright").toggleClass("movearrow");
 	});
 	$("#getSolutions").on("click", function() {
-	  $.get('/smart', function(data) {
-			solutionlist = data;
+	  $.ajax({
+	  	type: 'POST',
+	  	url: '/smart', 
+	  	data: {
+	  		term: localStorage.term,
+		  	courselist: localStorage.courselist,
+		  	preferences: localStorage.preferences
+		}, 
+		success: function(data) {
+			const course_data = JSON.parse(data.courses);
+			solutionlist = JSON.parse(data.solutions);
+			store_course_data(course_data);
 			cur = 0;
 			currentlist = solutionlist[cur];
 			render_solution(cur);
@@ -219,16 +244,30 @@ $(document).ready(function(){
 			  $("#solutions table").append("<tr class='solution'><td>Solution " + (i+1) + "</td></tr>");
 			}
 			$("#solutions td").on("click", function() {
-		  render_solution($("#solutions td").index(this));
-		});
-		$("#switch-left").on("click",function() {
-		render_solution((cur-1+solutionlist.length)%solutionlist.length);
+			  render_solution($("#solutions td").index(this));
+			});
+			$("#switch-left").on("click",function() {
+			  render_solution((cur-1+solutionlist.length)%solutionlist.length);
+		    });
+		    $("#switch-right").on("click",function() {
+			  render_solution((cur+1)%solutionlist.length);
+		    });
+		}
 	  });
-	  $("#switch-right").on("click",function() {
-		render_solution((cur+1)%solutionlist.length);
-	  });
-		});
-  });
+  	});
+
+  	$("#save_preference").on("click", function() {
+  		const preferences_data = {
+  			mon: $("#mon_preference").val(),
+  			tue: $("#tue_preference").val(),
+  			wed: $("#wed_preference").val(),
+  			thu: $("#thu_preference").val(),
+  			fri: $("#fri_preference").val()
+  		};
+  		console.log(preferences_data);
+  		localStorage.preferences = JSON.stringify(preferences_data);
+  		load_preference();
+  	});
 
 	/*
 	 * When click one of the search result, save the clicked section into
@@ -270,17 +309,16 @@ $(document).ready(function(){
 			newList.id = 'classItem' + '000' + i;
 			newList.innerHTML = classItem;
 			newList.onclick = () => {
-			//add course into user's databse
-			  var name = localStorage.getItem("username");
-			  var url = 'http://localhost:3000/users/info/' + name + '/addUserCourse';
-		  
-			  $.post(url,
-			   {
-				 code: classItem
-			   }, function(data, status) {
-				 load_courselst();
-				//  alert("Data:" + data + "\nStatus" + status);
-			   });
+			   if (!localStorage.courselist) {
+			   	  localStorage.courselist = JSON.stringify([classItem]);
+			   } else {
+			   	  const courselist = JSON.parse(localStorage.courselist);
+			   	  if (courselist.indexOf(classItem) == -1) {
+			   	  	courselist.push(classItem);
+			   	  }
+			   	  localStorage.courselist = JSON.stringify(courselist);
+			   }
+			   load_courselst();
 			};
 			$("#normal-search-result").append(newList);
 		  }
@@ -295,5 +333,12 @@ $(document).ready(function(){
 	$("body").on("click", function(){
 	  $('#normal-search-result').empty();
 	  $('#normal-search-result').hide();
+	});
+
+	$('body').on('keypress', 'input', function(args) {
+	    if (args.keyCode == 13) {
+	        $('#normal-search').click();
+	        return false;
+	    }
 	});
 });
