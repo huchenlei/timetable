@@ -158,7 +158,13 @@ function load_preference() {
 
 function load_courselst() {
 	$('#course-list-table').empty();
-	courselist = JSON.parse(localStorage.courselist);
+	let courselist;
+	if (localStorage.courselist) {
+		courselist = JSON.parse(localStorage.courselist);
+	} else {
+		courselist = [];
+		localStorage.courselist = JSON.stringify(courselist);
+	}
 	console.log(courselist.length);
 	for (i = 0; i < courselist.length; i ++) {
 		course = courselist[i];
