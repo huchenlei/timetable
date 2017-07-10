@@ -1,4 +1,4 @@
-1. deal with conflict 
-2. add smart2
-3. switch semester
-4. improve draw option
+- deal with conflict 
+- add smart2
+- switch semester
+- reset button
