@@ -111,6 +111,7 @@ function find_all_sections(courses, callback) {
 
 var split_list = require('./routes/split_list');
 var compute_valid_solutions = require('./routes/smart');
+
 function smart(req, res) {
   const courselist = JSON.parse(req.body.courselist);
   const preferences_raw = JSON.parse(req.body.preferences);
@@ -124,19 +125,16 @@ function smart(req, res) {
   console.log(preferences);
   console.log(courselist);
   find_all_sections(courselist, function(results) {
-      // var output = [];
-      // output.push(preferences);
-      // output = output.concat(results);
-      // split_list(output, function(splited) {
-      //   compute_valid_solutions(splited, function(solutions) {
-      //     return res.json({
-      //       solutions: JSON.stringify(solutions),
-      //       courses: JSON.stringify(results)
-      //     });
-      //   });
-      // });
-      return res.json({
-        courses: JSON.stringify(results)
+      var output = [];
+      output.push(preferences);
+      output = output.concat(results);
+      split_list(output, function(splited) {
+        compute_valid_solutions(splited, function(solutions) {
+          return res.json({
+            solutions: JSON.stringify(solutions),
+            courses: JSON.stringify(results)
+          });
+        });
       });
     });
 
