@@ -299,7 +299,7 @@ $(document).ready(function(){
 		success: function(data) {
 			const course_data = JSON.parse(data.courses);
 			console.log(merge_sections(course_data));
-			solutionlist = JSON.parse(data.solutions);
+			solutionlist = []; // TODO: generate solutionlist here
 			store_course_data(course_data);
 			cur = 0;
 			currentlist = solutionlist[cur];
