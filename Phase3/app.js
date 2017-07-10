@@ -77,19 +77,16 @@ function populateCourseInfo(req, callback) {
       term: new RegExp("2017 Fall", 'i')
     })
     .exec(function(err, courses){
-      console.log("courses from database")
-      console.log(courses);
       const result = [];
       for (var i = 0; i < courses.length; i++) {
         sections = courses[i].meeting_sections;
+        term = courses[i].term;
         courseCode = courses[i].code.substr(0, 6);
-        console.log("adding");
-        console.log(courseCode);
         for (j = 0; j < sections.length; j++) {
           sections[j] = sections[j].toObject();
           sections[j].courseCode = courseCode;
+          sections[j].term = term;
         }
-        console.log(sections);
         result.push(sections);
       }
       callback(result);
