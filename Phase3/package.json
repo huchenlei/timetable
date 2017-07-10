@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "supervisor app.js"
+    "start": "supervisor app.js",
+    "build": "ng build && supervisor app.js"
   },
   "dependencies": {
     "body-parser": "~1.15.1",

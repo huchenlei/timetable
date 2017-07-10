@@ -1,18 +1,8 @@
-interface Section {
-    code: string;
-}
-
-export class Tutorial implements Section {
-    code: string;
-    ta: string
-}
-
-export class Lecture implements Section {
-    code: string;
-    instructor: string;
-}
-
-export class Lab implements Section {
-    code: string;
-    ta: string;
+import { Time } from './time';
+export class Section{
+    "code": string;
+    "instructors": string[];
+    "times": Time[];
+    "size": number;
+    "enrolment": number;
 }
