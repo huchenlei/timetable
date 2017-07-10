@@ -130,8 +130,6 @@ function smart(req, res) {
       output = output.concat(results);
       split_list(output, function(list) {
         compute_valid_solutions(list, term, function(solutions) {
-          //console.log(solutions);
-          //console.log(list[1]);
           return res.json({
             solutions: JSON.stringify(solutions),
             courses: JSON.stringify(list[1])

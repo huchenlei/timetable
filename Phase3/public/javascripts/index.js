@@ -130,7 +130,7 @@ var course_taking;
 
 function delete_course() {
    const courselist = JSON.parse(localStorage.courselist);
-   i = courselist.indexOf(this.id)
+   var i = courselist.indexOf(this.id);
    if (i >= 0) {
    	  courselist.splice(i , 1);
    }
@@ -210,37 +210,46 @@ function load_course_data() {
 }
 
 function getSolutions() {
-	$.ajax({
-		type: 'POST',
-		url: '/smart', 
-		data: {
-			term: localStorage.term,
-	  	courselist: localStorage.courselist,
-	  	preferences: localStorage.preferences
-	}, 
-	success: function(data) {
-		const course_data = JSON.parse(data.courses);
-		solutionlist = JSON.parse(data.solutions);
-		store_course_data(course_data);
-		cur = 0;
-		currentlist = solutionlist[cur];
-		render_solution(cur);
-		$("#solutions table").empty();
-		for (var i = 0; i < solutionlist.length; i++) {
-		  $("#solutions table").append("<tr class='solution'><td>Solution " + (i+1) + "</td></tr>");
-		}
-		$("#solutions td").on("click", function() {
-		  render_solution($("#solutions td").index(this));
-		});
-		$("#switch-left").on("click",function() {
-		  render_solution((cur-1+solutionlist.length)%solutionlist.length);
-	    });
-	    $("#switch-right").on("click",function() {
-		  render_solution((cur+1)%solutionlist.length);
-	    });
-	    localStorage.solution = JSON.stringify(solutionlist);
+	if (JSON.parse(localStorage.courselist).length == 0) {
+		solutionlist = undefined;
+		clear_table();
+	} else {
+		$.ajax({
+			type: 'POST',
+			url: '/smart', 
+			data: {
+				term: localStorage.term,
+			  	courselist: localStorage.courselist,
+			  	preferences: localStorage.preferences
+			}, 
+			success: function(data) {
+				var course_data = JSON.parse(data.courses);
+				solutionlist = JSON.parse(data.solutions);
+				console.log(solutionlist);
+				store_course_data(course_data);
+				cur = 0;
+				currentlist = solutionlist[cur];
+				render_solution(cur);
+				$("#solutions table").empty();
+				for (var i = 0; i < solutionlist.length; i++) {
+				  $("#solutions table").append("<tr class='solution'><td>Solution " + (i+1) + "</td></tr>");
+				}
+				$("#solutions td").on("click", function() {
+				  render_solution($("#solutions td").index(this));
+				});
+				$("#switch-left").on("click",function() {
+				  render_solution((cur-1+solutionlist.length)%solutionlist.length);
+			    });
+			    $("#switch-right").on("click",function() {
+				  render_solution((cur+1)%solutionlist.length);
+			    });
+			}
+	  	});
 	}
-  });
+	if (solutionlist == undefined) 
+		localStorage.removeItem("solution");
+	else 
+		localStorage.solution = JSON.stringify(solutionlist);
 }
 function add_course(course_code) {
 	if (!localStorage.courselist) {
