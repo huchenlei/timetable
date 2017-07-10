@@ -205,77 +205,7 @@ function load_course_data() {
 	return JSON.parse(localStorage.course_data);
 }
 
-function compare_timeslot(c1, c2) {
-	const timeslot1 = c1.times;
-	const timeslot2 = c2.times;
-	if (timeslot1.length !== timeslot2.length
-		|| c1.code[0] !== c2.code[0]) {
-		return false;
-	}
-	for (var i = 0; i < timeslot1.length; i++) {
-		if (timeslot1[i].day !== timeslot2[i].day
-			|| timeslot1[i].start !== timeslot2[i].start
-			|| timeslot1[i].end !== timeslot2[i].end) {
-			return false;
-		}
-	}
-	return true;
-}
 
-function remove(lst, item) {
-	const i = lst.indexOf(item);
-	if (i === -1) {
-		return false;
-	} else {
-		lst.splice(i, 1);
-		return true;
-	}
-}
-
-function nestedGetList(obj, keys) {
-	let cur_obj = obj;
-	for (var i = 0; i < keys.length; i++) {
-		if (!(keys[i] in cur_obj)) {
-			if (i < keys.length - 1) {
-				cur_obj[keys[i]] = {};
-			} else {
-				cur_obj[keys[i]] = [];
-			}
-		}
-		cur_obj = cur_obj[keys[i]];
-	}
-
-	return cur_obj;
-}
-
-function merge_sections(course_data) {
-	// merge section with same timeslots
-	const merge_result = {};
-	for (var n = 0; n < course_data.length; n++) {
-		const all_sections = course_data[n].slice();
-		const courseCode = all_sections[0].courseCode;
-		const term = all_sections[0].term;
-		for (var i = 0; i < all_sections.length; i++) {
-			const cur_obj = all_sections[i];
-			const type = cur_obj.code[0];
-			const sections = nestedGetList(merge_result, [courseCode, term, type]);
-			const merge_unit = {
-				courseCode: all_sections[0].courseCode,
-				code: [cur_obj.code],
-				times: cur_obj.times
-			};
-			for (var k = i + 1; k < all_sections.length; k++) {
-				if (compare_timeslot(cur_obj, all_sections[k])) {
-					merge_unit.code.push(all_sections[k].code);
-					all_sections.splice(k, 1);
-				}
-			}
-			sections.push(merge_unit);
-		}
-	}
-
-	return merge_result;
-}
 
 $(document).ready(function(){
 
@@ -302,7 +232,6 @@ $(document).ready(function(){
 		}, 
 		success: function(data) {
 			const course_data = JSON.parse(data.courses);
-			console.log(merge_sections(course_data));
 			solutionlist = JSON.parse(data.solutions);
 			store_course_data(course_data);
 			cur = 0;

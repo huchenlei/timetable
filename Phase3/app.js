@@ -111,31 +111,8 @@ function find_all_sections(courses, callback) {
 
 var split_list = require('./routes/split_list');
 var compute_valid_solutions = require('./routes/smart');
+
 function smart(req, res) {
-  // database.userSchema
-  //   .findOne({_id: req.session.username})
-  //   .populate('preferences')
-  //   .exec(function(err, user) {
-  //     if (err | !user) {
-  //       console.log("should not happen");
-  //       return res.sendStatus(400);
-  //     }
-  //     var preferences = user.preferences;
-      
-  //     console.log("preferences");
-  //     console.log(preferences);
-  //     find_all_sections(user, function(results) {
-  //       var output = [];
-  //       output.push(preferences);
-  //       output = output.concat(results);
-  //       split_list(output, function(splited) {
-          
-  //         compute_valid_solutions(splited, function(solutions) {
-  //           return res.json(solutions);
-  //         });
-  //       });
-  //     });
-  //   });
   const courselist = JSON.parse(req.body.courselist);
   const preferences_raw = JSON.parse(req.body.preferences);
   const preferences = [];
