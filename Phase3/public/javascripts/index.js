@@ -63,6 +63,7 @@ var draw_option = function(course) {
 									}
 								
 								currentlist.splice(replace_index, 1, course);
+								localStorage.solution = JSON.stringify(solutionlist);
 								render_solution(cur);
 								return;
 							}));
@@ -135,6 +136,7 @@ function delete_course() {
    }
    localStorage.courselist = JSON.stringify(courselist);
    load_courselst();
+   getSolutions();
 }
 
 function load_preference() {
@@ -165,6 +167,7 @@ function load_courselst() {
 	let courselist;
 	if (localStorage.courselist) {
 		courselist = JSON.parse(localStorage.courselist);
+
 	} else {
 		courselist = [];
 		localStorage.courselist = JSON.stringify(courselist);
@@ -194,6 +197,7 @@ function load_courselst() {
 		new_delete.onclick = delete_course;
 		new_td.append(new_delete);
 	}
+	getSolutions();
 
 }
 
@@ -205,12 +209,61 @@ function load_course_data() {
 	return JSON.parse(localStorage.course_data);
 }
 
-
+function getSolutions() {
+	$.ajax({
+		type: 'POST',
+		url: '/smart', 
+		data: {
+			term: localStorage.term,
+	  	courselist: localStorage.courselist,
+	  	preferences: localStorage.preferences
+	}, 
+	success: function(data) {
+		const course_data = JSON.parse(data.courses);
+		solutionlist = JSON.parse(data.solutions);
+		store_course_data(course_data);
+		cur = 0;
+		currentlist = solutionlist[cur];
+		render_solution(cur);
+		$("#solutions table").empty();
+		for (var i = 0; i < solutionlist.length; i++) {
+		  $("#solutions table").append("<tr class='solution'><td>Solution " + (i+1) + "</td></tr>");
+		}
+		$("#solutions td").on("click", function() {
+		  render_solution($("#solutions td").index(this));
+		});
+		$("#switch-left").on("click",function() {
+		  render_solution((cur-1+solutionlist.length)%solutionlist.length);
+	    });
+	    $("#switch-right").on("click",function() {
+		  render_solution((cur+1)%solutionlist.length);
+	    });
+	    localStorage.solution = JSON.stringify(solutionlist);
+	}
+  });
+}
+function add_course(course_code) {
+	if (!localStorage.courselist) {
+		localStorage.courselist = JSON.stringify([course_code]);
+	} else {
+		const courselist = JSON.parse(localStorage.courselist);
+		if (courselist.indexOf(course_code) == -1) {
+			courselist.push(course_code);
+		}
+		localStorage.courselist = JSON.stringify(courselist);
+	}
+	load_courselst();
+	getSolutions();
+};
 
 $(document).ready(function(){
 
 	load_courselst();
 	load_preference();
+	if (localStorage.solution) {
+		solutionlist = JSON.parse(localStorage.solution);
+		render_solution(0);
+	}
 	//normal search area is initially hidden
 	$('#normal-search-result').hide();
 	$("#show-advanced").on("click", function() {
@@ -222,60 +275,20 @@ $(document).ready(function(){
 		$(".main").toggleClass("main-size");
 		$(".arrowright").toggleClass("movearrow");
 	});
-	$("#getSolutions").on("click", function() {
-	  $.ajax({
-	  	type: 'POST',
-	  	url: '/smart', 
-	  	data: {
-	  		term: localStorage.term,
-		  	courselist: localStorage.courselist,
-		  	preferences: localStorage.preferences
-		}, 
-		success: function(data) {
-			const course_data = JSON.parse(data.courses);
-			solutionlist = JSON.parse(data.solutions);
-			store_course_data(course_data);
-			cur = 0;
-			currentlist = solutionlist[cur];
-			render_solution(cur);
-			$("#solutions table").empty();
-			for (var i = 0; i < solutionlist.length; i++) {
-			  $("#solutions table").append("<tr class='solution'><td>Solution " + (i+1) + "</td></tr>");
-			}
-			$("#solutions td").on("click", function() {
-			  render_solution($("#solutions td").index(this));
-			});
-			$("#switch-left").on("click",function() {
-			  render_solution((cur-1+solutionlist.length)%solutionlist.length);
-		    });
-		    $("#switch-right").on("click",function() {
-			  render_solution((cur+1)%solutionlist.length);
-		    });
-		}
-	  });
-  	});
 
-  	$("#save_preference").on("click", function() {
-  		const preferences_data = {
+	$("#save_preference").on("click", function() {
+		const preferences_data = {
   			mon: $("#mon_preference").val(),
   			tue: $("#tue_preference").val(),
   			wed: $("#wed_preference").val(),
   			thu: $("#thu_preference").val(),
   			fri: $("#fri_preference").val()
   		};
-  		console.log(preferences_data);
   		localStorage.preferences = JSON.stringify(preferences_data);
   		load_preference();
-  	});
-
-	/*
-	 * When click one of the search result, save the clicked section into
-	 * 'Course List' table
-	 * Also add the course into user's database
-	 */
-
-
-
+  		getSolutions();
+	});
+	
 
 	/* Display all sections of courses searched
 	 * after typing some string inside search bar and press "search"
@@ -291,7 +304,6 @@ $(document).ready(function(){
 		//result = array of objects
 		// everytime search is clicked show #normal-search-result
 		
-		$('#normal-search-result').show();
 		let len = result.length;
 		const courses = new Set();
 		for (i = 0; i < len; i++) {
@@ -300,28 +312,20 @@ $(document).ready(function(){
 			courses.add(new_code);
 		  }
 		}
-		len = courses.length;
-		i = 0;
-		courses.forEach(
-		  (classItem) => {
-			var newList = document.createElement('li');
-			newList.id = 'classItem' + '000' + i;
-			newList.innerHTML = classItem;
-			newList.onclick = () => {
-			   if (!localStorage.courselist) {
-			   	  localStorage.courselist = JSON.stringify([classItem]);
-			   } else {
-			   	  const courselist = JSON.parse(localStorage.courselist);
-			   	  if (courselist.indexOf(classItem) == -1) {
-			   	  	courselist.push(classItem);
-			   	  }
-			   	  localStorage.courselist = JSON.stringify(courselist);
-			   }
-			   load_courselst();
-			};
-			$("#normal-search-result").append(newList);
-		  }
-		);
+		if (courses.size == 1) 
+			add_course(courses.entries().next().value[0]);
+		else {
+			$('#normal-search-result').show();
+			courses.forEach(
+			  (classItem) => {
+				var newList = document.createElement('li');
+				newList.innerHTML = classItem;
+				$(newList).on("click", () => add_course(classItem));
+				$("#normal-search-result").append(newList);
+			  }
+			);
+		}
+		
 	  });
 	});
 	
@@ -340,4 +344,6 @@ $(document).ready(function(){
 	        return false;
 	    }
 	});
+
+
 });
