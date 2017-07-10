@@ -6,6 +6,7 @@ var currentlist = [];
 var convert_day = { "MONDAY": 1,"TUESDAY": 2,"WEDNESDAY": 3,"THURSDAY": 4,"FRIDAY": 5};
 var back = ["PaleGoldenRod","lightblue","LightSalmon", "lightgreen", "lightpink", "Chocolate", "GreenYellow", "GoldenRod"];
 var option_back = ["MediumPurple", "Fuchsia", "Aqua"];
+var semester = '2017 FALL';
 // check if two course overlap
 var over_lap = function(a, b) {
 	for (var i = 0; i < a.length; i++)
@@ -16,48 +17,52 @@ var over_lap = function(a, b) {
 };
 
 var draw_option = function(course) {
-	var color = option_back[Math.floor(Math.random() * option_back.length)];
+	//var color = option_back[Math.floor(Math.random() * option_back.length)];
+	color = option_back[0];
 	for (var i = 0; i < course.times.length; i++) {
 		var col_num = convert_day[course.times[i].day];
 		for (var j = course.times[i].start/3600-7; j < course.times[i].end/3600-7; j++) {
 			var k = $(".timetable tbody tr:nth-of-type(" + j + ") td:eq(" + col_num + ")");
 			k.addClass("course").css("background-color", color);
 			if (j == course.times[i].start/3600-7) {
-				if (k.text() == "" || !k.text().includes("Option")) {
-					k.text("Option: " + course.code).on("click", function() {
-						for (i = 0; i < currentlist.length; i++)
-							if (currentlist[i].courseCode == course.courseCode && currentlist[i].code[0] == course.code[0]) {
+				if (course.code.length == 1) {
+					k.text("Option: " + course.code[0]).on("click", function() {
+						for (var i = 0; var i < currentlist.length; i++)
+							if (currentlist[i].courseCode == course.courseCode && currentlist[i].code[0][0] == course.code[0][0]) {
 								currentlist.splice(i, 1, course);
 								render_solution(cur);
 								break;
 							}
 					});
-				} else if (!k.text().includes(course.code)) {
-					k.text(k.text() + "/" + course.code);
+				} else {
+					k.text("Options: " + course.code[0] + "/...");
 					k.off().on("click", function() {
-						codes = k.text().slice(8).split("/");
 						div = $("<div></div>").addClass("stacklist");
 						ul = $("<ul></ul>").css("list-style-type", "none");
 						ul.css("width", k.css("width"));
-						ul.append($("<li></li>").text("Select One"));
-						for (var z = 0; z < codes.length; z++)
-							ul.append($("<li></li>").text(codes[z]).on("click", function(e) {
+						ul.append($("<li></li>").text("Select One").on("click", function(e) {
+							e.stopPropagation();
+							render_solution(cur);
+						}));
+						for (var i = 0; i < course.code.length; i++)
+							ul.append($("<li></li>").text(course.code[i]).on("click", function(e) {
 								e.stopPropagation();
-								code = $(this).text();
-								courseCode = course.courseCode;
-								index = 0;
-								for (var w = 0; w < currentlist.length; w++) 
-									if (currentlist[w].courseCode == courseCode && currentlist[w].code[0] == code[0]) {
-										index = w;
+								var index = ul.index(this);
+								// swap code[0] and code[index];
+								var temp = course.code[0];
+								course.code[0] = course.code[index];
+								course.code[index] = temp;
+
+								var replace_index = 0;
+								for (var j = 0; j < currentlist.length; j++) 
+									if (currentlist[j].courseCode == course.courseCode && currentlist[j].code[0][0] == course.code[0][0]) {
+										replace_index = w;
 										break;
 									}
-								for (var w = 0; w < solutionlist.length; w++) 
-									for (var x = 0; x < solutionlist[w].length; x++) 
-										if (solutionlist[w][x].courseCode == courseCode && solutionlist[w][x].code == code) {
-											currentlist.splice(index, 1, solutionlist[w][x]);
-											render_solution(cur);
-											return;
-										}
+								
+								currentlist.splice(replace_index, 1, course);
+								render_solution(cur);
+								return;
 							}));
 						k.append(div.append(ul));
 					});
@@ -69,33 +74,32 @@ var draw_option = function(course) {
 };
 
 var draw_course = function(course) {
-	if (course.hasOwnProperty('color') == false) 
-		course.color = back[Math.floor(Math.random() * back.length)]
+	//if (course.hasOwnProperty('color') == false) 
+		//course.color = back[Math.floor(Math.random() * back.length)];
+	course.color = back[0];
 	for (var i = 0; i < course.times.length; i++) {
 		var col_num = convert_day[course.times[i].day];
 		for (var j = course.times[i].start/3600-7; j < course.times[i].end/3600-7; j++) {
 			var k = $(".timetable tbody tr:nth-of-type(" + j + ") td:eq(" + col_num + ")");
 			k.addClass("course").css("background-color", course.color);
 			if (j == course.times[i].start/3600-7) {
-				k.text(course.courseCode + "\n" + course.code);
+				k.text(course.courseCode + "\n" + course.code[0]);
 				k.on("click", function() {
 					render_solution(cur);
-					for (var x = 0; x < solutionlist.length; x++) 
-						for (var y = 0; y < solutionlist[x].length; y++) {
-							if (solutionlist[x][y].courseCode != course.courseCode 
-								|| solutionlist[x][y].code[0] != course.code[0] 
-								|| solutionlist[x][y] == course)
-								continue;
-							var success = true;
-							for (var z = 0; z < currentlist.length; z++)
-								if (currentlist[z] != course && over_lap(solutionlist[x][y].times, currentlist[z].times)) {
-									success = false;
-									break;
-								}
-							if (success) 
-								draw_option(solutionlist[x][y]);
-						}
-
+					course_data = load_course_data();
+					console.log(course_data);
+					opt_lst = course_data[course.courseCode][semester][course.code[0][0]];
+					draw_option(course);
+					for (var i = 0; i < opt_lst.length; i++) {
+						var ok = true;
+						for (var j = 0; j < currentlist.length; j++)
+							if (currentlist[j] != course && over_lap(opt_lst[i].times, currentlist[j].times)) {
+								ok = false;
+								break;
+							}
+						if (ok) draw_option(opt_lst[i]);
+					}
+					
 				});
 			}
 		}
