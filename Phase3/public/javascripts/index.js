@@ -6,7 +6,7 @@ var currentlist = [];
 var convert_day = { "MONDAY": 1,"TUESDAY": 2,"WEDNESDAY": 3,"THURSDAY": 4,"FRIDAY": 5};
 var back = ["PaleGoldenRod","lightblue","LightSalmon", "lightgreen", "lightpink", "Chocolate", "GreenYellow", "GoldenRod"];
 var option_back = ["MediumPurple", "Fuchsia", "Aqua"];
-var semester = '2017 FALL';
+var semester = '2017 Fall';
 // check if two course overlap
 var over_lap = function(a, b) {
 	for (var i = 0; i < a.length; i++)
@@ -19,6 +19,7 @@ var over_lap = function(a, b) {
 var draw_option = function(course) {
 	//var color = option_back[Math.floor(Math.random() * option_back.length)];
 	color = option_back[0];
+
 	for (var i = 0; i < course.times.length; i++) {
 		var col_num = convert_day[course.times[i].day];
 		for (var j = course.times[i].start/3600-7; j < course.times[i].end/3600-7; j++) {
@@ -47,16 +48,17 @@ var draw_option = function(course) {
 						for (var i = 0; i < course.code.length; i++)
 							ul.append($("<li></li>").text(course.code[i]).on("click", function(e) {
 								e.stopPropagation();
-								var index = ul.index(this);
+								var index = course.code.indexOf($(this).text());
+								console.log(index);
 								// swap code[0] and code[index];
 								var temp = course.code[0];
 								course.code[0] = course.code[index];
 								course.code[index] = temp;
-
+								console.log(course);
 								var replace_index = 0;
 								for (var j = 0; j < currentlist.length; j++) 
 									if (currentlist[j].courseCode == course.courseCode && currentlist[j].code[0][0] == course.code[0][0]) {
-										replace_index = w;
+										replace_index = j;
 										break;
 									}
 								
@@ -87,7 +89,6 @@ var draw_course = function(course) {
 				k.on("click", function() {
 					render_solution(cur);
 					course_data = load_course_data();
-					console.log(course_data);
 					opt_lst = course_data[course.courseCode][semester][course.code[0][0]];
 					draw_option(course);
 					for (var i = 0; i < opt_lst.length; i++) {
@@ -107,7 +108,6 @@ var draw_course = function(course) {
 };
 
 var clear_table = function() {
-	console.log("clear");
 	var k = $(".timetable tbody tr").find("td:gt(0)");
 	k.removeClass("course").css("background-color", "white");
 	k.text("").off().empty();
@@ -115,7 +115,6 @@ var clear_table = function() {
 
 var render_solution = function(index) {
 	clear_table();
-	console.log("render_solution");
 	var solution = solutionlist[index];
 	currentlist = solution;
 	cur = index;

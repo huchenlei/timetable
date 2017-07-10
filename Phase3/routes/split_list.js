@@ -70,14 +70,14 @@ function split_list(input, callback){
 function compare_timeslot(c1, c2) {
   var timeslot1 = c1.times;
   var timeslot2 = c2.times;
-  if (timeslot1.length !== timeslot2.length
-    || c1.code[0] !== c2.code[0]) {
+  if (timeslot1.length != timeslot2.length
+    || c1.code[0] != c2.code[0]) {
     return false;
   }
   for (var i = 0; i < timeslot1.length; i++) {
-    if (timeslot1[i].day !== timeslot2[i].day
-      || timeslot1[i].start !== timeslot2[i].start
-      || timeslot1[i].end !== timeslot2[i].end) {
+    if (timeslot1[i].day != timeslot2[i].day
+      || timeslot1[i].start != timeslot2[i].start
+      || timeslot1[i].end != timeslot2[i].end) {
       return false;
     }
   }
@@ -86,7 +86,7 @@ function compare_timeslot(c1, c2) {
 
 function remove(lst, item) {
   var i = lst.indexOf(item);
-  if (i === -1) {
+  if (i == -1) {
     return false;
   }
   lst.splice(i, 1);
@@ -130,6 +130,7 @@ function merge_sections(course_data) {
         if (compare_timeslot(cur_obj, all_sections[k])) {
           merge_unit.code.push(all_sections[k].code);
           all_sections.splice(k, 1);
+          k--;
         }
       }
       sections.push(merge_unit);
