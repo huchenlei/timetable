@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 // import { Course } from '../../models/course'
 import { CourseMin } from '../../models/course-min';
 import { TimetableSlot } from '../../models/timetable-slot';
@@ -62,7 +62,7 @@ const sample = [
   styleUrls: ['./timetable.component.css']
 })
 export class TimetableComponent implements OnInit {
-  solutionlist: CourseMin[][];
+  // solutionlist: CourseMin[][];
   // index of current solution
   cur;
   currentlist : CourseMin[] = [];
@@ -70,14 +70,14 @@ export class TimetableComponent implements OnInit {
   back = ["PaleGoldenRod","lightblue","LightSalmon", "lightgreen", "lightpink", "Chocolate", "GreenYellow", "GoldenRod"];
   option_back = ["MediumPurple", "Fuchsia", "Aqua"];
 
-  sampleSolution: CourseMin[][] = sample;
+  // sampleSolution: CourseMin[][] = sample;
+  solutionList : CourseMin[][];
   timetableSlot : TimetableSlot = new TimetableSlot();
   constructor() { }
 
   ngOnInit() {
     console.log(sample);
     this.timetableSlot = new TimetableSlot();
-    this.renderSolution(0)
   }
 
   overlap(a, b) {
@@ -95,10 +95,14 @@ export class TimetableComponent implements OnInit {
     }
     return items;
   }
+  updateSolution(solutionlist) {
+    this.solutionList = solutionlist;
+  }
 
   renderSolution(index) {
   	console.log("render_solution");
-  	var solution = this.sampleSolution[index];
+    console.log(this.solutionList)
+  	var solution = this.solutionList[index];
   	this.currentlist = solution;
   	this.cur = index;
   	for (var i = 0; i < solution.length; i++)
@@ -107,31 +111,25 @@ export class TimetableComponent implements OnInit {
   }
 
   drawCourse(course) {
-  	if (course.hasOwnProperty('color') == false)
-  		course.color = this.back[Math.floor(Math.random() * this.back.length)]
-  	for (var i = 0; i < course.times.length; i++) {
-  		var col_num = this.convert_day[course.times[i].day];
-  		for (var j = course.times[i].start/3600-7; j < course.times[i].end/3600-7; j++) {
-        if (j == course.times[i].start/3600-7) {
-        this.timetableSlot.setValue(i, j , {
+    course.color = this.back[0];
+    for (var i = 0; i < course.times.length; i++) {
+  		var col_num = this.convert_day[course.times[i].day] - 1;
+  		for (var j = course.times[i].start / 3600 - 7; j < course.times[i].end / 3600 - 7; j++) {
+      if (j == course.times[i].start / 3600 - 7) {
+        this.timetableSlot.setValue(col_num, j, {
           code: course.courseCode,
           section: course.code,
           color: course.color,
         })
       } else {
-        this.timetableSlot.setValue(i, j , {
+        this.timetableSlot.setValue(col_num, j, {
           code: " ",
           section: " ",
           color: course.color,
         })
       }
-  		// 	var k = $(".timetable tbody tr:nth-of-type(" + j + ") td:eq(" + col_num + ")");
-  		// 	k.addClass("course").css("background-color", course.color);
-  		// 	if (j == course.times[i].start/3600-7) {
-  		// 		k.text(course.courseCode + "\n" + course.code);
-  		// 	}
   		}
-  	}
+    }
   }
 
 }

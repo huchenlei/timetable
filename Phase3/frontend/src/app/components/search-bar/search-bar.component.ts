@@ -12,7 +12,7 @@ import 'rxjs/add/operator/filter';
   styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent implements OnInit {
-  options : Course[] = [];
+  // options : Course[] = [];
   @Output() addCourse = new EventEmitter<Course>()
   public fetchCourse = (query: string) => {
     // if (/[a-z]{3}[0-9]{3}/i.test(query)) {
@@ -23,7 +23,19 @@ export class SearchBarComponent implements OnInit {
       if (query.length >= 3) {
         return this.courseService
           .fetchCourse(query)
-          .then(result => Promise.resolve(result))
+          .then(result => {
+            const courses = new Set();
+            for (let i = 0; i < result.length; i++) {
+        		  const new_code = result[i].code.substr(0, 6);
+        		  if (!courses.has(new_code)) {
+        			  courses.add(new_code);
+        		  }
+        		}
+            let l = [];
+            courses.forEach(c => l.push({code:c}))
+            return Promise.resolve(l);
+          })
+          .catch(err => Promise.reject("Course not found"));
       }
       return Promise.resolve([]);
     }

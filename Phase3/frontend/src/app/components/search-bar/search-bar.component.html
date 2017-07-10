@@ -7,14 +7,16 @@
 </div> -->
 
 <ng-template let-result let-query="query" #template style="max-width：240px; overflow:hidden">
-    {{ result.code }}<br />
-    <span style="color: #999; font-size:11px; ">{{result.name}}</span>
+  {{ result.code }}<br />
+  <span style="color: #999; font-size:11px; ">{{result.name}}</span>
 </ng-template>
 
-<sui-search [options]="options"
-            optionsField="code"
-            placeholder="Search by course code"
-            [optionsLookup]="fetchCourse"
-            [resultTemplate]="template"
-            [retainSelectedResult]="false"
-            (resultSelected)="select($event)"></sui-search>
+<sui-search
+  [options]="options"
+  optionsField="code"
+  placeholder="Search by course code"
+  [optionsLookup]="fetchCourse"
+  [resultTemplate]="template"
+  [retainSelectedResult]="false"
+  (resultSelected)="select($event)">
+</sui-search>
