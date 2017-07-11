@@ -79,12 +79,14 @@ function populateCourseInfo(req, callback) {
       const result = [];
       for (var i = 0; i < courses.length; i++) {
         sections = courses[i].meeting_sections;
-        term = courses[i].term;
-        courseCode = courses[i].code.substr(0, 6);
+        var term = courses[i].term;
+        var courseCode = courses[i].code.substr(0, 6);
+        var title = courses[i].
         for (j = 0; j < sections.length; j++) {
           sections[j] = sections[j].toObject();
           sections[j].courseCode = courseCode;
           sections[j].term = term;
+          sections[j].name = name; 
         }
         result.push(sections);
       }
