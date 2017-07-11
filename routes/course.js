@@ -10,7 +10,11 @@ function getNewCourse(req, res) {
   var code = req.params.code;
   var semester = req.params.semester;
   console.log("Receive " + code);
-  database.courseSchema.find({code: new RegExp(code, 'i'), term: semester},
+  database.courseSchema.find({
+    code: new RegExp(code, 'i'),
+    term: semester,
+    campus: "UTSG"
+  },
     function(err, courses){
       if (courses.length == 0) {
         console.log("course not found");
