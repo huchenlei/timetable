@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <title>Login</title>
+  
+  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="stylesheets/login.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
+</head>
+
+<body>
+  {% if error %}
+  <div class="alert alert-danger alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Failed!</strong> {{ error }}
+  </div>
+  {% endif %}
+  <div class="wrapper">
+	<div class="container">
+		<h1>Welcome</h1>
+		<form id="login-form" class="form" action="/login" method="post">
+			<input type="text" id="userName" name="userName" placeholder="Username" autofocus>
+			<input type="password" id="passWord" name="passWord" placeholder="Password">
+			<button type="submit" id="login-button">Login</button>
+			<div id="checkbox" class="checkbox">
+			  <label><input type="checkbox" id="rememberme" value="">Remember me</label>
+			</div>
+		</form>
+	</div>
+
+	
+	<ul class="bg-bubbles">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+      <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="javascripts/login.js"></script>
+    <script> 
+    $("#login-button").click(function(event){
+    	event.preventDefault();
+    	if ($("#rememberme").prop('checked')) {
+    		setCookie("username", $("#userName").val(), 10000);
+    		setCookie("password", $("#passWord").val(), 10000);
+    	}
+		$('#login-form').submit();
+		$('form').fadeOut(500);
+		$('.wrapper').addClass('form-success');
+});
+</script>
+
+</body>
+</html>

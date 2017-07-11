@@ -1,0 +1,211 @@
+{% block body %}
+<!-- Testing for git branch/checkout -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>SmartTimetable</title>
+        <link rel="stylesheet" href="stylesheets/index-style.css">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    </head>
+    <body>
+        <header class="top-nav" id="body-content">
+
+            <div id="title" class="nav-description">Smart Timetable</div>
+            <div id="year" class="nav-description">2018(beta)</div>
+
+        </header>
+        
+        <div class="content-wrapper">
+            <section class="left-bar">
+                <h3>Course List</h3>
+                <div class="search-bar">
+                    <input type="text" placeholder="Course Code: csc108" id="search-by-coursecode">
+                    <input type="button" value='search' id="normal-search">
+                    <div id="resultViewWrapper">
+                        <div id="normal-search-result"></div>
+                    </div>
+                </div>
+                <div id="course-list">
+                    <table id="course-list-table">
+                    </table>
+                </div>
+                <button id="reset-btn" type="button" class="btn btn-primary" style="margin:5px">Reset</button>
+            </section>
+
+            <section class="main">
+                <section class="timetable">
+                    <div id="header-container">
+                        <h3 id="semester-header">
+                            Semester <span id="semester-content">2017 Fall</span>
+                            <div id="semester-select" class="btn-group">
+                              <button id="select-winter" type="button" class="btn btn-default">Winter</button>
+                              <button id="select-fall" type="button" class="btn btn-default">Fall</button>
+                            </div>
+                        </h3>
+                    </div>
+                    <template>
+                        <table id="timetable">
+                            <thead><tr><th class="first"></th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th></tr></thead>
+                            <tbody>
+                                <tr><td>8:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr>
+                                	<td>9:00</td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                </tr>
+                                <tr>
+                                	<td>10:00</td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                </tr>
+                                <tr>
+                                	<td>11:00</td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                </tr>
+                                <tr>
+                                	<td>12:00</td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                </tr>
+                                <tr>
+                                    <td>13:00</td>
+                                    <td></td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                	<td></td>
+                                </tr>
+                                <tr><td>14:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td>15:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td>16:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td>17:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td>18:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td>19:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td>20:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td>21:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><td>22:00</td><td></td><td></td><td></td><td></td><td></td></tr>
+                            </tbody>
+                        </table>
+                    </template>
+                    <img class="switch arrowleft" id="switch-left" alt="switch-left"
+                     src='leftarrow.png'>
+                    <img class="switch arrowright" id="switch-right" alt="switch-right"
+                     src='rightarrow.png'>
+                </section>
+            </section>
+            <section class="right-bar">
+                <div id="preferences">
+                    <form>
+                        <h3>Time Preferences</h3>
+                        <div class="preferences">
+                            <table>
+                                <tr>
+                                    <td>Monday</td>
+                                    <td>
+                                        <select name="mon" id="mon_preference">
+                                            <option value="any">any</option>
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                            <option value="no-class">no class</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Tuesday</td>
+                                    <td>
+                                        <select name="tue" id="tue_preference">
+                                            <option value="any">any</option>
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                            <option value="no-class">no class</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Wednesday</td>
+                                    <td>
+                                        <select name="wed" id="wed_preference">
+                                            <option value="any">any</option>
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                            <option value="no-class">no class</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Thursday</td>
+                                    <td>
+                                        <select name="thu" id="thu_preference">
+                                            <option value="any">any</option>
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                            <option value="no-class">no class</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Friday</td>
+                                    <td>
+                                        <select name="fri" id="fri_preference">
+                                            <option value="any">any</option>
+                                            <option value="morning">monring</option>
+                                            <option value="afternoon">afternoon</option>
+                                            <option value="evening">evening</option>
+                                            <option value="no-class">no class</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button id="save_preference" type="button" class="btn btn-primary" style="margin:5px">Apply</button>
+                            
+                        </div>
+                    </form>
+                </div>
+                <h3>Smart Solutions</h2>
+                <div id="solutions">
+                    <ul class="rolldown-list"></ul>
+                </div>
+            </section>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+      <!-- Latest compiled JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="javascripts/index.js"></script>
+        <script type="text/javascript">
+            var username = "{{ session.username }}";
+            var fullname = "{{ session.fullname }}";
+            var email = "{{ session.emailaddress }}";
+            var password = "{{ session.password }}";
+            localStorage.setItem("username", username);
+            localStorage.setItem("fullname", fullname);
+            localStorage.setItem("email", email);
+            localStorage.setItem("password", password);
+        </script>
+    </body>
+</html>
+{% endblock %}
