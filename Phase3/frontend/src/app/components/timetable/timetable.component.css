@@ -1,0 +1,19 @@
+td.follow-up {
+  border: 1px solid #fff !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
+
+td.head {
+  border: 1px solid #fff !important;
+  border-bottom: 0 !important;
+}
+
+td.head.lone {
+  border: 1px solid #fff !important;
+}
+
+td.tail {
+  border: 1px solid #fff !important;
+  border-top: 0 !important;
+}

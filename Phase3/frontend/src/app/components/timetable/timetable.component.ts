@@ -100,6 +100,7 @@ export class TimetableComponent implements OnInit {
   }
 
   renderSolution(index) {
+    this.cleanTable();
   	console.log("render_solution");
     console.log(this.solutionList)
   	var solution = this.solutionList[index];
@@ -108,6 +109,10 @@ export class TimetableComponent implements OnInit {
   	for (var i = 0; i < solution.length; i++)
   		this.drawCourse(solution[i]);
     console.log(this.timetableSlot.map);
+  }
+
+  cleanTable() {
+    this.timetableSlot = new TimetableSlot();
   }
 
   drawCourse(course) {
@@ -120,12 +125,21 @@ export class TimetableComponent implements OnInit {
           code: course.courseCode,
           section: course.code,
           color: course.color,
+          class: "head" + (((course.times[i].start / 3600 - 7 + 1) == (course.times[i].end / 3600 - 7)) ? " lone" : "")
+        })
+      } else if (j == (course.times[i].end / 3600 - 7 - 1)) {
+        this.timetableSlot.setValue(col_num, j, {
+          code: " ",
+          section: " ",
+          color: course.color,
+          class: "tail"
         })
       } else {
         this.timetableSlot.setValue(col_num, j, {
           code: " ",
           section: " ",
           color: course.color,
+          class: "follow-up"
         })
       }
   		}

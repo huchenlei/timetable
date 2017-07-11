@@ -3,7 +3,7 @@
     <div class="ui left vertical inverted labeled sidebar menu pushable push visible" style="overflow:overlay;">
 
         <div class="item logo-branding">
-            Timetable
+            <img src="../assets/images/logo-white.svg" alt="" id="logo"> Smart Timetable <sup>2018</sup>
         </div>
         <div class="item">
           <app-search-bar (addCourse)="addCourse($event)"></app-search-bar>
@@ -35,8 +35,13 @@
             </button>
         </div>
 
-        <div class="item user-profile">
-
+        <div class="item solutions">
+          <div class="header">
+              Solutions
+          </div>
+          <a *ngFor="let solution of solutionlist; let i = index" (click)="timetable.renderSolution(i)" class="solution">
+            Solution {{i}}
+          </a>
         </div>
     </div>
 </div>
