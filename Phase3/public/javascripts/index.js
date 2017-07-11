@@ -346,7 +346,7 @@ $(document).ready(function(){
 	$('#normal-search').click(function() {
 	  var course_code = $('#search-by-coursecode').val();
 
-	  var url = 'http://localhost:3000/courses/' + course_code;
+	  var url = 'http://localhost:3000/courses/' + course_code + '/semester/' + semester;
 
 	  $('#normal-search-result').empty();
 	  $.getJSON(url, function(result) {
@@ -378,7 +378,7 @@ $(document).ready(function(){
 			);
 		}
 		
-	  });
+	  }).catch(() => alert('Course not found in term ' + semester));
 	});
 	
 

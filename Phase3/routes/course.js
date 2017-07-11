@@ -8,8 +8,9 @@ var router = express.Router();
 
 function getNewCourse(req, res) {
   var code = req.params.code;
+  var semester = req.params.semester;
   console.log("Receive " + code);
-  database.courseSchema.find({code: new RegExp(code, 'i')},
+  database.courseSchema.find({code: new RegExp(code, 'i'), term: semester},
     function(err, courses){
       if (courses.length == 0) {
         console.log("course not found");
@@ -283,7 +284,7 @@ function deleteTimeslot(req, res) {
 
 // courseSchema
 router.post('/insertCourse', insertCourse);
-router.get('/:code', getNewCourse);
+router.get('/:code/semester/:semester', getNewCourse);
 //router.update('/updateCourse', updateCourse);
 
 //router.delete('/deleteCourse', deleteCourse);
