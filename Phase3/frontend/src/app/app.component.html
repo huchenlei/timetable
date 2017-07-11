@@ -13,7 +13,7 @@
                 Courses ({{selectedCourses.length}})
             </div>
             <app-course-item
-                *ngFor="let course of selectedCourses"
+                *ngFor="let course of selectedCourses[term]"
                 href=""
                 class="course ui grid"
                 [course]="course"
@@ -50,13 +50,13 @@
     <div class="ui container">
         <div class="ui segment">
           <div class="ui secondary pointing menu">
-            <a class="active item">
+            <a class="active item" (click)="selectTerm('2017 Fall')">
               Fall 2017
             </a>
-            <a class="item">
+            <a class="item" (click)="selectTerm('2017 Winter')">
               Winter 2018
             </a>
-            <a class="item disabled">
+            <a class="item disabled" >
               Summer 2018
             </a>
           </div>

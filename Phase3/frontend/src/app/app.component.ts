@@ -16,7 +16,8 @@ import { CourseService } from './services/course.service'
 export class AppComponent {
   title = 'app';
   selectedCourses = ['CSC108', 'CSC165', 'MAT137', 'PSY100', 'ECO100'];
-  courses: CourseMin[];
+  courses;
+  term : "2017 Fall" | "2018 Winter";
   solutionlist = [['CSC108L0101'], []]
   preferences = []
   @ViewChild(TimetableComponent) timetable: TimetableComponent;
@@ -27,6 +28,10 @@ export class AppComponent {
     this.courses = this.courseService.loadCourseData();
     this.selectedCourses = this.courseService.loadCourseList();
     // this.solutionlist =
+  }
+
+  selectTerm(term) {
+    this.term = term;
   }
   deleteCourse(course : string): void {
       this.selectedCourses.splice(this.selectedCourses.indexOf(course), 1);
