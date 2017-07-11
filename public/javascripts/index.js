@@ -220,8 +220,6 @@ function load_courselst() {
 			function () {$(this).find("span").toggleClass('hide')});
 		new_td.append(new_delete);
 	}
-	getSolutions();
-
 }
 
 function store_course_data(data) {
@@ -339,7 +337,7 @@ $(document).ready(function(){
   		load_preference();
   		getSolutions();
 	});
-	clear_table();
+	// clear_table();
 
 	/* Display all sections of courses searched
 	 * after typing some string inside search bar and press "search"
