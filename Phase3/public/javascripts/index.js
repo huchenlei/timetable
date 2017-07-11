@@ -158,6 +158,7 @@ var draw_course = function(course) {
 */
 
 var draw_course = function(course) {
+	console.log(semester);
 	course.color = back[0];
 	for (var i = 0; i < course.times.length; i++) {
 		var col_num = convert_day[course.times[i].day];
@@ -190,11 +191,13 @@ var clear_table = function() {
 
 var render_solution = function(index) {
 	clear_table();
-	var solution = solutionlist[index];
-	currentlist = solution;
-	cur = index;
-	for (var i = 0; i < solution.length; i++) 
-		draw_course(solution[i]);
+	if (solutionlist.length > 0) {
+		var solution = solutionlist[index];
+		currentlist = solution;
+		cur = index;
+		for (var i = 0; i < solution.length; i++) 
+			draw_course(solution[i]);
+	}
 };
 
 var course_list = [];
@@ -263,12 +266,15 @@ function load_courselst() {
 		new_td.append(new_div);
 
 		//add a new delete button to td
-		var new_delete = document.createElement('button');
-		new_delete.classList.add('delete');
-		new_delete.innerHTML = 'x';
+		var new_delete = document.createElement('span');
+		new_delete.setAttribute('class', 'glyphicon glyphicon-remove');
+		new_delete.setAttribute('aria-hidden', 'true');
+		new_delete.setAttribute('style', 'display:none;');
 		new_delete.id = course; 
 		new_delete.onclick = delete_course;
 		new_td.append(new_delete);
+		$(new_td).hover(() => new_delete.setAttribute('style', 'display:block;'),
+			() => new_delete.setAttribute('style', 'display:none;'));
 	}
 	getSolutions();
 
@@ -283,9 +289,8 @@ function load_course_data() {
 }
 
 function getSolutions() {
-	
 	if (JSON.parse(localStorage.courselist).length == 0) {
-		solutionlist = undefined;
+		solutionlist = [];
 		$("#solutions ul").empty();
 		clear_table();
 	} else {
@@ -300,7 +305,6 @@ function getSolutions() {
 			success: function(data) {
 				var course_data = JSON.parse(data.courses);
 				solutionlist = JSON.parse(data.solutions);
-				console.log(solutionlist);
 				store_course_data(course_data);
 				cur = 0;
 				currentlist = solutionlist[cur];
@@ -323,10 +327,11 @@ function getSolutions() {
 			}
 	  	});
 	}
-	if (solutionlist == undefined) 
+	if (solutionlist == undefined) {
 		localStorage.removeItem("solution");
-	else 
+	} else {
 		localStorage.solution = JSON.stringify(solutionlist);
+	}
 }
 function add_course(course_code) {
 	if (!localStorage.courselist) {
@@ -342,6 +347,26 @@ function add_course(course_code) {
 	getSolutions();
 };
 
+function set_semester(choice) {
+	$('#select-fall').removeClass('active');
+	$('#select-winter').removeClass('active');
+	$('#select-summer').removeClass('active');
+	if (choice == 'Fall') {
+		$('#select-fall').addClass('active');
+		semester = '2017 Fall';
+	} else if (choice == 'Winter') {
+		$('#select-winter').addClass('active');
+		semester = '2017 Winter';
+	} else {
+		$('#select-summer').addClass('active');
+		semester = '2017 Summer';
+	}
+	$('#semester-content').text(semester);
+	if (localStorage.solution) {
+		solutionlist = JSON.parse(localStorage.solution);
+		render_solution(0);
+	}
+}
 $(document).ready(function(){
 
 	load_courselst();
@@ -350,6 +375,10 @@ $(document).ready(function(){
 		solutionlist = JSON.parse(localStorage.solution);
 		render_solution(0);
 	}
+	$('#select-fall').on('click', () => set_semester('Fall'));
+	$('#select-winter').on('click', () => set_semester('Winter'));
+	$('#select-summer').on('click', () => set_semester('Summer'));
+	$('#select-fall').click();
 	//normal search area is initially hidden
 	$('#resultViewWrapper').hide();
 

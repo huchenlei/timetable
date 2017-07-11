@@ -105,7 +105,27 @@ header {
     height: 0;
     visibility: hidden;
 }
+#select-fall, #select-winter, #select-summer {
+    outline: none;
+}
+#semester-header {
+    position: relative;
+}
 
+#semester-select {
+    float: right;
+    right: 1%;
+    position: absolute;
+    top: -10%;
+}
+
+span.glyphicon {
+    position: absolute;
+    right: 6%;
+    top: 24%;
+    color: rgba(123, 123, 123, 0.498039);
+    cursor: pointer;
+}
 
 /*Side bars*/
 #course-lst td{
