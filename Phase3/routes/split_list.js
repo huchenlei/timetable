@@ -33,48 +33,66 @@ var input = [
   [c165l0101, c165l0501]
 ];*/
 
-function split_list(input, callback){
+function split_list(input, term, callback){
   if (input == null) return callback(input);
-  p_lst = input[0];   // preference list
   // convert the format of string value "type" in perference
-  for (z = 0; z < p_lst.length; z++) {
-    if (p_lst[z].type == "mon") p_lst[z].type = "MONDAY";
-    else if (p_lst[z].type == "tue") p_lst[z].type = "TUESDAY";
-    else if (p_lst[z].type == "wed") p_lst[z].type = "WEDNESDAY";
-    else if (p_lst[z].type == "thu") p_lst[z].type = "THURSDAY";
-    else if (p_lst[z].type == "fri") p_lst[z].type = "FRIDAY";
+  for (var i = 0; i < input[0].length; i++) {
+    if (input[0][i].type == "mon") input[0][i].type = "MONDAY";
+    else if (input[0][i].type == "tue") input[0][i].type = "TUESDAY";
+    else if (input[0][i].type == "wed") input[0][i].type = "WEDNESDAY";
+    else if (input[0][i].type == "thu") input[0][i].type = "THURSDAY";
+    else if (input[0][i].type == "fri") input[0][i].type = "FRIDAY";
   }
+  p_lst = input[0];
 
-  // split meeting-sections to 3 list: l, t and p
-  raw_lst = input.slice(1);
-  c_lst = [];   // course list
-  for (i = 0; i < raw_lst.length; i++) {
-    lectures = [];
-    tut = [];
-    pract = [];
-    for (j = 0; j < raw_lst[i].length; j++) {
-      if (raw_lst[i][j].code[0] == 'L') lectures.push(raw_lst[i][j]);
-      else if (raw_lst[i][j].code[0] == 'T') tut.push(raw_lst[i][j]);
-      else pract.push(raw_lst[i][j]);
+  input[1] = merge_sections(input.slice(1));
+  var coursedata = input[1];
+  for (var courseCode in coursedata) {
+    var types = coursedata[courseCode][term];
+    for (var type in types) {
+      var s = types[type];
+      for (var i = 0; i < s.length; i++) {
+        section = s[i];   // a course section
+        section.score = 0;
+        for (var j = 0; j < section.times.length; j++) {
+          t = section.times[j];   // current timeslot
+          time = "";
+          if (t.start < 43200) time = "morning";
+          else if (t.start < 64800) time = "afternoon";
+          else time = "evening";
+          for (var k = 0; k < p_lst.length; k++) {
+            p = p_lst[k];    // current preference
+            if (p.type == t.day) 
+              if (p.value == time)
+                section.score += t.duration;
+              else if (p.value == "no-class") 
+                section.score -= t.duration;
+          }
+          
+        }
+      }
+      s.sort(function (a, b) {
+        return b.score - a.score;
+      });
     }
-    if (lectures.length != 0) c_lst.push(lectures);
-    if (tut.length != 0) c_lst.push(tut);
-    if (pract.length != 0) c_lst.push(pract);
+      
   }
-  return callback([p_lst, c_lst]);
+    
+  
+  return callback(input);
 }
 
 function compare_timeslot(c1, c2) {
-  const timeslot1 = c1.times;
-  const timeslot2 = c2.times;
-  if (timeslot1.length !== timeslot2.length
-    || c1.code[0] !== c2.code[0]) {
+  var timeslot1 = c1.times;
+  var timeslot2 = c2.times;
+  if (timeslot1.length != timeslot2.length
+    || c1.code[0] != c2.code[0]) {
     return false;
   }
   for (var i = 0; i < timeslot1.length; i++) {
-    if (timeslot1[i].day !== timeslot2[i].day
-      || timeslot1[i].start !== timeslot2[i].start
-      || timeslot1[i].end !== timeslot2[i].end) {
+    if (timeslot1[i].day != timeslot2[i].day
+      || timeslot1[i].start != timeslot2[i].start
+      || timeslot1[i].end != timeslot2[i].end) {
       return false;
     }
   }
@@ -82,17 +100,16 @@ function compare_timeslot(c1, c2) {
 }
 
 function remove(lst, item) {
-  const i = lst.indexOf(item);
-  if (i === -1) {
+  var i = lst.indexOf(item);
+  if (i == -1) {
     return false;
-  } else {
-    lst.splice(i, 1);
-    return true;
   }
+  lst.splice(i, 1);
+  return true;
 }
 
 function nestedGetList(obj, keys) {
-  let cur_obj = obj;
+  var cur_obj = obj;
   for (var i = 0; i < keys.length; i++) {
     if (!(keys[i] in cur_obj)) {
       if (i < keys.length - 1) {
@@ -109,16 +126,17 @@ function nestedGetList(obj, keys) {
 
 function merge_sections(course_data) {
   // merge section with same timeslots
-  const merge_result = {};
+  var merge_result = {};
   for (var n = 0; n < course_data.length; n++) {
-    const all_sections = course_data[n].slice();
-    const courseCode = all_sections[0].courseCode;
-    const term = all_sections[0].term;
+    var all_sections = course_data[n].slice();
+    var courseCode = all_sections[0].courseCode;
+    var term = all_sections[0].term;
     for (var i = 0; i < all_sections.length; i++) {
-      const cur_obj = all_sections[i];
-      const type = cur_obj.code[0];
-      const sections = nestedGetList(merge_result, [courseCode, term, type]);
-      const merge_unit = {
+      var cur_obj = all_sections[i];
+      if (cur_obj.times.length == 0) continue;
+      var type = cur_obj.code[0];
+      var sections = nestedGetList(merge_result, [courseCode, term, type]);
+      var merge_unit = {
         courseCode: all_sections[0].courseCode,
         code: [cur_obj.code],
         times: cur_obj.times
@@ -127,6 +145,7 @@ function merge_sections(course_data) {
         if (compare_timeslot(cur_obj, all_sections[k])) {
           merge_unit.code.push(all_sections[k].code);
           all_sections.splice(k, 1);
+          k--;
         }
       }
       sections.push(merge_unit);

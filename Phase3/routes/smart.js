@@ -6,52 +6,63 @@ var over_lap = function(a, b) {
 				return true;
 	return false;
 }
-var solutionlist;
-var currentlist;
-var backtrack = function(courselist) {
-	if (currentlist.length == courselist.length) 
+var solutionlist, currentlist, course_data;
+var backtrack = function(courselist, clip_max) {
+	if (solutionlist.length >= 100) return;
+	if (currentlist.length == courselist.length) {
 		solutionlist.push(JSON.parse(JSON.stringify(currentlist)));
-	else {
-		var deapth = currentlist.length;
-		for (var i = 0; i < courselist[deapth].length; i++) {
+	} else {
+		var depth = currentlist.length;
+		var clip = Math.min(7, courselist[depth].length);
+		for (var i = 0; i < clip; i++) {
 			var ok = true;
-			for (var j = 0; j < deapth; j++) 
-				if (over_lap(courselist[deapth][i].times, currentlist[j].times)) {
+			for (var j = 0; j < depth; j++) 
+				if (over_lap(courselist[depth][i].times, currentlist[j].times)) {
 					ok = false;
+					break;
 				}
 			if (ok) {
-				currentlist.push(courselist[deapth][i]);
-				backtrack(courselist);
+				currentlist.push(courselist[depth][i]);
+				backtrack(courselist, clip_max);
 				currentlist.pop();
 			}
 		}
 	}
 }
 
-var compute_valid_solutions = function(input, callback) {
+var compute_valid_solutions = function(input, term, callback) {
 	solutionlist = [];
 	currentlist = [];
 
-	c_lst = input[1];
+	course_data = input[1];
 	p_lst = input[0];
-	backtrack(c_lst);
+	c_lst = [];
+	for (var key in course_data) 
+		for (var type in course_data[key][term]) 
+			c_lst.push(course_data[key][term][type]);
+
+	backtrack(c_lst, 7);
+	if (solutionlist.length == 0)	backtrack(c_lst, 1000);
 
 	
-	for (i = 0; i < solutionlist.length; i++) {
+	for (var i = 0; i < solutionlist.length; i++) {
 		s = solutionlist[i];	// a solution
 		s.score = 0;
-		for (j = 0; j < s.length; j++) {
+		for (var j = 0; j < s.length; j++) {
 			section = s[j];   // a course section
-			for (k = 0; k < section.times.length; k++) {
+			for (var k = 0; k < section.times.length; k++) {
 				t = section.times[k];   // current timeslot
 				time = "";
 				if (t.start < 43200) time = "morning";
 				else if (t.start < 64800) time = "afternoon";
 				else time = "evening";
-				for (z = 0; z < p_lst.length; z++) {
+				for (var z = 0; z < p_lst.length; z++) {
 					p = p_lst[z];    // current preference
-					if (p.type == t.day && p.value == time)
-						s.score += t.duration;
+					if (p.type == t.day) 
+						if (p.value == time)
+							s.score += t.duration;
+						else if (p.value == "no-class") 
+							s.score -= t.duration;
 				}
 			}
 		}

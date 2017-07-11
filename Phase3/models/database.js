@@ -241,7 +241,7 @@ course.pre('remove', function(next) {
 });
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/timetable');
+mongoose.connect('mongodb://dev:devdev@ds153732.mlab.com:53732/smart-timetable');
 var courseSchema = mongoose.model('courses', course);
 var courseSectionSchema = mongoose.model('course_sections', courseSection);
 var courseTimeSchema = mongoose.model('course_times', courseTime);

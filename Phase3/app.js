@@ -75,19 +75,20 @@ function populateCourseInfo(req, callback) {
   database.courseSchema
     .find({
       code: new RegExp(req.courseCode, 'i'),
-      campus: "UTSG",
-      term: new RegExp("2017 Fall", 'i')
+      campus: "UTSG"
     })
     .exec(function(err, courses){
       const result = [];
       for (var i = 0; i < courses.length; i++) {
         sections = courses[i].meeting_sections;
-        term = courses[i].term;
-        courseCode = courses[i].code.substr(0, 6);
+        var term = courses[i].term;
+        var courseCode = courses[i].code.substr(0, 6);
+        var name = courses[i].name;
         for (j = 0; j < sections.length; j++) {
           sections[j] = sections[j].toObject();
           sections[j].courseCode = courseCode;
           sections[j].term = term;
+          sections[j].name = name;
         }
         result.push(sections);
       }
@@ -99,7 +100,7 @@ function find_all_sections(courses, callback) {
   var counter = 0;
   for (var i = courses.length - 1; i >= 0; i--) {
         var section = {
-          courseCode: courses[i],
+          courseCode: courses[i]
         }
         populateCourseInfo(section, function(result) {
           results = results.concat(result);
@@ -117,6 +118,7 @@ var compute_valid_solutions = require('./routes/smart');
 function smart(req, res) {
   const courselist = JSON.parse(req.body.courselist);
   const preferences_raw = JSON.parse(req.body.preferences);
+  const term = req.body.term;
   const preferences = [];
   for (var type in preferences_raw) {
     preferences.push({
@@ -130,11 +132,11 @@ function smart(req, res) {
       var output = [];
       output.push(preferences);
       output = output.concat(results);
-      split_list(output, function(splited) {
-        compute_valid_solutions(splited, function(solutions) {
+      split_list(output, term, function(list) {
+        compute_valid_solutions(list, term, function(solutions) {
           return res.json({
             solutions: JSON.stringify(solutions),
-            courses: JSON.stringify(results)
+            courses: JSON.stringify(list[1])
           });
         });
       });
@@ -142,7 +144,7 @@ function smart(req, res) {
 
 }
 app.post('/smart', smart);
-app.listen(3000, function () {
+app.listen(process.env.PORT || 3000, function () {
   console.log('listening on port 3000!');
 });
 
