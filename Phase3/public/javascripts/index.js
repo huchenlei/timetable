@@ -247,6 +247,7 @@ function getSolutions() {
 			}, 
 			success: function(data) {
 				var course_data = JSON.parse(data.courses);
+				if (!solutionlist) solutionlist = {"2017 Fall": [], "2018 Winter": []};
 				solutionlist[semester] = JSON.parse(data.solutions);
 				store_course_data(course_data);
 				if (solutionlist[semester].length == 0) alert("No valid solution, try other combination of courses!");
@@ -309,10 +310,6 @@ $(document).ready(function(){
 
 	load_courselst();
 	load_preference();
-	if (localStorage.solution) {
-		solutionlist = JSON.parse(localStorage.solution);
-		render_solution(0);
-	}
 	$('#select-fall').on('click', () => set_semester('Fall'));
 	$('#select-winter').on('click', () => set_semester('Winter'));
 	$('#select-fall').click();
@@ -337,8 +334,11 @@ $(document).ready(function(){
   		load_preference();
   		getSolutions();
 	});
-	// clear_table();
-
+	clear_table();
+	if (localStorage.solution) {
+		solutionlist = JSON.parse(localStorage.solution);
+		render_solution(0);
+	}
 	/* Display all sections of courses searched
 	 * after typing some string inside search bar and press "search"
 	 */
