@@ -16,61 +16,6 @@ var over_lap = function(a, b) {
 				return true;
 	return false;
 };
-/*
-var draw_option = function(course) {
-	color = option_back[0];
-	for (var i = 0; i < course.times.length; i++) {
-		var col_num = convert_day[course.times[i].day];
-		for (var j = course.times[i].start/3600-7; j < course.times[i].end/3600-7; j++) {
-			var k = $(".timetable tbody tr:nth-of-type(" + j + ") td:eq(" + col_num + ")");
-			k.addClass("course").css("background-color", color);
-			if (j == course.times[i].start/3600-7) {
-				if (course.code.length == 1) {
-					k.text("Option: " + course.code[0]).on("click", function() {
-						for (var i = 0; i < currentlist.length; i++)
-							if (currentlist[i].courseCode == course.courseCode && currentlist[i].code[0][0] == course.code[0][0]) {
-								currentlist.splice(i, 1, course);
-								render_solution(cur);
-								break;
-							}
-					});
-				} else {
-					k.text("Options: " + course.code[0] + "/...");
-					k.off().on("click", function() {
-						div = $("<div></div>").addClass("stacklist");
-						ul = $("<ul></ul>").css("list-style-type", "none");
-						ul.css("width", k.css("width"));
-						ul.append($("<li></li>").text("Select One").on("click", function(e) {
-							e.stopPropagation();
-							render_solution(cur);
-						}));
-						for (var i = 0; i < course.code.length; i++)
-							ul.append($("<li></li>").text(course.code[i]).on("click", function(e) {
-								e.stopPropagation();
-								var index = course.code.indexOf($(this).text());
-								// swap code[0] and code[index];
-								var temp = course.code[0];
-								course.code[0] = course.code[index];
-								course.code[index] = temp;
-								var replace_index = 0;
-								for (var j = 0; j < currentlist.length; j++) 
-									if (currentlist[j].courseCode == course.courseCode && currentlist[j].code[0][0] == course.code[0][0]) {
-										replace_index = j;
-										break;
-									}
-								
-								currentlist.splice(replace_index, 1, course);
-								localStorage.solution = JSON.stringify(solutionlist);
-								render_solution(cur);
-								return;
-							}));
-						k.append(div.append(ul));
-					});
-				}
-			}
-		}
-	}
-};*/
 
 var draw_option = function(course) {
 	color = back[1];
@@ -137,39 +82,7 @@ var draw_option = function(course) {
 	}
 	
 };
-/*
-var draw_course = function(course) {
-	//if (course.hasOwnProperty('color') == false) 
-		//course.color = back[Math.floor(Math.random() * back.length)];
-	course.color = back[0];
-	for (var i = 0; i < course.times.length; i++) {
-		var col_num = convert_day[course.times[i].day];
-		for (var j = course.times[i].start/3600-7; j < course.times[i].end/3600-7; j++) {
-			var k = $(".timetable tbody tr:nth-of-type(" + j + ") td:eq(" + col_num + ")");
-			k.addClass("course").css("background-color", course.color);
-			if (j == course.times[i].start/3600-7) {
-				k.text(course.courseCode + "\n" + course.code[0]);
-				k.on("click", function() {
-					render_solution(cur);
-					course_data = load_course_data();
-					opt_lst = course_data[course.courseCode][semester][course.code[0][0]];
-					draw_option(course);
-					for (var i = 0; i < opt_lst.length; i++) {
-						var ok = true;
-						for (var j = 0; j < currentlist.length; j++)
-							if (currentlist[j] != course && over_lap(opt_lst[i].times, currentlist[j].times)) {
-								ok = false;
-								break;
-							}
-						if (ok) draw_option(opt_lst[i]);
-					}
-					
-				});
-			}
-		}
-	}
-};
-*/
+
 
 var draw_course = function(course) {
 	console.log(semester);
@@ -303,9 +216,10 @@ function load_courselst() {
 		new_delete.setAttribute('aria-hidden', 'true');
 		new_delete.id = course; 
 		new_delete.onclick = delete_course;
+		
+		$(new_td).hover(function () {$(this).find("span").toggleClass('hide')},
+			function () {$(this).find("span").toggleClass('hide')});
 		new_td.append(new_delete);
-		$(new_td).hover(() => $(new_delete).toggleClass('hide'),
-			() => $(new_delete).toggleClass('hide'));
 	}
 	getSolutions();
 
