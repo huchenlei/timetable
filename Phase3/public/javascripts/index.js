@@ -152,9 +152,9 @@ var course_taking;
 
 function delete_course() {
    const courselist = JSON.parse(localStorage.courselist);
-   var i = courselist.indexOf(this.id);
+   var i = courselist[semester].indexOf(this.id);
    if (i >= 0) {
-   	  courselist.splice(i , 1);
+   	  courselist[semester].splice(i , 1);
    }
    localStorage.courselist = JSON.stringify(courselist);
    load_courselst();
@@ -184,18 +184,17 @@ function load_preference() {
 
 
 function load_courselst() {
-	localStorage.term = '2017 Fall';
 	$('#course-list-table').empty();
 	let courselist;
 	if (localStorage.courselist) {
 		courselist = JSON.parse(localStorage.courselist);
 
 	} else {
-		courselist = [];
+		courselist = {"2017 Fall":[], "2018 Winter":[], "2017 Summer":[]};
 		localStorage.courselist = JSON.stringify(courselist);
 	}
-	for (var i = 0; i < courselist.length; i++) {
-		course = courselist[i];
+	for (var i = 0; i < courselist[semester].length; i++) {
+		course = courselist[semester][i];
 		var new_tr = document.createElement('tr');
 		new_tr.classList.add('course-item');
 		$('#course-list-table').append(new_tr);
@@ -225,8 +224,8 @@ function load_courselst() {
 
 }
 
-function store_course_data(courselist) {
-	localStorage.course_data = JSON.stringify(courselist);
+function store_course_data(data) {
+	localStorage.course_data = JSON.stringify(data);
 }
 
 function load_course_data() {
@@ -234,7 +233,8 @@ function load_course_data() {
 }
 
 function getSolutions() {
-	if (JSON.parse(localStorage.courselist).length == 0) {
+	console.log("here");
+	if (JSON.parse(localStorage.courselist)[semester].length == 0) {
 		solutionlist = [];
 		$("#solutions ul").empty();
 		clear_table();
@@ -243,8 +243,8 @@ function getSolutions() {
 			type: 'POST',
 			url: '/smart', 
 			data: {
-				term: localStorage.term,
-			  	courselist: localStorage.courselist,
+				term: semester,
+			  	courselist: JSON.stringify(JSON.parse(localStorage.courselist)[semester]),
 			  	preferences: localStorage.preferences
 			}, 
 			success: function(data) {
@@ -269,6 +269,7 @@ function getSolutions() {
 			    $("#switch-right").on("click",function() {
 				  render_solution((cur+1)%solutionlist.length);
 			    });
+				localStorage.solution = JSON.stringify(solutionlist);
 			}
 	  	});
 	}
@@ -279,15 +280,11 @@ function getSolutions() {
 	}
 }
 function add_course(course_code) {
-	if (!localStorage.courselist) {
-		localStorage.courselist = JSON.stringify([course_code]);
-	} else {
-		const courselist = JSON.parse(localStorage.courselist);
-		if (courselist.indexOf(course_code) == -1) {
-			courselist.push(course_code);
-		}
-		localStorage.courselist = JSON.stringify(courselist);
-	}
+	const courselist = JSON.parse(localStorage.courselist);
+	if (courselist[semester].indexOf(course_code) == -1) 
+		courselist[semester].push(course_code);
+	
+	localStorage.courselist = JSON.stringify(courselist);
 	load_courselst();
 	getSolutions();
 };
@@ -295,21 +292,18 @@ function add_course(course_code) {
 function set_semester(choice) {
 	$('#select-fall').removeClass('active');
 	$('#select-winter').removeClass('active');
-	$('#select-summer').removeClass('active');
 	if (choice == 'Fall') {
 		$('#select-fall').addClass('active');
 		semester = '2017 Fall';
 	} else if (choice == 'Winter') {
 		$('#select-winter').addClass('active');
-		semester = '2017 Winter';
-	} else {
-		$('#select-summer').addClass('active');
-		semester = '2017 Summer';
+		semester = '2018 Winter';
 	}
+	load_courselst();
 	$('#semester-content').text(semester);
 	if (localStorage.solution) {
 		solutionlist = JSON.parse(localStorage.solution);
-		render_solution(0);
+		getSolutions();
 	}
 }
 $(document).ready(function(){
@@ -322,7 +316,6 @@ $(document).ready(function(){
 	}
 	$('#select-fall').on('click', () => set_semester('Fall'));
 	$('#select-winter').on('click', () => set_semester('Winter'));
-	$('#select-summer').on('click', () => set_semester('Summer'));
 	$('#select-fall').click();
 	//normal search area is initially hidden
 	$('#resultViewWrapper').hide();

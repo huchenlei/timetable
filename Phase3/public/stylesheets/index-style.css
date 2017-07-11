@@ -501,22 +501,7 @@ input[type='submit']:hover, input[type='button']:hover {
     }
 }
 @media screen and (max-width: 700px) {
-	#signup-button, #login-button {
-		width: 6em;
-	}
-	#link-smart-button {
-		width: 6em;
-		display: block;
-	}
-	.main #search-by-coursecode {
-		width: 100%;
-		margin-bottom: 0.15em;
-	}
-	.main .search-bar input[type='button'] {
-		width: 100%;
-		display: block;
-		margin-bottom: 0.15em;
-	}
+
 	.main .timetable .arrowleft, .main .timetable .arrowright{
 		top: 60%;
 	}
@@ -545,9 +530,6 @@ input[type='submit']:hover, input[type='button']:hover {
 }
 
 @media screen and (max-width: 480px) {
-	#signup-button, #login-button, #link-smart-button {
-		width: 100%;
-	}
 	header {
 		height: 11em;
 	}
