@@ -8,9 +8,10 @@ var over_lap = function(a, b) {
 }
 var solutionlist, currentlist, course_data;
 var backtrack = function(courselist) {
-	if (currentlist.length == courselist.length) 
+	if (solutionlist.length >= 100) return;
+	if (currentlist.length == courselist.length) {
 		solutionlist.push(JSON.parse(JSON.stringify(currentlist)));
-	else {
+	} else {
 		var depth = currentlist.length;
 		for (var i = 0; i < courselist[depth].length; i++) {
 			var ok = true;
