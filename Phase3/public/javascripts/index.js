@@ -136,8 +136,8 @@ var clear_table = function() {
 
 var render_solution = function(index) {
 	clear_table();
-	if (solutionlist.length > 0) {
-		var solution = solutionlist[index];
+	if (solutionlist[semester].length > 0) {
+		var solution = solutionlist[semester][index];
 		currentlist = solution;
 		cur = index;
 		for (var i = 0; i < solution.length; i++) 
@@ -233,9 +233,9 @@ function load_course_data() {
 }
 
 function getSolutions() {
-	console.log("here");
+	console.log("get solutionlist");
 	if (JSON.parse(localStorage.courselist)[semester].length == 0) {
-		solutionlist = [];
+
 		$("#solutions ul").empty();
 		clear_table();
 	} else {
@@ -249,13 +249,13 @@ function getSolutions() {
 			}, 
 			success: function(data) {
 				var course_data = JSON.parse(data.courses);
-				solutionlist = JSON.parse(data.solutions);
+				solutionlist[semester] = JSON.parse(data.solutions);
 				store_course_data(course_data);
 				cur = 0;
-				currentlist = solutionlist[cur];
+				currentlist = solutionlist[semester][cur];
 				render_solution(cur);
 				$("#solutions ul").empty();
-				for (var i = 0; i < solutionlist.length; i++) {
+				for (var i = 0; i < solutionlist[semester].length; i++) {
 				  $("#solutions ul").append("<li>Solution " + (i+1) + "</li>");
 				}
 				$("#solutions li").on("click", function() {
@@ -264,17 +264,17 @@ function getSolutions() {
 
 				});
 				$("#switch-left").on("click",function() {
-				  render_solution((cur-1+solutionlist.length)%solutionlist.length);
+				  render_solution((cur-1+solutionlist[semester].length)%solutionlist[semester].length);
 			    });
 			    $("#switch-right").on("click",function() {
-				  render_solution((cur+1)%solutionlist.length);
+				  render_solution((cur+1)%solutionlist[semester].length);
 			    });
 				localStorage.solution = JSON.stringify(solutionlist);
 			}
 	  	});
 	}
 	if (solutionlist == undefined) {
-		localStorage.removeItem("solution");
+		localStorage.solution = JSON.stringify({"2017 Fall": [], "2018 Winter": []});
 	} else {
 		localStorage.solution = JSON.stringify(solutionlist);
 	}
@@ -303,7 +303,7 @@ function set_semester(choice) {
 	$('#semester-content').text(semester);
 	if (localStorage.solution) {
 		solutionlist = JSON.parse(localStorage.solution);
-		getSolutions();
+		render_solution(0);
 	}
 }
 $(document).ready(function(){
