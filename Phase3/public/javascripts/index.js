@@ -6,6 +6,7 @@ var currentlist = [];
 var convert_day = { "MONDAY": 1,"TUESDAY": 2,"WEDNESDAY": 3,"THURSDAY": 4,"FRIDAY": 5};
 var back = ["PaleGoldenRod","lightblue","LightSalmon", "lightgreen", "lightpink", "Chocolate", "GreenYellow", "GoldenRod"];
 var option_back = ["MediumPurple", "Fuchsia", "Aqua"];
+var table_delete_counter = [];
 var semester = '2017 Fall';
 // check if two course overlap
 var over_lap = function(a, b) {
@@ -75,8 +76,21 @@ var draw_option = function(course) {
 	color = back[1];
 	for (var i = 0; i < course.times.length; i++) {
 		var col_num = convert_day[course.times[i].day];
-		var k = $(".timetable tbody tr:nth-of-type(" + (course.times[i].start/3600-7) + ") td:eq(" + col_num + ")");
+		var first_row = course.times[i].start/3600-7;
+		for (var j = 1 + first_row; j < course.times[i].end/3600 - 7; j++) {
+			table_delete_counter[j-1][col_num-1] = 1;
+			var cnt = 0;
+			for (var z = 0; z < col_num-1; z++) 
+				cnt += table_delete_counter[j-1][z];
+			var t = $(".timetable table tr:nth-of-type(" + j + ") td:eq(" + (col_num - cnt) + ")");
+			t.remove();
+		}
+		var cnt = 0;
+		for (var z = 0; z < col_num-1; z++) 
+			cnt += table_delete_counter[first_row-1][z];
+		var k = $(".timetable tbody tr:nth-of-type(" + first_row + ") td:eq(" + (col_num - cnt) + ")");
 		k.attr("rowspan", course.times[i].duration/3600).addClass("course").css("background-color", color);
+
 		k.css("border", "2px black solid");
 		if (course.code.length == 1) {
 			k.text("Option: " + course.code[0]).on("click", function() {
@@ -161,7 +175,19 @@ var draw_course = function(course) {
 	course.color = back[0];
 	for (var i = 0; i < course.times.length; i++) {
 		var col_num = convert_day[course.times[i].day];
-		var k = $(".timetable tbody tr:nth-of-type(" + (course.times[i].start/3600-7) + ") td:eq(" + col_num + ")");
+		var first_row = course.times[i].start/3600-7;
+		for (var j = 1 + first_row; j < course.times[i].end/3600 - 7; j++) {
+			table_delete_counter[j-1][col_num-1] = 1;
+			var cnt = 0;
+			for (var z = 0; z < col_num-1; z++) 
+				cnt += table_delete_counter[j-1][z];
+			var t = $(".timetable table tr:nth-of-type(" + j + ") td:eq(" + (col_num - cnt) + ")");
+			t.remove();
+		}
+		var cnt = 0;
+		for (var z = 0; z < col_num-1; z++) 
+			cnt += table_delete_counter[first_row-1][z];
+		var k = $(".timetable tbody tr:nth-of-type(" + first_row + ") td:eq(" + (col_num - cnt) + ")");
 		k.attr("rowspan", course.times[i].duration/3600).addClass("course").css("background-color", course.color);
 		k.css("border", "2px black solid");
 		k.text(course.courseCode + "\n" + course.code[0]).on("click", function() {
@@ -182,10 +208,16 @@ var draw_course = function(course) {
 	}
 };
 var clear_table = function() {
-	var k = $(".timetable tbody tr").find("td:gt(0)");
-	k.removeClass("course").css("background-color", "white");
-	k.attr("rowspan", 1).css("border", "none").css("border-bottom", "1px solid #ccc");
-	k.text("").off().empty();
+	table_delete_counter = [];
+	for (var i = 0; i < 15; i++) {
+		var t = [];
+		for (var j = 0; j < 5; j++) t.push(0);
+		table_delete_counter.push(t);
+	}
+	
+	var t = $("template").clone();
+	$(".timetable table").remove();
+	$(".timetable").append(t.html());
 };
 
 var render_solution = function(index) {
@@ -365,7 +397,7 @@ $(document).ready(function(){
   		load_preference();
   		getSolutions();
 	});
-	
+	clear_table();
 
 	/* Display all sections of courses searched
 	 * after typing some string inside search bar and press "search"
