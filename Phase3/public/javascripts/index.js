@@ -158,6 +158,7 @@ function delete_course() {
    }
    localStorage.courselist = JSON.stringify(courselist);
    load_courselst();
+   getSolutions();
 }
 
 function load_preference() {
@@ -219,8 +220,6 @@ function load_courselst() {
 			function () {$(this).find("span").toggleClass('hide')});
 		new_td.append(new_delete);
 	}
-	getSolutions();
-
 }
 
 function store_course_data(data) {
@@ -234,6 +233,7 @@ function load_course_data() {
 function getSolutions() {
 	console.log("get solutionlist");
 	if (JSON.parse(localStorage.courselist)[semester].length == 0) {
+
 		$("#solutions ul").empty();
 		clear_table();
 	} else {
@@ -285,6 +285,7 @@ function add_course(course_code) {
 	
 	localStorage.courselist = JSON.stringify(courselist);
 	load_courselst();
+	getSolutions();
 };
 
 function set_semester(choice) {
@@ -336,7 +337,7 @@ $(document).ready(function(){
   		load_preference();
   		getSolutions();
 	});
-	clear_table();
+	// clear_table();
 
 	/* Display all sections of courses searched
 	 * after typing some string inside search bar and press "search"
