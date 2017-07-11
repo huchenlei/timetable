@@ -230,6 +230,23 @@ function load_course_data() {
 	return JSON.parse(localStorage.course_data);
 }
 
+function load_solution_list() {
+	$("#solutions ul").empty();
+	for (var i = 0; i < solutionlist[semester].length; i++) {
+	  $("#solutions ul").append("<li>Solution " + (i+1) + "</li>");
+	}
+	$("#solutions li").on("click", function() {
+	  console.log($("#solutions li").index(this));
+	  render_solution($("#solutions li").index(this));
+	});
+	$("#switch-left").on("click",function() {
+	  render_solution((cur-1+solutionlist[semester].length)%solutionlist[semester].length);
+    });
+    $("#switch-right").on("click",function() {
+	  render_solution((cur+1)%solutionlist[semester].length);
+    });
+}
+
 function getSolutions() {
 	console.log("get solutionlist");
 	if (JSON.parse(localStorage.courselist)[semester].length == 0) {
@@ -261,7 +278,6 @@ function getSolutions() {
 				$("#solutions li").on("click", function() {
 				  console.log($("#solutions li").index(this));
 				  render_solution($("#solutions li").index(this));
-
 				});
 				$("#switch-left").on("click",function() {
 				  render_solution((cur-1+solutionlist[semester].length)%solutionlist[semester].length);
@@ -338,6 +354,7 @@ $(document).ready(function(){
 	if (localStorage.solution) {
 		solutionlist = JSON.parse(localStorage.solution);
 		render_solution(0);
+		load_solution_list();
 	}
 	/* Display all sections of courses searched
 	 * after typing some string inside search bar and press "search"
