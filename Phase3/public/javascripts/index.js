@@ -190,7 +190,7 @@ function load_courselst() {
 		courselist = JSON.parse(localStorage.courselist);
 
 	} else {
-		courselist = {"2017 Fall":[], "2018 Winter":[], "2017 Summer":[]};
+		courselist = {"2017 Fall":[], "2018 Winter":[]};
 		localStorage.courselist = JSON.stringify(courselist);
 	}
 	for (var i = 0; i < courselist[semester].length; i++) {
@@ -317,6 +317,12 @@ $(document).ready(function(){
 	$('#select-fall').on('click', () => set_semester('Fall'));
 	$('#select-winter').on('click', () => set_semester('Winter'));
 	$('#select-fall').click();
+
+	$("#reset-btn").on("click", function() {
+		localStorage.clear();
+		window.location.reload(true);
+	});
+
 	//normal search area is initially hidden
 	$('#resultViewWrapper').hide();
 

@@ -448,49 +448,53 @@ input[type='submit']:hover, input[type='button']:hover {
     filter: alpha(opacity=100);
 }
 
+/* reset prompt */
+#reset-prompt-wrapper {
+  margin: 40px;
+  background: #D6C2A3;
+  width: calc(100% - 80px);
+}
 
-/*main end*/
-/*
-@media (max-width: 580px) {
-	.left-bar{
-		visibility: hidden;
-		display: none;
-	}
-	.right-bar {
-		visibility: hidden;
-		display: none;
-	}
-	.content-wrapper {
+#reset-prompt-wrapper h1 {
+  display: block;
+  padding: 20px 20px 12px;
+  font: 700 36px 'Open Sans', sans-serif;
+  background: #E84949;
+  color: #FAFAFA;
+  text-transform: uppercase;
+}
 
-		position: relative;
-		height: 80vh;
-	}
-	.main {
-		position: relative;
-		height: 80vh;
-		overflow: auto;
-		float: left;
-		width: 100%;
-	}
-	.search-bar {
-		width: 100%;
-	}
-	.main #search-by-coursecode {
-		width: 50%;
-	}
-	#normal-search {
-		width: 23%;
-	}
-	#show-advanced {
-		width: 23%;
-	}
-	.main .timetable .arrowleft {
-		left: 1%;
-	}
-	.main .timetable .arrowright {
-		left: 90%;
-	}
-}*/
+#reset-prompt-wrapper #prompt {
+  padding: 20px;
+}
+
+#reset-prompt-wrapper #prompt p {
+  padding-bottom: 8px;
+}
+
+#reset-prompt-wrapper #prompt p b {
+  font-weight: 700;
+}
+
+#reset-prompt-wrapper #options {
+  display: flex;
+  padding: 0px 20px 28px;
+  text-align: center;
+}
+
+#reset-prompt-wrapper #options button {
+  margin: 0px 8px;
+  padding: 8px 20px;
+  background: #C2AE8F;
+  width: 100%;
+  cursor: pointer;
+}
+
+#reset-prompt-wrapper #options button:hover,
+#reset-prompt-wrapper #options button:active {
+  background: #E84949;
+  color: #FAFAFA;
+}
 @media screen and (max-width: 1024px) {
 
     .right-bar h2, .left-bar h2 {
