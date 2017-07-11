@@ -130,7 +130,7 @@ function smart(req, res) {
       var output = [];
       output.push(preferences);
       output = output.concat(results);
-      split_list(output, function(list) {
+      split_list(output, term, function(list) {
         compute_valid_solutions(list, term, function(solutions) {
           return res.json({
             solutions: JSON.stringify(solutions),
