@@ -33,7 +33,7 @@ var input = [
   [c165l0101, c165l0501]
 ];*/
 
-function split_list(input, callback){
+function split_list(input, term, callback){
   if (input == null) return callback(input);
   // convert the format of string value "type" in perference
   for (var i = 0; i < input[0].length; i++) {
@@ -43,27 +43,42 @@ function split_list(input, callback){
     else if (input[0][i].type == "thu") input[0][i].type = "THURSDAY";
     else if (input[0][i].type == "fri") input[0][i].type = "FRIDAY";
   }
+  p_lst = input[0];
 
   input[1] = merge_sections(input.slice(1));
-  /*
-  // split meeting-sections to 3 list: l, t and p
-  raw_lst = input.slice(1);
-  c_lst = [];   // course list
-  for (i = 0; i < raw_lst.length; i++) {
-    lectures = [];
-    tut = [];
-    pract = [];
-    for (j = 0; j < raw_lst[i].length; j++) {
-      if (raw_lst[i][j].code[0] == 'L') lectures.push(raw_lst[i][j]);
-      else if (raw_lst[i][j].code[0] == 'T') tut.push(raw_lst[i][j]);
-      else pract.push(raw_lst[i][j]);
+  var coursedata = input[1];
+  for (var courseCode in coursedata) {
+    var types = coursedata[courseCode][term];
+    for (var type in types) {
+      var s = types[type];
+      for (var i = 0; i < s.length; i++) {
+        section = s[i];   // a course section
+        section.score = 0;
+        for (var j = 0; j < section.times.length; j++) {
+          t = section.times[j];   // current timeslot
+          time = "";
+          if (t.start < 43200) time = "morning";
+          else if (t.start < 64800) time = "afternoon";
+          else time = "evening";
+          for (var k = 0; k < p_lst.length; k++) {
+            p = p_lst[k];    // current preference
+            if (p.type == t.day) 
+              if (p.value == time)
+                section.score += t.duration;
+              else if (p.value == "no-class") 
+                section.score -= t.duration;
+          }
+          
+        }
+      }
+      s.sort(function (a, b) {
+        return b.score - a.score;
+      });
     }
-    if (lectures.length != 0) c_lst.push(lectures);
-    if (tut.length != 0) c_lst.push(tut);
-    if (pract.length != 0) c_lst.push(pract);
+      
   }
-  */
-
+    
+  
   return callback(input);
 }
 

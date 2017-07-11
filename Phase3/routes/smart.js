@@ -13,7 +13,8 @@ var backtrack = function(courselist) {
 		solutionlist.push(JSON.parse(JSON.stringify(currentlist)));
 	} else {
 		var depth = currentlist.length;
-		for (var i = 0; i < courselist[depth].length; i++) {
+		var clip = Math.min(7, courselist[depth].length);
+		for (var i = 0; i < clip; i++) {
 			var ok = true;
 			for (var j = 0; j < depth; j++) 
 				if (over_lap(courselist[depth][i].times, currentlist[j].times)) {
