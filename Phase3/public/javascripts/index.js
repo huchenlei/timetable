@@ -158,7 +158,6 @@ function delete_course() {
    }
    localStorage.courselist = JSON.stringify(courselist);
    load_courselst();
-   getSolutions();
 }
 
 function load_preference() {
@@ -235,7 +234,6 @@ function load_course_data() {
 function getSolutions() {
 	console.log("get solutionlist");
 	if (JSON.parse(localStorage.courselist)[semester].length == 0) {
-
 		$("#solutions ul").empty();
 		clear_table();
 	} else {
@@ -251,6 +249,7 @@ function getSolutions() {
 				var course_data = JSON.parse(data.courses);
 				solutionlist[semester] = JSON.parse(data.solutions);
 				store_course_data(course_data);
+				if (solutionlist[semester].length == 0) alert("No valid solution, try other combination of courses!");
 				cur = 0;
 				currentlist = solutionlist[semester][cur];
 				render_solution(cur);
@@ -286,7 +285,6 @@ function add_course(course_code) {
 	
 	localStorage.courselist = JSON.stringify(courselist);
 	load_courselst();
-	getSolutions();
 };
 
 function set_semester(choice) {
