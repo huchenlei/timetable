@@ -299,14 +299,13 @@ function load_courselst() {
 
 		//add a new delete button to td
 		var new_delete = document.createElement('span');
-		new_delete.setAttribute('class', 'glyphicon glyphicon-remove');
+		new_delete.setAttribute('class', 'glyphicon glyphicon-remove hide');
 		new_delete.setAttribute('aria-hidden', 'true');
-		new_delete.setAttribute('style', 'display:none;');
 		new_delete.id = course; 
 		new_delete.onclick = delete_course;
 		new_td.append(new_delete);
-		$(new_td).hover(() => new_delete.setAttribute('style', 'display:block;'),
-			() => new_delete.setAttribute('style', 'display:none;'));
+		$(new_td).hover(() => $(new_delete).toggleClass('hide'),
+			() => $(new_delete).toggleClass('hide'));
 	}
 	getSolutions();
 

@@ -37,7 +37,16 @@
 
             <section class="main">
                 <section class="timetable">
-                    <h3>Winter Semester 2017</h3>
+                    <div id="header-container">
+                        <h3 id="semester-header">
+                            Semester <span id="semester-content">2017 Fall</span>
+                            <div id="semester-select" class="btn-group">
+                              <button id="select-winter" type="button" class="btn btn-default">Winter</button>
+                              <button id="select-fall" type="button" class="btn btn-default">Fall</button>
+                              <button id="select-summer" type="button" class="btn btn-default">Summer</button>
+                            </div>
+                        </h3>
+                    </div>
                     <template>
                         <table id="timetable">
                             <thead><tr><th class="first"></th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th></tr></thead>
