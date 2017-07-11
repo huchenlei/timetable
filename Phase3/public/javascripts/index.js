@@ -15,11 +15,9 @@ var over_lap = function(a, b) {
 				return true;
 	return false;
 };
-
+/*
 var draw_option = function(course) {
-	//var color = option_back[Math.floor(Math.random() * option_back.length)];
 	color = option_back[0];
-
 	for (var i = 0; i < course.times.length; i++) {
 		var col_num = convert_day[course.times[i].day];
 		for (var j = course.times[i].start/3600-7; j < course.times[i].end/3600-7; j++) {
@@ -49,12 +47,10 @@ var draw_option = function(course) {
 							ul.append($("<li></li>").text(course.code[i]).on("click", function(e) {
 								e.stopPropagation();
 								var index = course.code.indexOf($(this).text());
-								console.log(index);
 								// swap code[0] and code[index];
 								var temp = course.code[0];
 								course.code[0] = course.code[index];
 								course.code[index] = temp;
-								console.log(course);
 								var replace_index = 0;
 								for (var j = 0; j < currentlist.length; j++) 
 									if (currentlist[j].courseCode == course.courseCode && currentlist[j].code[0][0] == course.code[0][0]) {
@@ -73,9 +69,61 @@ var draw_option = function(course) {
 			}
 		}
 	}
+};*/
+
+var draw_option = function(course) {
+	color = back[1];
+	for (var i = 0; i < course.times.length; i++) {
+		var col_num = convert_day[course.times[i].day];
+		var k = $(".timetable tbody tr:nth-of-type(" + (course.times[i].start/3600-7) + ") td:eq(" + col_num + ")");
+		k.attr("rowspan", course.times[i].duration/3600).addClass("course").css("background-color", color);
+		k.css("border", "2px black solid");
+		if (course.code.length == 1) {
+			k.text("Option: " + course.code[0]).on("click", function() {
+				for (var i = 0; i < currentlist.length; i++)
+					if (currentlist[i].courseCode == course.courseCode && currentlist[i].code[0][0] == course.code[0][0]) {
+						currentlist.splice(i, 1, course);
+						render_solution(cur);
+						break;
+					}
+			});
+		} else {
+			k.text("Options: " + course.code[0] + "/...");
+			k.off().on("click", function() {
+				div = $("<div></div>").addClass("stacklist");
+				ul = $("<ul></ul>").css("list-style-type", "none");
+				ul.css("width", k.css("width"));
+				ul.append($("<li></li>").text("Select One").on("click", function(e) {
+					e.stopPropagation();
+					render_solution(cur);
+				}));
+				for (var i = 0; i < course.code.length; i++)
+					ul.append($("<li></li>").text(course.code[i]).on("click", function(e) {
+						e.stopPropagation();
+						var index = course.code.indexOf($(this).text());
+						// swap code[0] and code[index];
+						var temp = course.code[0];
+						course.code[0] = course.code[index];
+						course.code[index] = temp;
+						var replace_index = 0;
+						for (var j = 0; j < currentlist.length; j++) 
+							if (currentlist[j].courseCode == course.courseCode && currentlist[j].code[0][0] == course.code[0][0]) {
+								replace_index = j;
+								break;
+							}
+						
+						currentlist.splice(replace_index, 1, course);
+						localStorage.solution = JSON.stringify(solutionlist);
+						render_solution(cur);
+						return;
+					}));
+				k.append(div.append(ul));
+			});
+		}
+	}
 	
 };
-
+/*
 var draw_course = function(course) {
 	//if (course.hasOwnProperty('color') == false) 
 		//course.color = back[Math.floor(Math.random() * back.length)];
@@ -107,10 +155,36 @@ var draw_course = function(course) {
 		}
 	}
 };
+*/
 
+var draw_course = function(course) {
+	course.color = back[0];
+	for (var i = 0; i < course.times.length; i++) {
+		var col_num = convert_day[course.times[i].day];
+		var k = $(".timetable tbody tr:nth-of-type(" + (course.times[i].start/3600-7) + ") td:eq(" + col_num + ")");
+		k.attr("rowspan", course.times[i].duration/3600).addClass("course").css("background-color", course.color);
+		k.css("border", "2px black solid");
+		k.text(course.courseCode + "\n" + course.code[0]).on("click", function() {
+			render_solution(cur);
+			course_data = load_course_data();
+			opt_lst = course_data[course.courseCode][semester][course.code[0][0]];
+			draw_option(course);
+			for (var i = 0; i < opt_lst.length; i++) {
+				var ok = true;
+				for (var j = 0; j < currentlist.length; j++)
+					if (currentlist[j] != course && over_lap(opt_lst[i].times, currentlist[j].times)) {
+						ok = false;
+						break;
+					}
+				if (ok) draw_option(opt_lst[i]);
+			}
+		});
+	}
+};
 var clear_table = function() {
 	var k = $(".timetable tbody tr").find("td:gt(0)");
 	k.removeClass("course").css("background-color", "white");
+	k.attr("rowspan", 1).css("border", "none").css("border-bottom", "1px solid #ccc");
 	k.text("").off().empty();
 };
 
@@ -172,8 +246,7 @@ function load_courselst() {
 		courselist = [];
 		localStorage.courselist = JSON.stringify(courselist);
 	}
-	console.log(courselist.length);
-	for (i = 0; i < courselist.length; i ++) {
+	for (var i = 0; i < courselist.length; i++) {
 		course = courselist[i];
 		var new_tr = document.createElement('tr');
 		new_tr.classList.add('course-item');
@@ -210,10 +283,11 @@ function load_course_data() {
 }
 
 function getSolutions() {
+	
 	if (JSON.parse(localStorage.courselist).length == 0) {
 		solutionlist = undefined;
+		$("#solutions ul").empty();
 		clear_table();
-		$("#solutions table").empty();
 	} else {
 		$.ajax({
 			type: 'POST',
@@ -231,12 +305,14 @@ function getSolutions() {
 				cur = 0;
 				currentlist = solutionlist[cur];
 				render_solution(cur);
-				$("#solutions table").empty();
+				$("#solutions ul").empty();
 				for (var i = 0; i < solutionlist.length; i++) {
-				  $("#solutions table").append("<tr class='solution'><td>Solution " + (i+1) + "</td></tr>");
+				  $("#solutions ul").append("<li>Solution " + (i+1) + "</li>");
 				}
-				$("#solutions td").on("click", function() {
-				  render_solution($("#solutions td").index(this));
+				$("#solutions li").on("click", function() {
+				  console.log($("#solutions li").index(this));
+				  render_solution($("#solutions li").index(this));
+
 				});
 				$("#switch-left").on("click",function() {
 				  render_solution((cur-1+solutionlist.length)%solutionlist.length);
@@ -275,16 +351,7 @@ $(document).ready(function(){
 		render_solution(0);
 	}
 	//normal search area is initially hidden
-	$('#normal-search-result').hide();
-	$("#show-advanced").on("click", function() {
-		$(".advanced-search").toggleClass("hide");
-	});
-	$("#smart").on("click", function() {
-		$(".right-bar").toggleClass("hide");
-		$("#smart").toggleClass("button-position");
-		$(".main").toggleClass("main-size");
-		$(".arrowright").toggleClass("movearrow");
-	});
+	$('#resultViewWrapper').hide();
 
 	$("#save_preference").on("click", function() {
 		var preferences_data = {
@@ -325,7 +392,7 @@ $(document).ready(function(){
 		if (courses.size == 1) 
 			add_course(courses.entries().next().value[0]);
 		else {
-			$('#normal-search-result').show();
+			$('#resultViewWrapper').css('top', $('.left-bar h2').css('height') + $('.left-bar .search-bar').css('height')).show();
 			courses.forEach(
 			  (classItem) => {
 				var newList = document.createElement('li');
@@ -345,7 +412,7 @@ $(document).ready(function(){
 	 */
 	$("body").on("click", function(){
 	  $('#normal-search-result').empty();
-	  $('#normal-search-result').hide();
+	  $('#resultViewWrapper').hide();
 	});
 
 	$('body').on('keypress', 'input', function(args) {

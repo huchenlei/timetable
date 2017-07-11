@@ -14,73 +14,28 @@
     <body>
         <header class="top-nav" id="body-content">
 
-            <div id="title" class="nav-description">Courseware</div>
-            <div id="year" class="nav-description">2017</div>
-            <!-- <div id="description" class="nav-description">a smart UofT course scheduler</div> -->
-            {% if session.username %}
-            <span>Logged in as <strong>{{ session.username }}</strong></span>
-            {% endif %}
-            {% if session.username %}
-            <a href="/logout" id="login-button" class="btn btn-info" role="button">Logout</a>
-            {% else %}
-            <a href="/login" id="login-button" class="btn btn-info" role="button">Login</a>
-            {% endif %}
-            <a href="/signup" id="signup-button" class="btn btn-info" role="button">Sign Up</a>
-            {% if session.admin %}
-            <a href="/admin" id="admin-button" class="btn btn-info" role="button">Add course</a>
-            {% endif %}
-            <button id="link-smart-button" class="nav-button">Try smart</button>
-            <!-- <div class="menu-button"> </div> -->
+            <div id="title" class="nav-description">Smart Timetable</div>
+            <div id="year" class="nav-description">2018(beta)</div>
 
         </header>
         
         <div class="content-wrapper">
             <section class="left-bar">
-                <h2>Course List</h2>
+                <h3>Course List</h3>
+                <div class="search-bar">
+                    <input type="text" placeholder="Course Code: csc108" id="search-by-coursecode">
+                    <input type="button" value='search' id="normal-search">
+                    <div id="resultViewWrapper">
+                        <div id="normal-search-result"></div>
+                    </div>
+                </div>
                 <div id="course-list">
                     <table id="course-list-table">
                     </table>
                 </div>
             </section>
 
-            <section class="main main-size">
-                <h3 class="title">Search Course</h3>
-                <div class="search-bar">
-                    <input type="text" placeholder="Course Code: csc108" id="search-by-coursecode">
-                    <input type="button" value='search' id="normal-search">
-                    <input type="button" value="Advanced" id="show-advanced">
-                    <div id="normal-search-result">
-
-                    </div>
-                    <div class="advanced-search hide">
-                        <div class="group long">
-                            <label>Course Level(s)</label>
-                            <input type="text" placeholder="100">
-                        </div>
-                        <div class="group long">
-                            <label>Instructor's Last Name</label>
-                            <input type="text" placeholder="Enter last name">
-                        </div>
-                        <div class="group long">
-                            <label>Breadth Requirement(s)</label>
-                            <input type="text" placeholder="1">
-                        </div>
-                        <div class="group long">
-                            <label>Time(s)</label>
-                            <input type="text" placeholder="Morning">
-                        </div>
-                        <div class="group long">
-                            <label>Day(s) of Week</label>
-                            <input type="text" placeholder="3">
-                        </div>
-                        <div class="group long">
-                            <label>Course Title</label>
-                            <input type="text" placeholder="Enter course title or subtitle">
-                        </div>
-                        <input id="advanced-search-button"
-                         type="button" class="center" value="search">
-                    </div>
-                </div>
+            <section class="main">
                 <section class="timetable">
                     <h3>Winter Semester 2017</h3>
                     <table>
@@ -219,13 +174,11 @@
                     </table>
                     <img class="switch arrowleft" id="switch-left" alt="switch-left"
                      src='leftarrow.png'>
-                    <img class="switch arrowright movearrow" id="switch-right" alt="switch-right"
+                    <img class="switch arrowright" id="switch-right" alt="switch-right"
                      src='rightarrow.png'>
                 </section>
             </section>
-            <button id="smart" class="smart-button button-position"><b>Try smart!</b></button>
-            <section class="right-bar hide">
-                <h2>Preferences</h2>
+            <section class="right-bar">
                 <div id="preferences">
                     <form>
                         <h3>Time Preferences</h3>
@@ -296,39 +249,13 @@
                         </div>
                     </form>
                 </div>
-                <h2>Smart Solutions</h2>
+                <h3>Smart Solutions</h2>
                 <div id="solutions">
-                    <table>
-                        
-                    </table>
+                    <ul class="rolldown-list"></ul>
                 </div>
             </section>
         </div>
-        <footer class="myFooter">
-            <section class="connected">
-                <h4 id="stay-connected">Stay Connnected</h4>
-                <div class="links">
-                    <a href="#">
-                        <img class="icon twitter" alt="twitter"
-                         src="http://brolik.com/images/icon-twitter.svg">
-                    </a>
-                    <a href="#">
-                        <img class="icon facebook" alt="facebook"
-                        src="http://brolik.com/images/icon-facebook.svg">
-                    </a>
-                    <a href="#">
-                        <img class="icon linkedin" alt="linkedin"
-                        src="http://brolik.com/images/icon-linkedin.svg">
-                    </a>
-                    <a href="#body-content">
-                        <img class="icon home" alt="home"
-                        src="./home-logo-md.png">
-                    </a>
-                </div>
-
-            </section>
-
-        </footer>
+        
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
