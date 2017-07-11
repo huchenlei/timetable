@@ -349,11 +349,13 @@ $(document).ready(function(){
 		// everytime search is clicked show #normal-search-result
 		
 		let len = result.length;
-		const courses = new Set();
+		var courses = new Set();
+		var course_name_mapping = {};
 		for (i = 0; i < len; i++) {
-		  const new_code = result[i].code.substr(0, 6);
+		  var new_code = result[i].code.substr(0, 6);
 		  if (!courses.has(new_code)) {
 			courses.add(new_code);
+			course_name_mapping[new_code] = result[i].name;
 		  }
 		}
 		if (courses.size == 1) 
@@ -363,7 +365,7 @@ $(document).ready(function(){
 			courses.forEach(
 			  (classItem) => {
 				var newList = document.createElement('li');
-				newList.innerHTML = classItem;
+				newList.innerHTML = classItem + ' (' +  course_name_mapping[classItem] + ')';
 				$(newList).on("click", () => add_course(classItem));
 				$("#normal-search-result").append(newList);
 			  }

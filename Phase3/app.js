@@ -81,7 +81,7 @@ function populateCourseInfo(req, callback) {
         sections = courses[i].meeting_sections;
         var term = courses[i].term;
         var courseCode = courses[i].code.substr(0, 6);
-        var title = courses[i].
+        var name = courses[i].name;
         for (j = 0; j < sections.length; j++) {
           sections[j] = sections[j].toObject();
           sections[j].courseCode = courseCode;
