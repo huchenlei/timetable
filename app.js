@@ -86,7 +86,7 @@ function populateCourseInfo(req, callback) {
           sections[j] = sections[j].toObject();
           sections[j].courseCode = courseCode;
           sections[j].term = term;
-          sections[j].name = name; 
+          sections[j].name = name;
         }
         result.push(sections);
       }
@@ -142,7 +142,7 @@ function smart(req, res) {
 
 }
 app.post('/smart', smart);
-app.listen(3000, function () {
+app.listen(process.env.PORT || 3000, function () {
   console.log('listening on port 3000!');
 });
 
