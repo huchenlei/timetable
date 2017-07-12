@@ -36,7 +36,7 @@
         <div class="header">
             Solutions
         </div>
-        <a *ngFor="let solution of solutionlist[term]; let i = index" (click)="timetable.renderSolution(i)" class="solution">
+        <a *ngFor="let solution of solutionlist[term]; let i = index" (click)="timetable.renderSolution(i, term)" class="solution">
           Solution {{i + 1}}<br /><span style="font-size:12px; opacity: 0.5">{{solution.extraTitle}}</span>
         </a>
       </div>
@@ -82,7 +82,7 @@
                 <div class="header">
                     Solutions
                 </div>
-                <a *ngFor="let solution of solutionlist[term]; let i = index" (click)="timetable.renderSolution(i)" class="solution">
+                <a *ngFor="let solution of solutionlist[term]; let i = index" (click)="timetable.renderSolution(i, term)" class="solution">
                   Solution {{i + 1}}<br /><span style="font-size:12px; opacity: 0.5">{{solution.extraTitle}}</span>
                 </a>
               </div>
