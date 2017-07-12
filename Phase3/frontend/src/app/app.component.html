@@ -10,7 +10,7 @@
         </div>
         <div class="item course-queue">
             <div class="header">
-                Courses ({{selectedCourses.length}})
+                Courses
             </div>
             <app-course-item
                 *ngFor="let course of selectedCourses[term]"
@@ -53,7 +53,7 @@
             <a class="{{(this.term === '2017 Fall') ? 'active' : ''}} item" (click)="selectTerm('2017 Fall')">
               Fall 2017
             </a>
-            <a class="{{(this.term === '2017 Winter') ? 'active' : ''}} item" (click)="selectTerm('2017 Winter')">
+            <a class="{{(this.term === '2018 Winter') ? 'active' : ''}} item" (click)="selectTerm('2018 Winter')">
               Winter 2018
             </a>
             <a class="item disabled" >
@@ -61,7 +61,7 @@
             </a>
           </div>
         </div>
-        <app-timetable [term]="term"></app-timetable>
+        <app-timetable [term]="this.term"></app-timetable>
 
     </div>
 </div>

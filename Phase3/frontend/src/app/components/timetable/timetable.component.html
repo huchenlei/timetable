@@ -12,18 +12,15 @@
     <tbody *ngIf="timetableSlot">
         <tr *ngFor="let item of createRange(15); let i = index">
             <td>{{8 + i}}:00</td>
-            <ng-template *ngFor="let col of createRange(5); let j = index">
               <td
-                *ngIf="!timetableSlot.map[j][i].delete"
-                [style.background-color]="timetableSlot.map[j][i].color"
-                class="{{timetableSlot.map[j][i].class}}"
-                [attr.rowspan]="timetableSlot.map[j][i].rowspan"
+                *ngFor="let col of createTd(timetableSlot.map, i);"
+                [style.background-color]="col.color"
+                class="{{col.class}}"
+                [attr.rowspan]="col.rowspan"
                 >
-                {{timetableSlot.map[j][i].code}}<br />
-                {{timetableSlot.map[j][i].section}}
+                <strong>{{col.code}}</strong><br />
+                {{col.section}}
               </td>
-            </ng-template>
-
         </tr>
     </tbody>
 </table>

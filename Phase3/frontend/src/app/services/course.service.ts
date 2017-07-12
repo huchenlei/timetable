@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, Response }  from '@angular/http';
 import { Course } from '../models/course';
 import { CourseMin } from '../models/course-min';
+import { PreferenceService } from './preference.service'
 
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
@@ -10,7 +11,8 @@ import 'rxjs/add/operator/map';
 export class CourseService {
 
   constructor(
-    private http: Http
+    private http : Http,
+    private preferenceService : PreferenceService
   ) { }
 
   fetchCourse(query: string, term: string): Promise<Course[]> {
@@ -34,7 +36,7 @@ export class CourseService {
     return this.http.post('/smart', {
       term: term,
       courselist: JSON.stringify(JSON.parse(localStorage.courselist)[term]),
-      preferences: localStorage.preferences
+      preferences: JSON.stringify(this.preferenceService.loadPreference())
     })
       .toPromise()
       .then((data) => {
@@ -57,7 +59,9 @@ export class CourseService {
   }
 
   loadCourseList() : string[] {
-    return JSON.parse(localStorage.getItem("courselist"));
+    return JSON.parse(localStorage.getItem("courselist"))
+    ? JSON.parse(localStorage.getItem("courselist"))
+    : {"2017 Fall":[], "2018 Winter":[]};
   }
 
   storeSolutionList(solutionList: any) {
@@ -65,7 +69,9 @@ export class CourseService {
   }
 
   loadSolutionList() : any {
-    return JSON.parse(localStorage.getItem("solution"));
+    return JSON.parse(localStorage.getItem("solution"))
+    ? JSON.parse(localStorage.getItem("solution"))
+    : {"2017 Fall":[], "2018 Winter":[]};
   }
 
 }

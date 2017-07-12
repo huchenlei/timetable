@@ -36,4 +36,8 @@ export class PreferenceService {
       return table;
   }
 
+  loadPreference() {
+    return {};
+  }
+
 }

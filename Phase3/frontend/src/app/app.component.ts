@@ -7,6 +7,7 @@ import { Course } from './models/course';
 import { CourseMin } from './models/course-min';
 
 import { CourseService } from './services/course.service'
+import { PreferenceService } from './services/preference.service'
 
 @Component({
   selector: 'app-root',
@@ -19,20 +20,23 @@ export class AppComponent {
   courses;
   term : "2017 Fall" | "2018 Winter" = "2017 Fall";
   solutionlist = {}
-  preferences = []
+  preferences;
   @ViewChild(TimetableComponent) timetable: TimetableComponent;
 
   constructor(
-    private courseService : CourseService
+    private courseService : CourseService,
+    private preferenceService : PreferenceService,
   ) {
     this.courses = this.courseService.loadCourseData();
     this.selectedCourses = this.courseService.loadCourseList();
-    // this.solutionlist =
+    this.preferences = this.preferenceService.loadPreference();
+    this.solutionlist = this.courseService.loadSolutionList();
   }
 
   selectTerm(term) {
     this.term = term;
-    this.timetable.renderSolution(0);
+    console.log(this.term);
+    this.timetable.renderSolution(0, this.term);
   }
   deleteCourse(course : string): void {
       this.selectedCourses[this.term].splice(this.selectedCourses[this.term].indexOf(course), 1);
@@ -51,9 +55,10 @@ export class AppComponent {
         this.solutionlist[this.term] = JSON.parse(res.solutions);
         this.courses = JSON.parse(res.courses);
         this.courseService.storeCourseData(this.courses);
+        this.courseService.storeSolutionList(this.solutionlist);
         console.log(this.solutionlist);
         this.timetable.updateSolution(this.solutionlist)
-        this.timetable.renderSolution(0);
+        this.timetable.renderSolution(0, this.term);
       })
       .catch(err => console.log(err));
   }

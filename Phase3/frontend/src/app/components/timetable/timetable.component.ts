@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 // import { Course } from '../../models/course'
 import { CourseMin } from '../../models/course-min';
-import { TimetableSlot } from '../../models/timetable-slot';
+import { TimetableSlot, Cell } from '../../models/timetable-slot';
 
 import { CourseService } from '../../services/course.service'
 const sample = [
@@ -103,20 +103,36 @@ export class TimetableComponent implements OnInit {
     }
     return items;
   }
+
+  createTd(a: Cell[][], index: number) {
+    var result = [];
+    for (let i = 0; i < 5; i++) {
+      if (!a[i][index].delete) {
+        result.push(a[i][index])
+      }
+    }
+    return result;
+  }
+
+  countCol(a: Cell[][], i: number) {
+
+  }
   updateSolution(solutionlist) {
     this.solutionList = solutionlist;
   }
 
-  renderSolution(index) {
+  renderSolution(index, term="2017 Fall") {
     this.cleanTable();
   	console.log("render_solution");
-    console.log(this.solutionList)
-    if (this.solutionList[this.term] && this.solutionList[this.term].length != 0) {
+    console.log(this.term);
+    // console.log(this.solutionList)
+    this.solutionList = this.courseService.loadSolutionList();
+    if (this.solutionList[this.term].length != 0) {
       var solution = this.solutionList[this.term][index];
     	this.currentlist = solution;
     	this.cur = index;
     	for (var i = 0; i < solution.length; i++)
-    		this.drawCourse2(solution[i]);
+    		this.drawCourse(solution[i]);
       console.log(this.timetableSlot.map);
     }
 
@@ -134,23 +150,20 @@ export class TimetableComponent implements OnInit {
       if (j == course.times[i].start / 3600 - 7) {
         this.timetableSlot.setValue(col_num, j, {
           code: course.courseCode,
-          section: course.code,
+          section: course.code[0],
           color: course.color,
-          class: "head" + (((course.times[i].start / 3600 - 7 + 1) == (course.times[i].end / 3600 - 7)) ? " lone" : "")
+          class: "course",
+          rowspan: course.times[i].duration/3600,
+          delete: false
         })
-      } else if (j == (course.times[i].end / 3600 - 7 - 1)) {
+      }
+       else {
         this.timetableSlot.setValue(col_num, j, {
           code: " ",
           section: " ",
-          color: course.color,
-          class: "tail"
-        })
-      } else {
-        this.timetableSlot.setValue(col_num, j, {
-          code: " ",
-          section: " ",
-          color: course.color,
-          class: "follow-up"
+          color: "",
+          class: "",
+          delete: true
         })
       }
   		}
@@ -185,7 +198,7 @@ export class TimetableComponent implements OnInit {
         color: course.color,
         class: " ",
         rowspan: course.times[i].duration/3600,
-        delete: true
+        delete: false
       })
   		// k.attr("rowspan", course.times[i].duration/3600).addClass("course").css("background-color", course.color);
   		// k.css("border", "2px black solid");
