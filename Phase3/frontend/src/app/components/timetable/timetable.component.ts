@@ -75,7 +75,7 @@ export class TimetableComponent implements OnInit {
   // sampleSolution: CourseMin[][] = sample;
   solutionList : CourseMin[][];
   timetableSlot : TimetableSlot = new TimetableSlot();
-  @Input() term : string;
+  // @Input() term : string;
 
   constructor(
     private courseService : CourseService
@@ -124,11 +124,10 @@ export class TimetableComponent implements OnInit {
   renderSolution(index, term="2017 Fall") {
     this.cleanTable();
   	console.log("render_solution");
-    console.log(this.term);
     // console.log(this.solutionList)
     this.solutionList = this.courseService.loadSolutionList();
-    if (this.solutionList[this.term].length != 0) {
-      var solution = this.solutionList[this.term][index];
+    if (this.solutionList[term].length != 0) {
+      var solution = this.solutionList[term][index];
     	this.currentlist = solution;
     	this.cur = index;
     	for (var i = 0; i < solution.length; i++)
