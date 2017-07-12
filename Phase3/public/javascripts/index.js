@@ -266,6 +266,7 @@ function getSolutions() {
 	console.log("get solutionlist");
 	const courselist = JSON.parse(localStorage.courselist);
 	if (courselist[semester].length == 0) {
+		solutionlist[semester] = [];
 		$("#solutions ul").empty();
 		clear_table();
 	} else {
@@ -285,6 +286,7 @@ function getSolutions() {
 				currentlist = solutionlist[semester][cur];
 				render_solution(cur);
 				localStorage.solution = JSON.stringify(solutionlist);
+				console.log(solutionlist);
 				load_solution_list();
 			}
 	  	});
