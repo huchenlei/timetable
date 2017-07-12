@@ -1,4 +1,4 @@
-<table class="ui fixed center aligned celled equal height row table">
+<table class="ui fixed center aligned equal height row table">
     <thead>
         <tr>
             <th class="first"></th>
@@ -12,10 +12,16 @@
     <tbody *ngIf="timetableSlot">
         <tr *ngFor="let item of createRange(15); let i = index">
             <td>{{8 + i}}:00</td>
-            <td *ngFor="let col of createRange(5); let j = index" [style.background-color]="timetableSlot.map[j][i].color">
-              {{timetableSlot.map[j][i].code}}<br />
-              {{timetableSlot.map[j][i].section}}
-            </td>
+              <td
+                *ngFor="let col of createTd(timetableSlot.map, i); let j = index"
+                [style.background-color]="col.color"
+                class="{{col.class}}"
+                [attr.rowspan]="col.rowspan"
+                (click)="col.fn()"
+                >
+                <strong>{{col.code}}</strong><span style="opacity:0.5"> {{col.section}}<br />
+                <span *ngIf="col.start">{{col.start / 3600}}:00-{{col.end / 3600}}:00</span></span>
+              </td>
         </tr>
     </tbody>
 </table>

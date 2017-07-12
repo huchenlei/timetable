@@ -9,6 +9,10 @@ td:hover {
     background-color: rgba(81, 184, 163, 0.2)
 }
 
+/*td.all:hover {
+    background-color: rgba(220, 76, 70, 0.2)
+}*/
+
 .selector-background {
     position: absolute;
     top: auto;
@@ -21,4 +25,13 @@ tr {
 
 td.selected {
     background-color: #51B8A3 !important;
+}
+
+td.red {
+
+  background-color: #DC4C46 !important;
+}
+
+th.red {
+  background-color: #DC4C46 !important;
 }

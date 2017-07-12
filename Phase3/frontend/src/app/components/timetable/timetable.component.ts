@@ -1,79 +1,61 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 // import { Course } from '../../models/course'
 import { CourseMin } from '../../models/course-min';
-import { TimetableSlot } from '../../models/timetable-slot';
+import { TimetableSlot, Cell } from '../../models/timetable-slot';
+
+import { CourseService } from '../../services/course.service'
 const sample = [
   [{
-    "code": "L5101",
-    "size": 150,
-    "enrolment": 0,
-    "times": [{
-      "day": "THURSDAY",
-      "start": 64800,
-      "end": 75600,
-      "duration": 10800,
-      "location": "SF 1101"
-    }],
-    "instructors": ["J Sin"],
-    "courseCode": "CSC108"
-  }, {
-    "code": "L0101",
-    "size": 130,
-    "enrolment": 0,
-    "times": [{
-      "day": "WEDNESDAY",
-      "start": 46800,
-      "end": 57600,
-      "duration": 10800,
-      "location": "MP 202"
+      "courseCode": "CSC120",
+      "code": ["L0101"],
+      "times": [{
+        "day": "MONDAY",
+        "start": 46800,
+        "end": 50400,
+        "duration": 3600,
+        "location": "NF 003"
+      }, {
+        "day": "WEDNESDAY",
+        "start": 46800,
+        "end": 50400,
+        "duration": 3600,
+        "location": "NF 003"
+      }, {
+        "day": "FRIDAY",
+        "start": 46800,
+        "end": 50400,
+        "duration": 3600,
+        "location": "NF 003"
+      }, {
+        "day": "THURSDAY",
+        "start": 54000,
+        "end": 61200,
+        "duration": 7200,
+        "location": ""
+      }]
     }, {
-      "day": "FRIDAY",
-      "start": 46800,
-      "end": 57600,
-      "duration": 10800,
-      "location": "MP 202"
-    }],
-    "instructors": ["G Patil B Navarro Lameda"],
-    "courseCode": "MAT137"
-  }, {
-    "code": "T0101",
-    "size": 35,
-    "enrolment": 0,
-    "times": [{
-      "day": "MONDAY",
-      "start": 39600,
-      "end": 43200,
-      "duration": 3600,
-      "location": "BA 2145"
-    }, {
-      "day": "WEDNESDAY",
-      "start": 39600,
-      "end": 43200,
-      "duration": 3600,
-      "location": "BA 2145"
-    }],
-    "instructors": [],
-    "courseCode": "MAT137"
-  }, {
-    "code": "L5101",
-    "size": 150,
-    "enrolment": 0,
-    "times": [{
-      "day": "TUESDAY",
-      "start": 64800,
-      "end": 75600,
-      "duration": 10800,
-      "location": "BA 1130"
-    }, {
-      "day": "WEDNESDAY",
-      "start": 64800,
-      "end": 72000,
-      "duration": 7200,
-      "location": "BA 1130"
-    }],
-    "instructors": ["I Dema"],
-    "courseCode": "CSC165"
-  }]
+      "courseCode": "CSC108",
+      "code": ["L0101"],
+      "times": [{
+        "day": "MONDAY",
+        "start": 36000,
+        "end": 39600,
+        "duration": 3600,
+        "location": "MP 102"
+      }, {
+        "day": "WEDNESDAY",
+        "start": 36000,
+        "end": 39600,
+        "duration": 3600,
+        "location": "MP 102"
+      }, {
+        "day": "FRIDAY",
+        "start": 36000,
+        "end": 39600,
+        "duration": 3600,
+        "location": "MP 102"
+      }]
+    }]
 ];
 
 @Component({
@@ -82,7 +64,7 @@ const sample = [
   styleUrls: ['./timetable.component.css']
 })
 export class TimetableComponent implements OnInit {
-  solutionlist: CourseMin[][];
+  // solutionlist: CourseMin[][];
   // index of current solution
   cur;
   currentlist : CourseMin[] = [];
@@ -90,14 +72,22 @@ export class TimetableComponent implements OnInit {
   back = ["PaleGoldenRod","lightblue","LightSalmon", "lightgreen", "lightpink", "Chocolate", "GreenYellow", "GoldenRod"];
   option_back = ["MediumPurple", "Fuchsia", "Aqua"];
 
-  sampleSolution: CourseMin[][] = sample;
+  // sampleSolution: CourseMin[][] = sample;
+  solutionList : CourseMin[][];
   timetableSlot : TimetableSlot = new TimetableSlot();
-  constructor() { }
+  // @Input() term : string;
+  term : string;
+
+  constructor(
+    private courseService : CourseService
+  ) { }
 
   ngOnInit() {
     console.log(sample);
     this.timetableSlot = new TimetableSlot();
-    this.renderSolution(0)
+    this.solutionList = this.courseService.loadSolutionList();
+    this.renderSolution(0);
+    this.term;
   }
 
   overlap(a, b) {
@@ -116,42 +106,234 @@ export class TimetableComponent implements OnInit {
     return items;
   }
 
-  renderSolution(index) {
+  createTd(a: Cell[][], index: number) {
+    var result = [];
+    for (let i = 0; i < 5; i++) {
+      if (!a[i][index].delete) {
+        result.push(a[i][index])
+      }
+    }
+    return result;
+  }
+
+  countCol(a: Cell[][], i: number) {
+
+  }
+  updateSolution(solutionlist) {
+    this.solutionList = solutionlist;
+  }
+
+  renderSolution(index, term="2017 Fall") {
+    this.term = term;
+    this.cleanTable();
   	console.log("render_solution");
-  	var solution = this.sampleSolution[index];
-  	this.currentlist = solution;
-  	this.cur = index;
-  	for (var i = 0; i < solution.length; i++)
-  		this.drawCourse(solution[i]);
-    console.log(this.timetableSlot.map);
+    // console.log(this.solutionList)
+    this.solutionList = this.courseService.loadSolutionList();
+    if (this.solutionList[term].length != 0) {
+      var solution = this.solutionList[term][index];
+    	this.currentlist = solution;
+    	this.cur = index;
+    	for (var i = 0; i < solution.length; i++)
+    		this.drawCourse(solution[i]);
+      console.log(this.timetableSlot.map);
+    }
+  }
+
+  cleanTable() {
+    this.timetableSlot = new TimetableSlot();
+  }
+
+  initTimetable(timetable) {
+    for (var i = 0; i < 5; i++) {
+      for (var j = 0; j < 15; j++) {
+        if (timetable.map[i][j].code == "") {
+          timetable.setValue(i, j, {
+            code: "",
+            section: "",
+            color: "#fff",
+            class: "",
+            rowspan: 1,
+            delete: false,
+            fn: () => {this.renderSolution(this.cur)}
+          });
+        }
+      }
+    }
   }
 
   drawCourse(course) {
-  	if (course.hasOwnProperty('color') == false)
-  		course.color = this.back[Math.floor(Math.random() * this.back.length)]
-  	for (var i = 0; i < course.times.length; i++) {
-  		var col_num = this.convert_day[course.times[i].day];
-  		for (var j = course.times[i].start/3600-7; j < course.times[i].end/3600-7; j++) {
-        if (j == course.times[i].start/3600-7) {
-        this.timetableSlot.setValue(i, j , {
+    course.color = this.back[0];
+    for (var i = 0; i < course.times.length; i++) {
+  		var col_num = this.convert_day[course.times[i].day] - 1;
+      // let start = course.times[i].start / 3600 - 7;
+      // for (let n = 0; n <= course.times[i].duration/3600; n++) {
+      //   // console.log(course.code, col_num - 1, start + n - 1, this.timetableSlot.map[col_num - 1][start + n - 1].delete)
+      //   // console.log(this.timetableSlot.printTable());
+      //   if (this.timetableSlot.map[col_num - 1][start + n - 1].delete) {
+      //     console.log(col_num - 1, start + n - 1)
+      //     this.timetableSlot.cleanSpan(col_num - 1, start + n - 1);
+      //   }
+      // }
+  		for (var j = course.times[i].start / 3600 - 7; j < course.times[i].end / 3600 - 7; j++) {
+      if (j == course.times[i].start / 3600 - 7) {
+        this.timetableSlot.setValue(col_num, j - 1, {
           code: course.courseCode,
-          section: course.code,
+          section: course.code[0],
           color: course.color,
-        })
-      } else {
-        this.timetableSlot.setValue(i, j , {
-          code: " ",
-          section: " ",
-          color: course.color,
+          class: "course",
+          rowspan: course.times[i].duration/3600,
+          delete: false,
+          start: course.times[i].start,
+          end: course.times[i].end,
+          fn: () => {
+            console.log("course", course)
+            this.renderSolution(this.cur);
+            let courseData = this.courseService.loadCourseData();
+            let optLst = courseData[course.courseCode][this.term][course.code[0][0]];
+            // this.drawOption(course);
+            for (var i = 0; i < optLst.length; i++) {
+              var ok = true;
+              for (var j = 0; j < this.currentlist.length; j++)
+                if (this.currentlist[j] != course && this.overlap(optLst[i].times, this.currentlist[j].times)) {
+                  ok = false;
+                  break;
+                }
+              if (ok) this.drawOption(optLst[i]);
+            }
+          },
         })
       }
-  		// 	var k = $(".timetable tbody tr:nth-of-type(" + j + ") td:eq(" + col_num + ")");
-  		// 	k.addClass("course").css("background-color", course.color);
-  		// 	if (j == course.times[i].start/3600-7) {
-  		// 		k.text(course.courseCode + "\n" + course.code);
-  		// 	}
+       else {
+        this.timetableSlot.setValue(col_num, j - 1, {
+          code: " ",
+          section: " ",
+          color: "",
+          class: "",
+          delete: true,
+          fn: () => {console.log("别点了")}
+        })
+      }
   		}
-  	}
+    }
   }
 
+  onCLickCourse(course) {
+    this.renderSolution(this.cur);
+    let courseData = this.courseService.loadCourseData();
+    let optLst = courseData[course.courseCode][this.term][course.code[0][0]];
+    this.drawOption(course);
+    for (var i = 0; i < optLst.length; i++) {
+      var ok = true;
+      for (var j = 0; j < this.currentlist.length; j++)
+        if (this.currentlist[j] != course && this.overlap(optLst[i].times, this.currentlist[j].times)) {
+          ok = false;
+          break;
+        }
+      if (ok) this.drawOption(optLst[i]);
+    }
+  }
+
+  drawOption(course) {
+    let color = this.back[0];
+    this.initTimetable(this.timetableSlot);
+    for (var i = 0; i < course.times.length; i++) {
+      var col_num = this.convert_day[course.times[i].day];
+      let start = course.times[i].start / 3600 - 7;
+      for (let n = 0; n <= course.times[i].duration/3600; n++) {
+        // console.log(course.code, col_num - 1, start + n - 1, this.timetableSlot.map[col_num - 1][start + n - 1].delete)
+        // console.log(this.timetableSlot.printTable());
+        if (this.timetableSlot.map[col_num - 1][start + n - 1].delete) {
+          console.log(col_num - 1, start + n - 1)
+          this.timetableSlot.cleanSpan(col_num - 1, start + n - 1);
+        }
+      }
+
+      for (var j = course.times[i].start / 3600 - 7; j < course.times[i].end / 3600 - 7; j++) {
+        let k = {
+          code: "OPTION",
+          section: course.code[0],
+          color: color,
+          class: "option",
+          rowspan: course.times[i].duration/3600,
+          start: course.times[i].start,
+          end: course.times[i].end,
+          // rowspan:1,
+          delete: false,
+          fn: () => {
+            console.log("select option")
+            console.log(course.code.length);
+            if (course.code.length == 1) {
+              console.log(this.currentlist);
+            		for (var i = 0; i < this.currentlist.length; i++)
+            			if (this.currentlist[i].courseCode == course.courseCode && this.currentlist[i].code[0][0] == course.code[0][0]) {
+            				this.solutionList[this.term][this.cur].splice(i, 1, course);
+                    this.courseService.storeSolutionList(this.solutionList);
+            				this.renderSolution(this.cur);
+            				break;
+            			}
+                  console.log(this.currentlist)
+            	}
+          }
+        }
+
+        if (j == course.times[i].start / 3600 - 7) {
+          this.timetableSlot.setValue(col_num - 1, j - 1, k)
+        }
+        else {
+          this.timetableSlot.setValue(col_num - 1, j - 1, {
+            code: " ",
+            section: " ",
+            color: "",
+            class: "",
+            delete: true
+          })
+        }
+      }
+    }
+  }
 }
+
+//
+//
+// if (course.code.length == 1) {
+// 	k.text("Option: " + course.code[0]).on("click", function() {
+// 		for (var i = 0; i < currentlist.length; i++)
+// 			if (currentlist[i].courseCode == course.courseCode && currentlist[i].code[0][0] == course.code[0][0]) {
+// 				currentlist.splice(i, 1, course);
+// 				render_solution(cur);
+// 				break;
+// 			}
+// 	});
+// } else {
+// 	k.text("Options: " + course.code[0] + "/...");
+// 	k.off().on("click", function() {
+// 		div = $("<div></div>").addClass("stacklist");
+// 		ul = $("<ul></ul>").css("list-style-type", "none");
+// 		ul.css("width", k.css("width"));
+// 		ul.append($("<li></li>").text("Select One").on("click", function(e) {
+// 			e.stopPropagation();
+// 			render_solution(cur);
+// 		}));
+// 		for (var i = 0; i < course.code.length; i++)
+// 			ul.append($("<li></li>").text(course.code[i]).on("click", function(e) {
+// 				e.stopPropagation();
+// 				var index = course.code.indexOf($(this).text());
+// 				// swap code[0] and code[index];
+// 				var temp = course.code[0];
+// 				course.code[0] = course.code[index];
+// 				course.code[index] = temp;
+// 				var replace_index = 0;
+// 				for (var j = 0; j < currentlist.length; j++)
+// 					if (currentlist[j].courseCode == course.courseCode && currentlist[j].code[0][0] == course.code[0][0]) {
+// 						replace_index = j;
+// 						break;
+// 					}
+//
+// 				currentlist.splice(replace_index, 1, course);
+// 				localStorage.solution = JSON.stringify(solutionlist);
+// 				render_solution(cur);
+// 				return;
+// 			}));
+// 		k.append(div.append(ul));
+// 	});
+// }

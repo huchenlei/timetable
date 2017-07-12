@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { Course } from '../../models/course'
 
 import { CourseService } from '../../services/course.service'
@@ -12,8 +12,10 @@ import 'rxjs/add/operator/filter';
   styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent implements OnInit {
-  options : Course[] = [];
+  // options : Course[] = [];
   @Output() addCourse = new EventEmitter<Course>()
+  @Input() term : string;
+
   public fetchCourse = (query: string) => {
     // if (/[a-z]{3}[0-9]{3}/i.test(query)) {
       if (query == "") {
@@ -22,8 +24,20 @@ export class SearchBarComponent implements OnInit {
       // Do the extended lookup on multiple fields manually here:
       if (query.length >= 3) {
         return this.courseService
-          .fetchCourse(query)
-          .then(result => Promise.resolve(result))
+          .fetchCourse(query, this.term)
+          .then(result => {
+            const courses = new Set();
+            for (let i = 0; i < result.length; i++) {
+        		  const new_code = result[i].code.substr(0, 6);
+        		  if (!courses.has(new_code)) {
+        			  courses.add(new_code);
+        		  }
+        		}
+            let l = [];
+            courses.forEach(c => l.push({code:c}))
+            return Promise.resolve(l);
+          })
+          .catch(err => Promise.reject("Course not found"));
       }
       return Promise.resolve([]);
     }

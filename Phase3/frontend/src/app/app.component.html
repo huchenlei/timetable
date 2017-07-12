@@ -3,17 +3,17 @@
     <div class="ui left vertical inverted labeled sidebar menu pushable push visible" style="overflow:overlay;">
 
         <div class="item logo-branding">
-            Timetable
+            <img src="../assets/images/logo-white.svg" alt="" id="logo"> <span style="font-size:14px"> Smart Timetable</span> <sup style="font-size:9px">2018</sup>
         </div>
         <div class="item">
-          <app-search-bar (addCourse)="addCourse($event)"></app-search-bar>
+          <app-search-bar (addCourse)="addCourse($event)" [term]="term"></app-search-bar>
         </div>
         <div class="item course-queue">
             <div class="header">
-                Courses ({{selectedCourses.length}})
+                Courses
             </div>
             <app-course-item
-                *ngFor="let course of selectedCourses"
+                *ngFor="let course of selectedCourses[term]"
                 href=""
                 class="course ui grid"
                 [course]="course"
@@ -27,7 +27,7 @@
             <app-preference-selector>
             </app-preference-selector>
             <br />
-            <button class="fluid ui animated fade button" style="background-color:#51B8A3">
+            <button (click)="getSolutions()" class="fluid ui animated fade button" style="background-color:#51B8A3; margin-top:10px">
                 <div class="visible content">Get solution</div>
                 <div class="hidden content">
                   <i class="right arrow icon"></i>
@@ -35,8 +35,13 @@
             </button>
         </div>
 
-        <div class="item user-profile">
-
+        <div class="item solutions">
+          <div class="header">
+              Solutions
+          </div>
+          <a *ngFor="let solution of solutionlist[term]; let i = index" (click)="timetable.renderSolution(i)" class="solution">
+            Solution {{i}}
+          </a>
         </div>
     </div>
 </div>
@@ -45,13 +50,13 @@
     <div class="ui container">
         <div class="ui segment">
           <div class="ui secondary pointing menu">
-            <a class="active item">
+            <a class="{{(this.term === '2017 Fall') ? 'active' : ''}} item" (click)="selectTerm('2017 Fall')">
               Fall 2017
             </a>
-            <a class="item">
+            <a class="{{(this.term === '2018 Winter') ? 'active' : ''}} item" (click)="selectTerm('2018 Winter')">
               Winter 2018
             </a>
-            <a class="item disabled">
+            <a class="item disabled" >
               Summer 2018
             </a>
           </div>

@@ -1,5 +1,6 @@
 .logo-branding {
     background-color: #51B8A3 !important;
+    font-size: 18px;
 }
 
 .ui.vertical.inverted.sidebar.menu.left.overlay.visible {
@@ -16,4 +17,22 @@ app-course-item.course {
 
 app-course-item.course:hover {
     background-color: #777;
+}
+
+.solution {
+  display: block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #454545 !important;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.solution:hover {
+  background-color: #656565 !important;
+}
+
+#logo {
+  height: 50px;
+  display: inline-block;
 }
