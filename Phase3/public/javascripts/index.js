@@ -285,6 +285,7 @@ function getSolutions() {
 				currentlist = solutionlist[semester][cur];
 				render_solution(cur);
 				localStorage.solution = JSON.stringify(solutionlist);
+				load_solution_list();
 			}
 	  	});
 	}
