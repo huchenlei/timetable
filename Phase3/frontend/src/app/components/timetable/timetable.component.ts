@@ -137,11 +137,28 @@ export class TimetableComponent implements OnInit {
     		this.drawCourse(solution[i]);
       console.log(this.timetableSlot.map);
     }
-
   }
 
   cleanTable() {
     this.timetableSlot = new TimetableSlot();
+  }
+
+  initTimetable(timetable) {
+    for (var i = 0; i < 5; i++) {
+      for (var j = 0; j < 15; j++) {
+        if (timetable.map[i][j].code == "") {
+          timetable.setValue(i, j, {
+            code: "",
+            section: "",
+            color: "#fff",
+            class: "",
+            rowspan: 1,
+            delete: false,
+            fn: () => {this.renderSolution(this.cur)}
+          });
+        }
+      }
+    }
   }
 
   drawCourse(course) {
@@ -207,6 +224,7 @@ export class TimetableComponent implements OnInit {
 
   drawOption(course) {
     let color = this.back[0];
+    this.initTimetable(this.timetableSlot);
     for (var i = 0; i < course.times.length; i++) {
       var col_num = this.convert_day[course.times[i].day];
       for (var j = course.times[i].start / 3600 - 7; j < course.times[i].end / 3600 - 7; j++) {

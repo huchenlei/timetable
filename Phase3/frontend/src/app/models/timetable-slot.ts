@@ -27,5 +27,5 @@ export class Cell {
   class: string = "";
   rowspan: number | string = 1;
   delete: boolean = false;
-  fn = () => {this.timetable.renderSolution(this.timetable.cur)}
+  fn = () => {console.log("别点了")}
 }
