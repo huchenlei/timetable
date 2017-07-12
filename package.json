@@ -1,7 +1,10 @@
 {
   "name": "SmartTimeTable",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
+  "engines": {
+    "node": "6.9.4"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng build && supervisor app.js",
