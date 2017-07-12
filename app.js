@@ -144,7 +144,7 @@ function smart(req, res) {
 
 }
 app.post('/smart', smart);
-app.listen(process.env.PORT || 3001, function () {
+app.listen(process.env.PORT || 3000, function () {
   console.log('listening on port 3000!');
 });
 
