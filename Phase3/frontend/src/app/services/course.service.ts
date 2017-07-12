@@ -13,10 +13,10 @@ export class CourseService {
     private http: Http
   ) { }
 
-  fetchCourse(query: string): Promise<Course[]> {
+  fetchCourse(query: string, term: string): Promise<Course[]> {
     var course_code = query;
 
-    var url = '/courses/' + course_code;
+    var url = '/courses/' + course_code + '/semester/' + term;
 
     console.log(query);
 
@@ -28,12 +28,12 @@ export class CourseService {
       .catch(err => Promise.reject(err));
   }
 
-  getSolutions() {
+  getSolutions(term: string) {
     console.log("Getting solutions...")
     // if (localStorage.term && localStorage.courselist)
     return this.http.post('/smart', {
-      term: localStorage.term,
-      courselist: localStorage.courselist,
+      term: term,
+      courselist: JSON.stringify(JSON.parse(localStorage.courselist)[term]),
       preferences: localStorage.preferences
     })
       .toPromise()
@@ -58,6 +58,14 @@ export class CourseService {
 
   loadCourseList() : string[] {
     return JSON.parse(localStorage.getItem("courselist"));
+  }
+
+  storeSolutionList(solutionList: any) {
+    localStorage.setItem("solution", JSON.stringify(solutionList))
+  }
+
+  loadSolutionList() : any {
+    return JSON.parse(localStorage.getItem("solution"));
   }
 
 }

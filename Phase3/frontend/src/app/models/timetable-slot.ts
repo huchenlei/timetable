@@ -6,7 +6,7 @@ export class TimetableSlot {
         for(var i: number = 0; i < 5; i++) {
             this.map[i] = [];
             for(var j: number = 0; j< 15; j++) {
-                this.map[i][j] = {code:' ', section:' ', color:"#fff", class: " "};
+                this.map[i][j] = {code:" ", section:" ", color:"#fff", class: " ", rowspan: " ", delete: false};
             }
         }
       }

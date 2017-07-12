@@ -6,7 +6,7 @@
             <img src="../assets/images/logo-white.svg" alt="" id="logo"> Smart Timetable <sup>2018</sup>
         </div>
         <div class="item">
-          <app-search-bar (addCourse)="addCourse($event)"></app-search-bar>
+          <app-search-bar (addCourse)="addCourse($event)" [term]="term"></app-search-bar>
         </div>
         <div class="item course-queue">
             <div class="header">
@@ -39,7 +39,7 @@
           <div class="header">
               Solutions
           </div>
-          <a *ngFor="let solution of solutionlist; let i = index" (click)="timetable.renderSolution(i)" class="solution">
+          <a *ngFor="let solution of solutionlist[term]; let i = index" (click)="timetable.renderSolution(i)" class="solution">
             Solution {{i}}
           </a>
         </div>
@@ -50,10 +50,10 @@
     <div class="ui container">
         <div class="ui segment">
           <div class="ui secondary pointing menu">
-            <a class="active item" (click)="selectTerm('2017 Fall')">
+            <a class="{{(this.term === '2017 Fall') ? 'active' : ''}} item" (click)="selectTerm('2017 Fall')">
               Fall 2017
             </a>
-            <a class="item" (click)="selectTerm('2017 Winter')">
+            <a class="{{(this.term === '2017 Winter') ? 'active' : ''}} item" (click)="selectTerm('2017 Winter')">
               Winter 2018
             </a>
             <a class="item disabled" >
@@ -61,7 +61,7 @@
             </a>
           </div>
         </div>
-        <app-timetable></app-timetable>
+        <app-timetable [term]="term"></app-timetable>
 
     </div>
 </div>
