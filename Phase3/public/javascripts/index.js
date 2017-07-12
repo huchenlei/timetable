@@ -158,6 +158,7 @@ function delete_course() {
    }
    localStorage.courselist = JSON.stringify(courselist);
    load_courselst();
+   getSolutions();
 }
 
 function load_preference() {
@@ -219,8 +220,6 @@ function load_courselst() {
 			function () {$(this).find("span").toggleClass('hide')});
 		new_td.append(new_delete);
 	}
-	getSolutions();
-
 }
 
 function store_course_data(data) {
@@ -229,6 +228,23 @@ function store_course_data(data) {
 
 function load_course_data() {
 	return JSON.parse(localStorage.course_data);
+}
+
+function load_solution_list() {
+	$("#solutions ul").empty();
+	for (var i = 0; i < solutionlist[semester].length; i++) {
+	  $("#solutions ul").append("<li>Solution " + (i+1) + "</li>");
+	}
+	$("#solutions li").on("click", function() {
+	  console.log($("#solutions li").index(this));
+	  render_solution($("#solutions li").index(this));
+	});
+	$("#switch-left").on("click",function() {
+	  render_solution((cur-1+solutionlist[semester].length)%solutionlist[semester].length);
+    });
+    $("#switch-right").on("click",function() {
+	  render_solution((cur+1)%solutionlist[semester].length);
+    });
 }
 
 function getSolutions() {
@@ -248,6 +264,7 @@ function getSolutions() {
 			}, 
 			success: function(data) {
 				var course_data = JSON.parse(data.courses);
+				if (!solutionlist) solutionlist = {"2017 Fall": [], "2018 Winter": []};
 				solutionlist[semester] = JSON.parse(data.solutions);
 				store_course_data(course_data);
 				
@@ -273,7 +290,6 @@ function getSolutions() {
 				$("#solutions li").on("click", function() {
 				  console.log($("#solutions li").index(this));
 				  render_solution($("#solutions li").index(this));
-
 				});
 				if (not_complete) alert("No valid solution on all of your course. We tried our best to show you some solutions.");
 				localStorage.solution = JSON.stringify(solutionlist);
@@ -293,6 +309,7 @@ function add_course(course_code) {
 	
 	localStorage.courselist = JSON.stringify(courselist);
 	load_courselst();
+	getSolutions();
 };
 
 function set_semester(choice) {
@@ -351,7 +368,11 @@ $(document).ready(function(){
   		getSolutions();
 	});
 	clear_table();
-
+	if (localStorage.solution) {
+		solutionlist = JSON.parse(localStorage.solution);
+		render_solution(0);
+		load_solution_list();
+	}
 	/* Display all sections of courses searched
 	 * after typing some string inside search bar and press "search"
 	 */
