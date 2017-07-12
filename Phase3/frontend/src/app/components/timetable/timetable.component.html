@@ -19,8 +19,24 @@
                 [attr.rowspan]="col.rowspan"
                 (click)="col.fn()"
                 >
-                <strong>{{col.code}}</strong><span style="opacity:0.5"> {{col.section}}<br />
-                <span *ngIf="col.start">{{col.start / 3600}}:00-{{col.end / 3600}}:00</span></span>
+                <span *ngIf="col.section=='multiple'; else elseBlock;">
+                  <ng-template let-popup #popupTemplate>
+                      <div class="header">Sections</div>
+                      <div class="content">
+                        {{col.lst}}
+                      </div>
+                  </ng-template>
+
+                  <span suiPopup [popupTemplate]="popupTemplate">
+                    <strong>{{col.code}}</strong><span style="opacity:0.5"> {{col.section}}<br />
+                    <span *ngIf="col.start">{{col.start / 3600}}:00-{{col.end / 3600}}:00</span></span>
+                  </span>
+                </span>
+                <ng-template #elseBlock>
+                  <strong>{{col.code}}</strong><span style="opacity:0.5"> {{col.section}}<br />
+                  <span *ngIf="col.start">{{col.start / 3600}}:00-{{col.end / 3600}}:00</span></span>
+                </ng-template>
+
               </td>
         </tr>
     </tbody>

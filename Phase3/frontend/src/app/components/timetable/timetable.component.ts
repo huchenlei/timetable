@@ -251,7 +251,7 @@ export class TimetableComponent implements OnInit {
       for (var j = course.times[i].start / 3600 - 7; j < course.times[i].end / 3600 - 7; j++) {
         let k = {
           code: "OPTION",
-          section: course.code[0],
+          section: (course.code.length != 1) ? "multiple" : course.code[0],
           color: color,
           class: "option",
           rowspan: course.times[i].duration/3600,
@@ -259,11 +259,12 @@ export class TimetableComponent implements OnInit {
           end: course.times[i].end,
           // rowspan:1,
           delete: false,
+          lst: (course.code.length != 1)?course.code.join('\n'):"",
           fn: () => {
             console.log("select option")
             console.log(course.code.length);
-            if (course.code.length == 1) {
-              console.log(this.currentlist);
+            // if (course.code.length == 1) {
+              // console.log(this.currentlist);
             		for (var i = 0; i < this.currentlist.length; i++)
             			if (this.currentlist[i].courseCode == course.courseCode && this.currentlist[i].code[0][0] == course.code[0][0]) {
             				this.solutionList[this.term][this.cur].splice(i, 1, course);
@@ -271,8 +272,8 @@ export class TimetableComponent implements OnInit {
             				this.renderSolution(this.cur);
             				break;
             			}
-                  console.log(this.currentlist)
-            	}
+                  // console.log(this.currentlist)
+            	// }
           }
         }
 

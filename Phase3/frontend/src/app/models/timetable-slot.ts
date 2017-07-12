@@ -56,4 +56,5 @@ export class Cell {
   fn = () => {console.log("别点了")};
   start: number;
   end: number;
+  lst: string="";
 }
