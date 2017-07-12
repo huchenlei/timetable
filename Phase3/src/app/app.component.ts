@@ -36,12 +36,12 @@ export class AppComponent {
 
   selectTerm(term) {
     this.term = term;
-    console.log(this.term);
     this.timetable.renderSolution(0, this.term);
   }
   deleteCourse(course : string): void {
       this.selectedCourses[this.term].splice(this.selectedCourses[this.term].indexOf(course), 1);
       this.courseService.storeCourseList(this.selectedCourses);
+      this.courseService.removeCourseData(course);
   }
 
   addCourse(course : Course) : void {
@@ -52,12 +52,10 @@ export class AppComponent {
   getSolutions() : void {
     this.courseService.getSolutions(this.term)
       .then((res) => {
-        console.log(res)
         this.solutionlist[this.term] = JSON.parse(res.solutions);
         this.courses = JSON.parse(res.courses);
         this.courseService.storeCourseData(this.courses);
         this.courseService.storeSolutionList(this.solutionlist);
-        console.log(this.solutionlist);
         this.courseService.load_solution_list(this.solutionlist, this.term)
         this.courseService.storeSolutionList(this.solutionlist);
 

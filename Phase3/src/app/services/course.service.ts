@@ -20,8 +20,6 @@ export class CourseService {
 
     var url = '/courses/' + course_code + '/semester/' + term;
 
-    console.log(query);
-
     return this.http.get(url)
       .toPromise()
       .then(res => {
@@ -31,7 +29,6 @@ export class CourseService {
   }
 
   getSolutions(term: string) {
-    console.log("Getting solutions...")
     // if (localStorage.term && localStorage.courselist)
     return this.http.post('/smart', {
       term: term,
@@ -40,17 +37,26 @@ export class CourseService {
     })
       .toPromise()
       .then((data) => {
-        console.log(data);
         return data.json();
       })
       .catch(err => {return Promise.reject(err)});
   }
 
-  storeCourseData(courseList: CourseMin[]) {
-    localStorage.setItem("course_data", JSON.stringify(courseList))
+  storeCourseData(courseList: any) {
+    var old_course_data = this.loadCourseData();
+    var new_course_data = Object.assign({}, old_course_data, courseList);
+    console.log("Storing", new_course_data);
+    localStorage.setItem("course_data", JSON.stringify(new_course_data));
   }
 
-  loadCourseData() : CourseMin[] {
+  removeCourseData(course: string) {
+    var course_data = this.loadCourseData();
+    delete course_data[course];
+    localStorage.setItem("course_data", JSON.stringify(course_data));
+  }
+
+
+  loadCourseData() : any {
     return JSON.parse(localStorage.getItem("course_data"));
   }
 
