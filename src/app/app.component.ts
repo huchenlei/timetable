@@ -45,8 +45,10 @@ export class AppComponent {
   }
 
   addCourse(course : Course) : void {
-    this.selectedCourses[this.term].push(course.code);
-    this.courseService.storeCourseList(this.selectedCourses);
+    if (this.selectedCourses[this.term].indexOf(course.code) == -1) {
+      this.selectedCourses[this.term].push(course.code);
+      this.courseService.storeCourseList(this.selectedCourses);
+    }
   }
 
   getSolutions() : void {
