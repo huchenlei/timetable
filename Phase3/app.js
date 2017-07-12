@@ -29,7 +29,7 @@ app.use(function(req, res, next) {
 // nunjucks.configure(path.join(__dirname, "views"), { autoescape: true, express: app });
 // app.use(express.static(path.join(__dirname, "./public")));
 
-app.use(express.static(path.join(__dirname, '/frontend/dist')));
+app.use(express.static(path.join(__dirname, '/dist')));
 
 //app.use('/', routes);
 app.use('/courses', courses);
