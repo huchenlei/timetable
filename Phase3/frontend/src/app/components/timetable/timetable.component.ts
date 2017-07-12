@@ -76,6 +76,7 @@ export class TimetableComponent implements OnInit {
   solutionList : CourseMin[][];
   timetableSlot : TimetableSlot = new TimetableSlot();
   // @Input() term : string;
+  term : string;
 
   constructor(
     private courseService : CourseService
@@ -86,6 +87,7 @@ export class TimetableComponent implements OnInit {
     this.timetableSlot = new TimetableSlot();
     this.solutionList = this.courseService.loadSolutionList();
     this.renderSolution(0);
+    this.term;
   }
 
   overlap(a, b) {
@@ -122,6 +124,7 @@ export class TimetableComponent implements OnInit {
   }
 
   renderSolution(index, term="2017 Fall") {
+    this.term = term;
     this.cleanTable();
   	console.log("render_solution");
     // console.log(this.solutionList)
@@ -153,7 +156,23 @@ export class TimetableComponent implements OnInit {
           color: course.color,
           class: "course",
           rowspan: course.times[i].duration/3600,
-          delete: false
+          delete: false,
+          fn: () => {
+            console.log("course", course)
+            this.renderSolution(this.cur);
+            let courseData = this.courseService.loadCourseData();
+            let optLst = courseData[course.courseCode][this.term][course.code[0][0]];
+            // this.drawOption(course);
+            for (var i = 0; i < optLst.length; i++) {
+              var ok = true;
+              for (var j = 0; j < this.currentlist.length; j++)
+                if (this.currentlist[j] != course && this.overlap(optLst[i].times, this.currentlist[j].times)) {
+                  ok = false;
+                  break;
+                }
+              if (ok) this.drawOption(optLst[i]);
+            }
+          },
         })
       }
        else {
@@ -162,63 +181,103 @@ export class TimetableComponent implements OnInit {
           section: " ",
           color: "",
           class: "",
-          delete: true
+          delete: true,
+          fn: () => {console.log("别点了")}
         })
       }
   		}
     }
   }
 
-  drawCourse2(course) {
-    // console.log(semester);
-  	course.color = this.back[0];
-  	for (var i = 0; i < course.times.length; i++) {
-  		var col_num = this.convert_day[course.times[i].day];
-  		var first_row = course.times[i].start/3600-7;
-  		for (var j = 1 + first_row; j < course.times[i].end/3600 - 7; j++) {
-  			// table_delete_counter[j-1][col_num-1] = 1;
-        this.timetableSlot.setValue(j-1, col_num-1, {
-          code: " ",
-          section: " ",
-          color: " ",
-          class: " ",
-          rowspan: " ",
-          delete: true
-        })
-
-  		}
-  		var cnt = 0;
-  		for (var z = 0; z < col_num-1; z++)
-  			// cnt += table_delete_counter[first_row-1][z];
-  		// var k = $(".timetable tbody tr:nth-of-type(" + first_row + ") td:eq(" + (col_num - cnt) + ")");
-      this.timetableSlot.setValue(col_num, first_row, {
-        code: course.courseCode,
-        section: course.code,
-        color: course.color,
-        class: " ",
-        rowspan: course.times[i].duration/3600,
-        delete: false
-      })
-  		// k.attr("rowspan", course.times[i].duration/3600).addClass("course").css("background-color", course.color);
-  		// k.css("border", "2px black solid");
-  		// k.text(course.courseCode + "\n" + course.code[0]).on("click", function() {
-  		// 	render_solution(cur);
-  		// 	course_data = load_course_data();
-  		// 	opt_lst = course_data[course.courseCode][semester][course.code[0][0]];
-  		// 	draw_option(course);
-  		// 	for (var i = 0; i < opt_lst.length; i++) {
-  		// 		var ok = true;
-  		// 		for (var j = 0; j < currentlist.length; j++)
-  		// 			if (currentlist[j] != course && over_lap(opt_lst[i].times, currentlist[j].times)) {
-  		// 				ok = false;
-  		// 				break;
-  		// 			}
-  		// 		if (ok) draw_option(opt_lst[i]);
-  		// 	}
-  		// });
-  	}
+  onCLickCourse(course) {
+    this.renderSolution(this.cur);
+    let courseData = this.courseService.loadCourseData();
+    let optLst = courseData[course.courseCode][this.term][course.code[0][0]];
+    this.drawOption(course);
+    for (var i = 0; i < optLst.length; i++) {
+      var ok = true;
+      for (var j = 0; j < this.currentlist.length; j++)
+        if (this.currentlist[j] != course && this.overlap(optLst[i].times, this.currentlist[j].times)) {
+          ok = false;
+          break;
+        }
+      if (ok) this.drawOption(optLst[i]);
+    }
   }
 
-  // drawOption()
+  drawOption(course) {
+    let color = this.back[0];
+    for (var i = 0; i < course.times.length; i++) {
+      var col_num = this.convert_day[course.times[i].day];
+      for (var j = course.times[i].start / 3600 - 7; j < course.times[i].end / 3600 - 7; j++) {
 
+        let k = {
+          code: "OPTION",
+          section: course.code[0],
+          color: color,
+          class: "option",
+          rowspan: 1,
+          delete: false
+        }
+
+        if (j == course.times[i].start / 3600 - 7) {
+          this.timetableSlot.setValue(col_num - 1, j, k)
+        }
+        else {
+          this.timetableSlot.setValue(col_num - 1, j, {
+            code: " ",
+            section: " ",
+            color: "",
+            class: "",
+            delete: true
+          })
+        }
+      }
+    }
+  }
 }
+
+//
+//
+// if (course.code.length == 1) {
+// 	k.text("Option: " + course.code[0]).on("click", function() {
+// 		for (var i = 0; i < currentlist.length; i++)
+// 			if (currentlist[i].courseCode == course.courseCode && currentlist[i].code[0][0] == course.code[0][0]) {
+// 				currentlist.splice(i, 1, course);
+// 				render_solution(cur);
+// 				break;
+// 			}
+// 	});
+// } else {
+// 	k.text("Options: " + course.code[0] + "/...");
+// 	k.off().on("click", function() {
+// 		div = $("<div></div>").addClass("stacklist");
+// 		ul = $("<ul></ul>").css("list-style-type", "none");
+// 		ul.css("width", k.css("width"));
+// 		ul.append($("<li></li>").text("Select One").on("click", function(e) {
+// 			e.stopPropagation();
+// 			render_solution(cur);
+// 		}));
+// 		for (var i = 0; i < course.code.length; i++)
+// 			ul.append($("<li></li>").text(course.code[i]).on("click", function(e) {
+// 				e.stopPropagation();
+// 				var index = course.code.indexOf($(this).text());
+// 				// swap code[0] and code[index];
+// 				var temp = course.code[0];
+// 				course.code[0] = course.code[index];
+// 				course.code[index] = temp;
+// 				var replace_index = 0;
+// 				for (var j = 0; j < currentlist.length; j++)
+// 					if (currentlist[j].courseCode == course.courseCode && currentlist[j].code[0][0] == course.code[0][0]) {
+// 						replace_index = j;
+// 						break;
+// 					}
+//
+// 				currentlist.splice(replace_index, 1, course);
+// 				localStorage.solution = JSON.stringify(solutionlist);
+// 				render_solution(cur);
+// 				return;
+// 			}));
+// 		k.append(div.append(ul));
+// 	});
+// }

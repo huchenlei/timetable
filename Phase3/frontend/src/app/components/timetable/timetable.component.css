@@ -6,3 +6,7 @@ td {
 td.course {
   /*border: 2px solid rgba(0,0,0,0.5) !important;*/
 }
+
+td.option {
+  opacity: 0.5;
+}

@@ -17,6 +17,7 @@
                 [style.background-color]="col.color"
                 class="{{col.class}}"
                 [attr.rowspan]="col.rowspan"
+                (click)="col.fn()"
                 >
                 <strong>{{col.code}}</strong><br />
                 {{col.section}}

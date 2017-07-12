@@ -1,5 +1,9 @@
+import { TimetableComponent } from '../components/timetable/timetable.component'
+import { ViewChild } from '@angular/core';
+
 export class TimetableSlot {
   map : any[5][15];
+
 
   constructor() {
     this.map = [];
@@ -23,4 +27,5 @@ export class Cell {
   class: string = "";
   rowspan: number | string = 1;
   delete: boolean = false;
+  fn = () => {this.timetable.renderSolution(this.timetable.cur)}
 }
