@@ -18,6 +18,17 @@ export class TimetableSlot {
   setValue(i, j, value) {
     this.map[i][j] = value;
   }
+
+  cleanSpan(i, j) {
+    console.log("clean")
+    for (let k = j; k > 0; k-- ) {
+      if (this.map[i][j].rowspan > 1) {
+        this.map[i][j].rowspan = 1;
+        this.map[i][j].color="#a00"
+        break;
+      }
+    }
+  }
 }
 
 export class Cell {

@@ -13,12 +13,13 @@
         <tr *ngFor="let item of createRange(15); let i = index">
             <td>{{8 + i}}:00</td>
               <td
-                *ngFor="let col of createTd(timetableSlot.map, i);"
+                *ngFor="let col of createTd(timetableSlot.map, i); let j = index"
                 [style.background-color]="col.color"
                 class="{{col.class}}"
                 [attr.rowspan]="col.rowspan"
                 (click)="col.fn()"
                 >
+                {{i}}, {{j}}
                 <strong>{{col.code}}</strong><br />
                 {{col.section}}
               </td>

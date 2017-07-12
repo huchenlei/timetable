@@ -167,7 +167,7 @@ export class TimetableComponent implements OnInit {
   		var col_num = this.convert_day[course.times[i].day] - 1;
   		for (var j = course.times[i].start / 3600 - 7; j < course.times[i].end / 3600 - 7; j++) {
       if (j == course.times[i].start / 3600 - 7) {
-        this.timetableSlot.setValue(col_num, j, {
+        this.timetableSlot.setValue(col_num, j - 1, {
           code: course.courseCode,
           section: course.code[0],
           color: course.color,
@@ -193,7 +193,7 @@ export class TimetableComponent implements OnInit {
         })
       }
        else {
-        this.timetableSlot.setValue(col_num, j, {
+        this.timetableSlot.setValue(col_num, j - 1, {
           code: " ",
           section: " ",
           color: "",
@@ -228,28 +228,50 @@ export class TimetableComponent implements OnInit {
     for (var i = 0; i < course.times.length; i++) {
       var col_num = this.convert_day[course.times[i].day];
       for (var j = course.times[i].start / 3600 - 7; j < course.times[i].end / 3600 - 7; j++) {
-
+        // for (let n = 0; n <= course.times[i].duration/3600; n++) {
+        //   console.log(col_num - 1, j + n - 1, this.timetableSlot.map[col_num - 1][j + n - 1].delete)
+        //   if (this.timetableSlot.map[col_num - 1][j + n - 1].delete) {
+        //     console.log(col_num - 1, j + n - 1)
+        //     this.timetableSlot.cleanSpan(col_num - 1, j + n - 1);
+        //   }
+        // }
         let k = {
           code: "OPTION",
           section: course.code[0],
           color: color,
           class: "option",
-          rowspan: 1,
-          delete: false
+          rowspan: course.times[i].duration/3600,
+          // rowspan:1,
+          delete: false,
+          fn: () => {
+            console.log("select option")
+            console.log(course.code.length);
+            if (course.code.length == 1) {
+              console.log(this.currentlist);
+            		for (var i = 0; i < this.currentlist.length; i++)
+            			if (this.currentlist[i].courseCode == course.courseCode && this.currentlist[i].code[0][0] == course.code[0][0]) {
+            				this.solutionList[this.term][this.cur].splice(i, 1, course);
+                    this.courseService.storeSolutionList(this.solutionList);
+            				this.renderSolution(this.cur);
+            				break;
+            			}
+                  console.log(this.currentlist)
+            	}
+          }
         }
 
         if (j == course.times[i].start / 3600 - 7) {
-          this.timetableSlot.setValue(col_num - 1, j, k)
+          this.timetableSlot.setValue(col_num - 1, j - 1, k)
         }
-        else {
-          this.timetableSlot.setValue(col_num - 1, j, {
-            code: " ",
-            section: " ",
-            color: "",
-            class: "",
-            delete: true
-          })
-        }
+        // else {
+        //   this.timetableSlot.setValue(col_num - 1, j, {
+        //     code: " ",
+        //     section: " ",
+        //     color: "",
+        //     class: "",
+        //     delete: true
+        //   })
+        // }
       }
     }
   }
