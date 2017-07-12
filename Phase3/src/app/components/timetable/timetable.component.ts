@@ -83,11 +83,10 @@ export class TimetableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(sample);
+    this.term = "2017 Fall";
     this.timetableSlot = new TimetableSlot();
     this.solutionList = this.courseService.loadSolutionList();
-    this.renderSolution(0);
-    this.term;
+    this.renderSolution(0, this.term);
   }
 
   overlap(a, b) {
@@ -126,7 +125,6 @@ export class TimetableComponent implements OnInit {
   renderSolution(index, term="2017 Fall") {
     this.term = term;
     this.cleanTable();
-  	console.log("render_solution");
     // console.log(this.solutionList)
     this.solutionList = this.courseService.loadSolutionList();
     if (this.solutionList[term].length != 0) {
@@ -135,8 +133,8 @@ export class TimetableComponent implements OnInit {
     	this.cur = index;
     	for (var i = 0; i < solution.length; i++)
     		this.drawCourse(solution[i]);
-      console.log(this.timetableSlot.map);
     }
+    console.log("rendering", this.term);
   }
 
   cleanTable() {
@@ -154,7 +152,7 @@ export class TimetableComponent implements OnInit {
             class: "",
             rowspan: 1,
             delete: false,
-            fn: () => {this.renderSolution(this.cur)}
+            fn: () => {this.renderSolution(this.cur, this.term)}
           });
         }
       }
@@ -186,9 +184,11 @@ export class TimetableComponent implements OnInit {
           start: course.times[i].start,
           end: course.times[i].end,
           fn: () => {
-            console.log("course", course)
-            this.renderSolution(this.cur);
+            this.renderSolution(this.cur, this.term);
             let courseData = this.courseService.loadCourseData();
+            console.log("course", course);
+            console.log("data", courseData);
+            console.log("term", this.term);
             let optLst = courseData[course.courseCode][this.term][course.code[0][0]];
             // this.drawOption(course);
             for (var i = 0; i < optLst.length; i++) {
@@ -218,7 +218,7 @@ export class TimetableComponent implements OnInit {
   }
 
   onCLickCourse(course) {
-    this.renderSolution(this.cur);
+    this.renderSolution(this.cur, this.term);
     let courseData = this.courseService.loadCourseData();
     let optLst = courseData[course.courseCode][this.term][course.code[0][0]];
     this.drawOption(course);
@@ -243,7 +243,6 @@ export class TimetableComponent implements OnInit {
         // console.log(course.code, col_num - 1, start + n - 1, this.timetableSlot.map[col_num - 1][start + n - 1].delete)
         // console.log(this.timetableSlot.printTable());
         if (this.timetableSlot.map[col_num - 1][start + n - 1].delete) {
-          console.log(col_num - 1, start + n - 1)
           this.timetableSlot.cleanSpan(col_num - 1, start + n - 1);
         }
       }
@@ -261,15 +260,13 @@ export class TimetableComponent implements OnInit {
           delete: false,
           lst: (course.code.length != 1)?course.code.join('\n'):"",
           fn: () => {
-            console.log("select option")
-            console.log(course.code.length);
             // if (course.code.length == 1) {
               // console.log(this.currentlist);
             		for (var i = 0; i < this.currentlist.length; i++)
             			if (this.currentlist[i].courseCode == course.courseCode && this.currentlist[i].code[0][0] == course.code[0][0]) {
             				this.solutionList[this.term][this.cur].splice(i, 1, course);
                     this.courseService.storeSolutionList(this.solutionList);
-            				this.renderSolution(this.cur);
+            				this.renderSolution(this.cur, this.term);
             				break;
             			}
                   // console.log(this.currentlist)
