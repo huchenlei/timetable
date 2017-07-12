@@ -231,10 +231,25 @@ function load_course_data() {
 }
 
 function load_solution_list() {
+	const courselist = JSON.parse(localStorage.courselist);
 	$("#solutions ul").empty();
+	var not_complete = false;
 	for (var i = 0; i < solutionlist[semester].length; i++) {
-	  $("#solutions ul").append("<li>Solution " + (i+1) + "</li>");
+		var extra_title = "";
+		var solution = solutionlist[semester][i];
+		var dict_sol_courselst = {};
+		for (var j = 0; j < solution.length; j++) 
+			dict_sol_courselst[solution[j].courseCode] = true;
+		console.log(dict_sol_courselst);
+		for (var j = 0; j < courselist[semester].length; j++) 
+			if (!dict_sol_courselst.hasOwnProperty(courselist[semester][j])) {
+				extra_title += "(not include " + courselist[semester][j] + ")";
+				not_complete = true;
+				break;
+			}
+	  	$("#solutions ul").append("<li>Solution " + (i+1) + extra_title + "</li>");
 	}
+	if (not_complete) alert("No valid solution on all of your course. We tried our best to show you some solutions.");
 	$("#solutions li").on("click", function() {
 	  console.log($("#solutions li").index(this));
 	  render_solution($("#solutions li").index(this));
@@ -267,31 +282,8 @@ function getSolutions() {
 				if (!solutionlist) solutionlist = {"2017 Fall": [], "2018 Winter": []};
 				solutionlist[semester] = JSON.parse(data.solutions);
 				store_course_data(course_data);
-				
 				currentlist = solutionlist[semester][cur];
 				render_solution(cur);
-				$("#solutions ul").empty();
-				var not_complete = false;
-				for (var i = 0; i < solutionlist[semester].length; i++) {
-					var extra_title = "";
-					var solution = solutionlist[semester][i];
-					var dict_sol_courselst = {};
-					for (var j = 0; j < solution.length; j++) 
-						dict_sol_courselst[solution[j].courseCode] = true;
-					console.log(dict_sol_courselst);
-					for (var j = 0; j < courselist[semester].length; j++) 
-						if (!dict_sol_courselst.hasOwnProperty(courselist[semester][j])) {
-							extra_title += "(not include " + courselist[semester][j] + ")";
-							not_complete = true;
-							break;
-						}
-				  	$("#solutions ul").append("<li>Solution " + (i+1) + extra_title + "</li>");
-				}
-				$("#solutions li").on("click", function() {
-				  console.log($("#solutions li").index(this));
-				  render_solution($("#solutions li").index(this));
-				});
-				if (not_complete) alert("No valid solution on all of your course. We tried our best to show you some solutions.");
 				localStorage.solution = JSON.stringify(solutionlist);
 			}
 	  	});
@@ -337,12 +329,6 @@ $(document).ready(function(){
 		solutionlist = JSON.parse(localStorage.solution);
 		render_solution(0);
 	}
-	$("#switch-left").on("click",function() {
-	  render_solution((cur-1+solutionlist[semester].length)%solutionlist[semester].length);
-    });
-    $("#switch-right").on("click",function() {
-	  render_solution((cur+1)%solutionlist[semester].length);
-    });
 	$('#select-fall').on('click', () => set_semester('Fall'));
 	$('#select-winter').on('click', () => set_semester('Winter'));
 	$('#select-fall').click();
