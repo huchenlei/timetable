@@ -220,8 +220,6 @@ function load_courselst() {
 			function () {$(this).find("span").toggleClass('hide')});
 		new_td.append(new_delete);
 	}
-	getSolutions();
-
 }
 
 function store_course_data(data) {
@@ -232,10 +230,43 @@ function load_course_data() {
 	return JSON.parse(localStorage.course_data);
 }
 
+function load_solution_list() {
+	const courselist = JSON.parse(localStorage.courselist);
+	$("#solutions ul").empty();
+	var not_complete = false;
+	for (var i = 0; i < solutionlist[semester].length; i++) {
+		var extra_title = "";
+		var solution = solutionlist[semester][i];
+		var dict_sol_courselst = {};
+		for (var j = 0; j < solution.length; j++) 
+			dict_sol_courselst[solution[j].courseCode] = true;
+		console.log(dict_sol_courselst);
+		for (var j = 0; j < courselist[semester].length; j++) 
+			if (!dict_sol_courselst.hasOwnProperty(courselist[semester][j])) {
+				extra_title += "(not include " + courselist[semester][j] + ")";
+				not_complete = true;
+				break;
+			}
+	  	$("#solutions ul").append("<li>Solution " + (i+1) + extra_title + "</li>");
+	}
+	if (not_complete) alert("No valid solution on all of your course. We tried our best to show you some solutions.");
+	$("#solutions li").on("click", function() {
+	  console.log($("#solutions li").index(this));
+	  render_solution($("#solutions li").index(this));
+	});
+	$("#switch-left").on("click",function() {
+	  render_solution((cur-1+solutionlist[semester].length)%solutionlist[semester].length);
+    });
+    $("#switch-right").on("click",function() {
+	  render_solution((cur+1)%solutionlist[semester].length);
+    });
+}
+
 function getSolutions() {
 	console.log("get solutionlist");
-	if (JSON.parse(localStorage.courselist)[semester].length == 0) {
-
+	const courselist = JSON.parse(localStorage.courselist);
+	if (courselist[semester].length == 0) {
+		solutionlist[semester] = [];
 		$("#solutions ul").empty();
 		clear_table();
 	} else {
@@ -244,32 +275,19 @@ function getSolutions() {
 			url: '/smart', 
 			data: {
 				term: semester,
-			  	courselist: JSON.stringify(JSON.parse(localStorage.courselist)[semester]),
+			  	courselist: JSON.stringify(courselist[semester]),
 			  	preferences: localStorage.preferences
 			}, 
 			success: function(data) {
 				var course_data = JSON.parse(data.courses);
+				if (!solutionlist) solutionlist = {"2017 Fall": [], "2018 Winter": []};
 				solutionlist[semester] = JSON.parse(data.solutions);
 				store_course_data(course_data);
-				cur = 0;
 				currentlist = solutionlist[semester][cur];
 				render_solution(cur);
-				$("#solutions ul").empty();
-				for (var i = 0; i < solutionlist[semester].length; i++) {
-				  $("#solutions ul").append("<li>Solution " + (i+1) + "</li>");
-				}
-				$("#solutions li").on("click", function() {
-				  console.log($("#solutions li").index(this));
-				  render_solution($("#solutions li").index(this));
-
-				});
-				$("#switch-left").on("click",function() {
-				  render_solution((cur-1+solutionlist[semester].length)%solutionlist[semester].length);
-			    });
-			    $("#switch-right").on("click",function() {
-				  render_solution((cur+1)%solutionlist[semester].length);
-			    });
 				localStorage.solution = JSON.stringify(solutionlist);
+				console.log(solutionlist);
+				load_solution_list();
 			}
 	  	});
 	}
@@ -307,7 +325,7 @@ function set_semester(choice) {
 	}
 }
 $(document).ready(function(){
-
+	cur = 0;
 	load_courselst();
 	load_preference();
 	if (localStorage.solution) {
@@ -339,7 +357,11 @@ $(document).ready(function(){
   		getSolutions();
 	});
 	clear_table();
-
+	if (localStorage.solution) {
+		solutionlist = JSON.parse(localStorage.solution);
+		render_solution(0);
+		load_solution_list();
+	}
 	/* Display all sections of courses searched
 	 * after typing some string inside search bar and press "search"
 	 */

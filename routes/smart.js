@@ -7,8 +7,8 @@ var over_lap = function(a, b) {
 	return false;
 }
 var solutionlist, currentlist, course_data;
-var backtrack = function(courselist) {
-	if (solutionlist.length >= 100) return;
+var backtrack = function(courselist, clip_max) {
+	if (solutionlist.length >= 1000) return;
 	if (currentlist.length == courselist.length) {
 		solutionlist.push(JSON.parse(JSON.stringify(currentlist)));
 	} else {
@@ -23,7 +23,7 @@ var backtrack = function(courselist) {
 				}
 			if (ok) {
 				currentlist.push(courselist[depth][i]);
-				backtrack(courselist);
+				backtrack(courselist, clip_max);
 				currentlist.pop();
 			}
 		}
@@ -40,8 +40,19 @@ var compute_valid_solutions = function(input, term, callback) {
 	for (var key in course_data) 
 		for (var type in course_data[key][term]) 
 			c_lst.push(course_data[key][term][type]);
-
-	backtrack(c_lst);
+	console.log(c_lst);
+	backtrack(c_lst, 7);
+	if (solutionlist.length == 0)	{
+		backtrack(c_lst, 1000);
+		if (solutionlist.length == 0) {
+			for (var i = 0; i < c_lst.length; i++) {
+				var t = c_lst.splice(i, 1);
+				console.log(t);
+				backtrack(c_lst, 1000);
+				c_lst.splice(i, 0, t[0]);
+			}
+		}
+	}
 
 	
 	for (var i = 0; i < solutionlist.length; i++) {
@@ -70,6 +81,6 @@ var compute_valid_solutions = function(input, term, callback) {
     solutionlist.sort(function (a, b) {
 		return b.score - a.score;
     });
-	callback(solutionlist);
+	callback(solutionlist.slice(0, 15));
 }
 module.exports= compute_valid_solutions;

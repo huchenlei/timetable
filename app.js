@@ -24,10 +24,12 @@ app.use(function(req, res, next) {
   res.locals.session = req.session;
   next();
 });
-app.use(cookieParser());
-app.set('views', path.join(__dirname, './views'));
-nunjucks.configure(path.join(__dirname, "views"), { autoescape: true, express: app });
-app.use(express.static(path.join(__dirname, "./public")));
+// app.use(cookieParser());
+// app.set('views', path.join(__dirname, './views'));
+// nunjucks.configure(path.join(__dirname, "views"), { autoescape: true, express: app });
+// app.use(express.static(path.join(__dirname, "./public")));
+
+app.use(express.static(path.join(__dirname, '/dist')));
 
 //app.use('/', routes);
 app.use('/courses', courses);
@@ -142,7 +144,7 @@ function smart(req, res) {
 
 }
 app.post('/smart', smart);
-app.listen(process.env.PORT || 3000, function () {
+app.listen(process.env.PORT || 3001, function () {
   console.log('listening on port 3000!');
 });
 

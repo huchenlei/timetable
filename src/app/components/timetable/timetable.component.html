@@ -1,0 +1,43 @@
+<table class="ui fixed center aligned equal height row unstackable table">
+    <thead>
+        <tr>
+            <th class="first"></th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="timetableSlot">
+        <tr *ngFor="let item of createRange(15); let i = index">
+            <td>{{8 + i}}:00</td>
+              <td
+                *ngFor="let col of createTd(timetableSlot.map, i); let j = index"
+                [style.background-color]="col.color"
+                class="{{col.class}}"
+                [attr.rowspan]="col.rowspan"
+                (click)="col.fn()"
+                >
+                <span *ngIf="col.section=='multiple'; else elseBlock;">
+                  <ng-template let-popup #popupTemplate>
+                      <div class="header">Sections</div>
+                      <div class="content">
+                        {{col.lst}}
+                      </div>
+                  </ng-template>
+
+                  <span suiPopup [popupTemplate]="popupTemplate">
+                    <strong>{{col.code}}</strong><span style="opacity:0.5"> {{col.section}}<br />
+                    <span *ngIf="col.start">{{col.start / 3600}}:00-{{col.end / 3600}}:00</span></span>
+                  </span>
+                </span>
+                <ng-template #elseBlock>
+                  <strong>{{col.code}}</strong><span style="opacity:0.5"> {{col.section}}<br />
+                  <span *ngIf="col.start">{{col.start / 3600}}:00-{{col.end / 3600}}:00</span></span>
+                </ng-template>
+
+              </td>
+        </tr>
+    </tbody>
+</table>
