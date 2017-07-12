@@ -23,6 +23,7 @@
     "@angular/router": "^4.0.0",
     "core-js": "^2.4.1",
     "ng-semantic": "git+https://github.com/ajaxjiang96/ngSemantic.git",
+    "ng2-responsive": "^0.8.4",
     "ng2-semantic-ui": "^0.9.2",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"

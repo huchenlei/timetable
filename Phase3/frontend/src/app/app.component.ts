@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Directive, TemplateRef, ViewContainerRef } from "@angular/core";
 
 import { CourseItemComponent } from './components/course-item/course-item.component'
 import { TimetableComponent } from './components/timetable/timetable.component'
@@ -57,6 +58,9 @@ export class AppComponent {
         this.courseService.storeCourseData(this.courses);
         this.courseService.storeSolutionList(this.solutionlist);
         console.log(this.solutionlist);
+        this.courseService.load_solution_list(this.solutionlist, this.term)
+        this.courseService.storeSolutionList(this.solutionlist);
+
         this.timetable.updateSolution(this.solutionlist)
         this.timetable.renderSolution(0, this.term);
       })

@@ -36,3 +36,30 @@ app-course-item.course:hover {
   height: 50px;
   display: inline-block;
 }
+
+.content {
+  margin-left: 260px;
+  padding:25px;
+}
+
+.side-button {
+  background-color: #000;
+  position: fixed;
+  height: 100%;
+  justify-content: center;
+  display: flex;
+  padding:10px;
+  color:white !important;
+  cursor: pointer;
+}
+.sidebar-toggle {
+  color: white;
+  position: sticky;
+}
+
+@media screen and (max-width: 990px) {
+  .content {
+    margin-left: 0px;
+    padding: 10px 0px 10px 40px;
+  }
+}

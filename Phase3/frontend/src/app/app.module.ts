@@ -14,6 +14,7 @@ import { PreferenceService } from './services/preference.service';
 import { CourseService } from './services/course.service';
 
 import { TranslatePipe } from './pipes/translate.pipe';
+import { ResponsiveModule } from 'ng2-responsive'
 
 @NgModule({
   declarations: [
@@ -22,13 +23,15 @@ import { TranslatePipe } from './pipes/translate.pipe';
     PreferenceSelectorComponent,
     TranslatePipe,
     TimetableComponent,
-    SearchBarComponent
+    SearchBarComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    SuiModule
+    SuiModule,
+    ResponsiveModule
+
   ],
   providers: [ PreferenceService, CourseService ],
   bootstrap: [ AppComponent ]

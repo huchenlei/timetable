@@ -74,4 +74,26 @@ export class CourseService {
     : {"2017 Fall":[], "2018 Winter":[]};
   }
 
+  load_solution_list(solutionlist, semester) {
+  	const courselist = JSON.parse(localStorage.getItem('courselist'));
+  	var not_complete = false;
+  	for (var i = 0; i < solutionlist[semester].length; i++) {
+  		var extra_title = "";
+  		var solution = solutionlist[semester][i];
+  		var dict_sol_courselst = {};
+  		for (var j = 0; j < solution.length; j++)
+  			dict_sol_courselst[solution[j].courseCode] = true;
+  		console.log(dict_sol_courselst);
+  		for (var j = 0; j < courselist[semester].length; j++)
+  			if (!dict_sol_courselst.hasOwnProperty(courselist[semester][j])) {
+  				solutionlist[semester][i].extraTitle =  "(not include " + courselist[semester][j] + ")";
+          console.log(semester, i, "(not include " + courselist[semester][j] + ")")
+  				not_complete = true;
+  				break;
+  			}
+  	}
+  	if (not_complete) alert("No valid solution on all of your course. We tried our best to show you some solutions.");
+    return solutionlist;
+  }
+
 }
