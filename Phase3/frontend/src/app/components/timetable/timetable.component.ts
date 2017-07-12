@@ -174,6 +174,8 @@ export class TimetableComponent implements OnInit {
           class: "course",
           rowspan: course.times[i].duration/3600,
           delete: false,
+          start: course.times[i].start,
+          end: course.times[i].end,
           fn: () => {
             console.log("course", course)
             this.renderSolution(this.cur);
@@ -227,20 +229,25 @@ export class TimetableComponent implements OnInit {
     this.initTimetable(this.timetableSlot);
     for (var i = 0; i < course.times.length; i++) {
       var col_num = this.convert_day[course.times[i].day];
+      let start = course.times[i].start / 3600 - 7;
+      for (let n = 0; n <= course.times[i].duration/3600; n++) {
+        // console.log(course.code, col_num - 1, start + n - 1, this.timetableSlot.map[col_num - 1][start + n - 1].delete)
+        // console.log(this.timetableSlot.printTable());
+        if (this.timetableSlot.map[col_num - 1][start + n - 1].delete) {
+          console.log(col_num - 1, start + n - 1)
+          this.timetableSlot.cleanSpan(col_num - 1, start + n - 1);
+        }
+      }
+
       for (var j = course.times[i].start / 3600 - 7; j < course.times[i].end / 3600 - 7; j++) {
-        // for (let n = 0; n <= course.times[i].duration/3600; n++) {
-        //   console.log(col_num - 1, j + n - 1, this.timetableSlot.map[col_num - 1][j + n - 1].delete)
-        //   if (this.timetableSlot.map[col_num - 1][j + n - 1].delete) {
-        //     console.log(col_num - 1, j + n - 1)
-        //     this.timetableSlot.cleanSpan(col_num - 1, j + n - 1);
-        //   }
-        // }
         let k = {
           code: "OPTION",
           section: course.code[0],
           color: color,
           class: "option",
           rowspan: course.times[i].duration/3600,
+          start: course.times[i].start,
+          end: course.times[i].end,
           // rowspan:1,
           delete: false,
           fn: () => {
@@ -263,15 +270,15 @@ export class TimetableComponent implements OnInit {
         if (j == course.times[i].start / 3600 - 7) {
           this.timetableSlot.setValue(col_num - 1, j - 1, k)
         }
-        // else {
-        //   this.timetableSlot.setValue(col_num - 1, j, {
-        //     code: " ",
-        //     section: " ",
-        //     color: "",
-        //     class: "",
-        //     delete: true
-        //   })
-        // }
+        else {
+          this.timetableSlot.setValue(col_num - 1, j - 1, {
+            code: " ",
+            section: " ",
+            color: "",
+            class: "",
+            delete: true
+          })
+        }
       }
     }
   }

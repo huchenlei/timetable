@@ -22,12 +22,27 @@ export class TimetableSlot {
   cleanSpan(i, j) {
     console.log("clean")
     for (let k = j; k > 0; k-- ) {
-      if (this.map[i][j].rowspan > 1) {
-        this.map[i][j].rowspan = 1;
-        this.map[i][j].color="#a00"
+      if (this.map[i][k].rowspan > 1) {
+        this.map[i][k].rowspan = 1;
+        this.map[i][k].color="#a00"
         break;
       }
     }
+  }
+
+  printTable() {
+    let res = ""
+    for (let i = 0; i < 15; i++) {
+      for (let j = 0; j < 5; j++) {
+        if (this.map[j][i].delete) {
+          res += "| d "
+        } else {
+          res += "|   "
+        }
+      }
+      res += '\n'
+    }
+    return res;
   }
 }
 
@@ -38,5 +53,7 @@ export class Cell {
   class: string = "";
   rowspan: number | string = 1;
   delete: boolean = false;
-  fn = () => {console.log("别点了")}
+  fn = () => {console.log("别点了")};
+  start: number;
+  end: number;
 }
