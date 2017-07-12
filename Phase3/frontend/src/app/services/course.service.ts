@@ -36,7 +36,7 @@ export class CourseService {
     return this.http.post('/smart', {
       term: term,
       courselist: JSON.stringify(JSON.parse(localStorage.courselist)[term]),
-      preferences: JSON.stringify(this.preferenceService.loadPreference())
+      preferences: JSON.stringify(this.preferenceService.parsePreference(this.preferenceService.loadPreferences()))
     })
       .toPromise()
       .then((data) => {

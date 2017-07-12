@@ -19,8 +19,8 @@
                 [attr.rowspan]="col.rowspan"
                 (click)="col.fn()"
                 >
-                <strong>{{col.code}}</strong> {{col.section}}<br />
-                <span *ngIf="col.start">{{col.start / 3600}}:00-{{col.end / 3600}}:00</span>
+                <strong>{{col.code}}</strong><span style="opacity:0.5"> {{col.section}}<br />
+                <span *ngIf="col.start">{{col.start / 3600}}:00-{{col.end / 3600}}:00</span></span>
               </td>
         </tr>
     </tbody>

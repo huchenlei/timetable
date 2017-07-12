@@ -165,6 +165,15 @@ export class TimetableComponent implements OnInit {
     course.color = this.back[0];
     for (var i = 0; i < course.times.length; i++) {
   		var col_num = this.convert_day[course.times[i].day] - 1;
+      // let start = course.times[i].start / 3600 - 7;
+      // for (let n = 0; n <= course.times[i].duration/3600; n++) {
+      //   // console.log(course.code, col_num - 1, start + n - 1, this.timetableSlot.map[col_num - 1][start + n - 1].delete)
+      //   // console.log(this.timetableSlot.printTable());
+      //   if (this.timetableSlot.map[col_num - 1][start + n - 1].delete) {
+      //     console.log(col_num - 1, start + n - 1)
+      //     this.timetableSlot.cleanSpan(col_num - 1, start + n - 1);
+      //   }
+      // }
   		for (var j = course.times[i].start / 3600 - 7; j < course.times[i].end / 3600 - 7; j++) {
       if (j == course.times[i].start / 3600 - 7) {
         this.timetableSlot.setValue(col_num, j - 1, {

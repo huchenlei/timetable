@@ -7,12 +7,13 @@ td {
 td.course {
   /*border: 2px solid rgba(0,0,0,0.5) !important;*/
   border-left: 1px solid rgba(34, 36, 38, 0.1);
-  border-right: 1px solid rgba(34, 36, 38, 0.1)
-
+  border-right: 1px solid rgba(34, 36, 38, 0.1);
+  cursor:pointer;
 }
 
 td.option {
   border-left: 1px solid rgba(34, 36, 38, 0.1);
   border-right: 1px solid rgba(34, 36, 38, 0.1);
   opacity: 0.5;
+  cursor: pointer;
 }

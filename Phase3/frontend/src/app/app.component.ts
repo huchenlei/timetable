@@ -29,7 +29,7 @@ export class AppComponent {
   ) {
     this.courses = this.courseService.loadCourseData();
     this.selectedCourses = this.courseService.loadCourseList();
-    this.preferences = this.preferenceService.loadPreference();
+    this.preferences = this.preferenceService.loadPreferences();
     this.solutionlist = this.courseService.loadSolutionList();
   }
 

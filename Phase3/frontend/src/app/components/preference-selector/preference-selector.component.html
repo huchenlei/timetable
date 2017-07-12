@@ -1,84 +1,51 @@
 <table class="ui inverted fixed table">
     <thead>
         <tr>
-            <th></th>
-            <th>
+            <th class="center aligned {{ preference['monday']['no'] ? 'red' : ''}}">
                 M
             </th>
-            <th>
+            <th class="center aligned {{ preference['tuesday']['no'] ? 'red' : ''}}">
                 T
             </th>
-            <th>
+            <th class="center aligned {{ preference['wednesday']['no'] ? 'red' : ''}}">
                 W
             </th>
-            <th>
+            <th class="center aligned {{ preference['thursday']['no'] ? 'red' : ''}}">
                 H
             </th>
-            <th>
+            <th class="center aligned {{ preference['friday']['no'] ? 'red' : ''}}">
                 F
             </th>
         </tr>
     </thead>
     <tbody>
+      <tr *ngFor="let time of times">
+        <td
+          *ngFor="let day of days"
+          (click)="flip(day, time)"
+          class="center aligned {{ preference[day][time] ? 'selected' : ''}} {{ preference[day]['no'] ? 'red' : ''}}"
+        >
+        </td>
+
+      </tr>
         <tr>
-            <th>
-                MORNING
-            </th>
-            <td (click)="flip('monday', 'morning')" class="{{ preference.monday.morning ? 'selected' : ''}}">
-
+            <td (click)="flip('monday', 'no')" class="all center aligned {{ preference['monday']['no'] ? 'red' : ''}}">
+              <i class="close icon"></i>
             </td>
-            <td (click)="flip('tuesday', 'morning')" class="{{ preference.tuesday.morning ? 'selected' : ''}}">
-
+            <td (click)="flip('tuesday', 'no')" class="all center aligned {{ preference['tuesday']['no'] ? 'red' : ''}}">
+              <i class="close icon"></i>
             </td>
-            <td (click)="flip('wednesday', 'morning')" class="{{ preference.wednesday.morning ? 'selected' : ''}}">
-
+            <td (click)="flip('wednesday', 'no')" class="all center aligned {{ preference['wednesday']['no'] ? 'red' : ''}}">
+              <i class="close icon"></i>
             </td>
-            <td (click)="flip('thursday', 'morning')" class="{{ preference.thursday.morning ? 'selected' : ''}}">
-
+            <td (click)="flip('thursday', 'no')" class="all center aligned {{ preference['thursday']['no'] ? 'red' : ''}}">
+              <i class="close icon"></i>
             </td>
-            <td (click)="flip('friday', 'morning')" class="{{ preference.friday.morning ? 'selected' : ''}}">
-
-            </td>
-        </tr>
-        <tr>
-            <th>
-                AFTERNOON
-            </th>
-            <td (click)="flip('monday', 'afternoon')" class="{{ preference.monday.afternoon ? 'selected' : ''}}">
-
-            </td>
-            <td (click)="flip('tuesday', 'afternoon')" class="{{ preference.tuesday.afternoon ? 'selected' : ''}}">
-
-            </td>
-            <td (click)="flip('wednesday', 'afternoon')" class="{{ preference.wednesday.afternoon ? 'selected' : ''}}">
-
-            </td>
-            <td (click)="flip('thursday', 'afternoon')" class="{{ preference.thursday.afternoon ? 'selected' : ''}}">
-
-            </td>
-            <td (click)="flip('friday', 'afternoon')" class="{{ preference.friday.afternoon ? 'selected' : ''}}">
-
-            </td>
-        </tr>
-        <tr>
-            <th>
-                NIGHT
-            </th>
-            <td (click)="flip('monday', 'evening')" class="{{ preference.monday.evening ? 'selected' : ''}}">
-
-            </td>
-            <td (click)="flip('tuesday', 'evening')" class="{{ preference.tuesday.evening ? 'selected' : ''}}">
-
-            </td>
-            <td (click)="flip('wednesday', 'evening')" class="{{ preference.wednesday.evening ? 'selected' : ''}}">
-
-            </td>
-            <td (click)="flip('thursday', 'evening')" class="{{ preference.thursday.evening ? 'selected' : ''}}">
-
-            </td>
-            <td (click)="flip('friday', 'evening')" class="{{ preference.friday.evening ? 'selected' : ''}}">
-
+            <td (click)="flip('friday', 'no')" class="all center aligned {{ preference['friday']['no'] ? 'red' : ''}}">
+              <i class="close icon"></i>
             </td>
         </tr>
     </tbody>
 </table>
+<span style="color:#51B8A3"><i class="square icon"></i> I prefer this timeslot.</span><br />
+<span style="color:#DC4C46"><i class="square icon"></i> I dont want this timeslot.</span>
