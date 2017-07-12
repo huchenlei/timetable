@@ -45,8 +45,8 @@ app-course-item.course:hover {
 .side-button {
   background-color: #000;
   position: fixed;
-  height: 100%;
-  justify-content: center;
+  width: 100%;
+  justify-content:flex-start;
   display: flex;
   padding:10px;
   color:white !important;
@@ -60,6 +60,6 @@ app-course-item.course:hover {
 @media screen and (max-width: 990px) {
   .content {
     margin-left: 0px;
-    padding: 10px 0px 10px 40px;
+    padding: 50px 0px 10px 0px;
   }
 }

@@ -17,3 +17,12 @@ td.option {
   opacity: 0.5;
   cursor: pointer;
 }
+
+@media screen and (max-width: 990px) {
+  td {
+    font-size: 8px
+  }
+  td strong {
+    font-size: 10px
+  }
+}
