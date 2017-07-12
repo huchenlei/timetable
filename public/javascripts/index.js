@@ -11,7 +11,7 @@ var semester = '2017 Fall';
 // check if two course overlap
 var over_lap = function(a, b) {
 	for (var i = 0; i < a.length; i++)
-		for (var j = 0; j < b.length; j++) 
+		for (var j = 0; j < b.length; j++)
 			if (a[i].day == b[j].day && Math.max(a[i].start, b[j].start) < Math.min(a[i].end, b[j].end))
 				return true;
 	return false;
@@ -25,13 +25,13 @@ var draw_option = function(course) {
 		for (var j = 1 + first_row; j < course.times[i].end/3600 - 7; j++) {
 			table_delete_counter[j-1][col_num-1] = 1;
 			var cnt = 0;
-			for (var z = 0; z < col_num-1; z++) 
+			for (var z = 0; z < col_num-1; z++)
 				cnt += table_delete_counter[j-1][z];
 			var t = $(".timetable table tr:nth-of-type(" + j + ") td:eq(" + (col_num - cnt) + ")");
 			t.remove();
 		}
 		var cnt = 0;
-		for (var z = 0; z < col_num-1; z++) 
+		for (var z = 0; z < col_num-1; z++)
 			cnt += table_delete_counter[first_row-1][z];
 		var k = $(".timetable tbody tr:nth-of-type(" + first_row + ") td:eq(" + (col_num - cnt) + ")");
 		k.attr("rowspan", course.times[i].duration/3600).addClass("course").css("background-color", color);
@@ -65,12 +65,12 @@ var draw_option = function(course) {
 						course.code[0] = course.code[index];
 						course.code[index] = temp;
 						var replace_index = 0;
-						for (var j = 0; j < currentlist.length; j++) 
+						for (var j = 0; j < currentlist.length; j++)
 							if (currentlist[j].courseCode == course.courseCode && currentlist[j].code[0][0] == course.code[0][0]) {
 								replace_index = j;
 								break;
 							}
-						
+
 						currentlist.splice(replace_index, 1, course);
 						localStorage.solution = JSON.stringify(solutionlist);
 						render_solution(cur);
@@ -80,7 +80,7 @@ var draw_option = function(course) {
 			});
 		}
 	}
-	
+
 };
 
 
@@ -93,13 +93,13 @@ var draw_course = function(course) {
 		for (var j = 1 + first_row; j < course.times[i].end/3600 - 7; j++) {
 			table_delete_counter[j-1][col_num-1] = 1;
 			var cnt = 0;
-			for (var z = 0; z < col_num-1; z++) 
+			for (var z = 0; z < col_num-1; z++)
 				cnt += table_delete_counter[j-1][z];
 			var t = $(".timetable table tr:nth-of-type(" + j + ") td:eq(" + (col_num - cnt) + ")");
 			t.remove();
 		}
 		var cnt = 0;
-		for (var z = 0; z < col_num-1; z++) 
+		for (var z = 0; z < col_num-1; z++)
 			cnt += table_delete_counter[first_row-1][z];
 		var k = $(".timetable tbody tr:nth-of-type(" + first_row + ") td:eq(" + (col_num - cnt) + ")");
 		k.attr("rowspan", course.times[i].duration/3600).addClass("course").css("background-color", course.color);
@@ -128,7 +128,7 @@ var clear_table = function() {
 		for (var j = 0; j < 5; j++) t.push(0);
 		table_delete_counter.push(t);
 	}
-	
+
 	var t = $("template").clone();
 	$(".timetable table").remove();
 	$(".timetable").append(t.html());
@@ -140,7 +140,7 @@ var render_solution = function(index) {
 		var solution = solutionlist[semester][index];
 		currentlist = solution;
 		cur = index;
-		for (var i = 0; i < solution.length; i++) 
+		for (var i = 0; i < solution.length; i++)
 			draw_course(solution[i]);
 	}
 };
@@ -213,9 +213,9 @@ function load_courselst() {
 		var new_delete = document.createElement('span');
 		new_delete.setAttribute('class', 'glyphicon glyphicon-remove hide');
 		new_delete.setAttribute('aria-hidden', 'true');
-		new_delete.id = course; 
+		new_delete.id = course;
 		new_delete.onclick = delete_course;
-		
+
 		$(new_td).hover(function () {$(this).find("span").toggleClass('hide')},
 			function () {$(this).find("span").toggleClass('hide')});
 		new_td.append(new_delete);
@@ -238,10 +238,10 @@ function load_solution_list() {
 		var extra_title = "";
 		var solution = solutionlist[semester][i];
 		var dict_sol_courselst = {};
-		for (var j = 0; j < solution.length; j++) 
+		for (var j = 0; j < solution.length; j++)
 			dict_sol_courselst[solution[j].courseCode] = true;
 		console.log(dict_sol_courselst);
-		for (var j = 0; j < courselist[semester].length; j++) 
+		for (var j = 0; j < courselist[semester].length; j++)
 			if (!dict_sol_courselst.hasOwnProperty(courselist[semester][j])) {
 				extra_title += "(not include " + courselist[semester][j] + ")";
 				not_complete = true;
@@ -272,12 +272,12 @@ function getSolutions() {
 	} else {
 		$.ajax({
 			type: 'POST',
-			url: '/smart', 
+			url: '/smart',
 			data: {
 				term: semester,
 			  	courselist: JSON.stringify(courselist[semester]),
 			  	preferences: localStorage.preferences
-			}, 
+			},
 			success: function(data) {
 				var course_data = JSON.parse(data.courses);
 				if (!solutionlist) solutionlist = {"2017 Fall": [], "2018 Winter": []};
@@ -299,9 +299,9 @@ function getSolutions() {
 }
 function add_course(course_code) {
 	const courselist = JSON.parse(localStorage.courselist);
-	if (courselist[semester].indexOf(course_code) == -1) 
+	if (courselist[semester].indexOf(course_code) == -1)
 		courselist[semester].push(course_code);
-	
+
 	localStorage.courselist = JSON.stringify(courselist);
 	load_courselst();
 	getSolutions();
@@ -328,10 +328,6 @@ $(document).ready(function(){
 	cur = 0;
 	load_courselst();
 	load_preference();
-	if (localStorage.solution) {
-		solutionlist = JSON.parse(localStorage.solution);
-		render_solution(0);
-	}
 	$('#select-fall').on('click', () => set_semester('Fall'));
 	$('#select-winter').on('click', () => set_semester('Winter'));
 	$('#select-fall').click();
@@ -375,7 +371,7 @@ $(document).ready(function(){
 		//response data are now in the result variable
 		//result = array of objects
 		// everytime search is clicked show #normal-search-result
-		
+
 		let len = result.length;
 		var courses = new Set();
 		var course_name_mapping = {};
@@ -386,7 +382,7 @@ $(document).ready(function(){
 			course_name_mapping[new_code] = result[i].name;
 		  }
 		}
-		if (courses.size == 1) 
+		if (courses.size == 1)
 			add_course(courses.entries().next().value[0]);
 		else {
 			$('#resultViewWrapper').css('top', $('.left-bar h2').css('height') + $('.left-bar .search-bar').css('height')).show();
@@ -399,10 +395,10 @@ $(document).ready(function(){
 			  }
 			);
 		}
-		
+
 	  }).catch(() => alert('Course not found in term ' + semester));
 	});
-	
+
 
 	/*
 	 *每次点body都会清空resultList and hide search result
