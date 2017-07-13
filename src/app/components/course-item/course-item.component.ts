@@ -9,7 +9,7 @@ export class CourseItemComponent implements OnInit {
 
   @Input() course: string;
   @Output() deleteCourse: EventEmitter<string> = new EventEmitter<string>();
-
+  right = "right";
   constructor() { }
 
   ngOnInit() {
