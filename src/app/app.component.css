@@ -8,11 +8,9 @@
 }
 
 app-course-item.course {
-    border: none !important;
-    border-radius: 4px;
-    background-color: #656565;
-    padding: 10px 10px 10px 0;
-    margin: 10px 0;
+  border: none !important;
+  border-radius: 4px;
+    margin: 5px 0 !important;
 }
 
 app-course-item.course:hover {

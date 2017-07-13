@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" suiPopup [popupTemplate]="popupTemplate" [popupPlacement]="right" popupTrigger="outsideClick">
     <div class="left floated column">
         {{course}}
     </div>
@@ -6,3 +6,9 @@
         <a (click)='onClickClose()'><i class="close icon" style="color:white"></i></a>
     </div>
 </div>
+
+<ng-template let-popup #popupTemplate>
+    <div class="content">
+      <app-course-body [courseCode]="course"></app-course-body>
+    </div>
+</ng-template>
