@@ -44,7 +44,7 @@ export class CourseService {
 
   storeCourseData(courseList: any, term: string) {
     var course_data = JSON.parse(localStorage.getItem("course_data"));
-    if (!(term in course_data)) {
+    if (!(course_data && (term in course_data))) {
       this.initLocalStorage();
     }
     course_data[term] = courseList;
@@ -73,7 +73,7 @@ export class CourseService {
   }
   loadCourseData(term: string) : any {
     var data = JSON.parse(localStorage.getItem("course_data"));
-    if (!(term in data)) {
+    if (!(data && (term in data))) {
       this.initLocalStorage();
     }
     return JSON.parse(localStorage.getItem("course_data"))[term];
