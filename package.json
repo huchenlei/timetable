@@ -1,14 +1,14 @@
 {
   "name": "SmartTimeTable",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "engines": {
-    "node": "8.1.2"
+    "node": "8.1.4"
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng build && supervisor app.js",
-    "build": "ng build && supervisor app.js",
+    "start": "ng build -prod && node app.js",
+    "build": "ng build -prod && node app.js",
     "test": "ng serve",
     "lint": "ng lint",
     "e2e": "ng e2e",
