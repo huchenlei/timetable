@@ -42,22 +42,41 @@ export class CourseService {
       .catch(err => {return Promise.reject(err)});
   }
 
-  storeCourseData(courseList: any) {
-    var old_course_data = this.loadCourseData();
-    var new_course_data = Object.assign({}, old_course_data, courseList);
-    console.log("Storing", new_course_data);
-    localStorage.setItem("course_data", JSON.stringify(new_course_data));
-  }
-
-  removeCourseData(course: string) {
-    var course_data = this.loadCourseData();
-    delete course_data[course];
+  storeCourseData(courseList: any, term: string) {
+    var course_data = JSON.parse(localStorage.getItem("course_data"));
+    if (!(course_data && (term in course_data))) {
+      this.initLocalStorage();
+    }
+    course_data[term] = courseList;
     localStorage.setItem("course_data", JSON.stringify(course_data));
   }
 
+  // removeCourseData(course: string) {
+  //   var course_data = this.loadCourseData();
+  //   delete course_data[course];
+  //   localStorage.setItem("course_data", JSON.stringify(course_data));
+  // }
 
-  loadCourseData() : any {
-    return JSON.parse(localStorage.getItem("course_data"));
+  initLocalStorage() {
+    localStorage.setItem("course_data", JSON.stringify({
+      "2017 Fall": [],
+      "2018 Winter": []
+    }));
+    localStorage.setItem("solution", JSON.stringify({
+      "2017 Fall": [],
+      "2018 Winter": []
+    }));
+    localStorage.setItem("courselist", JSON.stringify({
+      "2017 Fall": [],
+      "2018 Winter": []
+    }));
+  }
+  loadCourseData(term: string) : any {
+    var data = JSON.parse(localStorage.getItem("course_data"));
+    if (!(data && (term in data))) {
+      this.initLocalStorage();
+    }
+    return JSON.parse(localStorage.getItem("course_data"))[term];
   }
 
   storeCourseList(courseList: string[]) {

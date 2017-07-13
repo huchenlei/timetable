@@ -28,7 +28,7 @@ export class AppComponent {
     private courseService : CourseService,
     private preferenceService : PreferenceService,
   ) {
-    this.courses = this.courseService.loadCourseData();
+    this.courses = this.courseService.loadCourseData(this.term);
     this.selectedCourses = this.courseService.loadCourseList();
     this.preferences = this.preferenceService.loadPreferences();
     this.solutionlist = this.courseService.loadSolutionList();
@@ -41,12 +41,13 @@ export class AppComponent {
   deleteCourse(course : string): void {
       this.selectedCourses[this.term].splice(this.selectedCourses[this.term].indexOf(course), 1);
       this.courseService.storeCourseList(this.selectedCourses);
-      this.courseService.removeCourseData(course);
   }
 
   addCourse(course : Course) : void {
-    this.selectedCourses[this.term].push(course.code);
-    this.courseService.storeCourseList(this.selectedCourses);
+    if (this.selectedCourses[this.term].indexOf(course.code) == -1) {
+      this.selectedCourses[this.term].push(course.code);
+      this.courseService.storeCourseList(this.selectedCourses);
+    }
   }
 
   getSolutions() : void {
@@ -54,7 +55,7 @@ export class AppComponent {
       .then((res) => {
         this.solutionlist[this.term] = JSON.parse(res.solutions);
         this.courses = JSON.parse(res.courses);
-        this.courseService.storeCourseData(this.courses);
+        this.courseService.storeCourseData(this.courses, this.term);
         this.courseService.storeSolutionList(this.solutionlist);
         this.courseService.load_solution_list(this.solutionlist, this.term)
         this.courseService.storeSolutionList(this.solutionlist);

@@ -185,7 +185,7 @@ export class TimetableComponent implements OnInit {
           end: course.times[i].end,
           fn: () => {
             this.renderSolution(this.cur, this.term);
-            let courseData = this.courseService.loadCourseData();
+            let courseData = this.courseService.loadCourseData(this.term);
             console.log("course", course);
             console.log("data", courseData);
             console.log("term", this.term);
@@ -219,7 +219,7 @@ export class TimetableComponent implements OnInit {
 
   onCLickCourse(course) {
     this.renderSolution(this.cur, this.term);
-    let courseData = this.courseService.loadCourseData();
+    let courseData = this.courseService.loadCourseData(this.term);
     let optLst = courseData[course.courseCode][this.term][course.code[0][0]];
     this.drawOption(course);
     for (var i = 0; i < optLst.length; i++) {
