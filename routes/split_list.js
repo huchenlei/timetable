@@ -139,7 +139,8 @@ function merge_sections(course_data) {
       var merge_unit = {
         courseCode: all_sections[0].courseCode,
         code: [cur_obj.code],
-        times: cur_obj.times
+        times: cur_obj.times,
+        instructors: cur_obj.instructors,
       };
       for (var k = i + 1; k < all_sections.length; k++) {
         if (compare_timeslot(cur_obj, all_sections[k])) {
