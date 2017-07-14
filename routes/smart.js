@@ -41,8 +41,6 @@ var compute_time_preference = function(t, p) {
 	if (p.day == t.day || p.day == 'any') {
 		score += p.exclude * time_overlap(t, p);
 	}
-	console.log("comparing", t, p);
-	console.log(score);
 	return score;
 }
 
@@ -50,27 +48,27 @@ var compute_valid_solutions = function(input, term, callback) {
 	solutionlist = [];
 	currentlist = [];
 
+	console.log("Generating solutions");
 	course_data = input[1];
 	p_lst = input[0];
 	c_lst = [];
 	for (var key in course_data)
 		for (var type in course_data[key][term])
 			c_lst.push(course_data[key][term][type]);
-	console.log(c_lst);
 	backtrack(c_lst, 7);
 	if (solutionlist.length == 0)	{
-		backtrack(c_lst, 100);
+		backtrack(c_lst, 1000);
 		if (solutionlist.length == 0) {
 			for (var i = 0; i < c_lst.length; i++) {
 				var t = c_lst.splice(i, 1);
-				console.log(t);
-				backtrack(c_lst, 100);
+				backtrack(c_lst, 1000);
 				c_lst.splice(i, 0, t[0]);
 			}
 		}
 	}
+	console.log("Solution generation done");
 
-
+	console.log("Computing Solution score");
 	for (var i = 0; i < solutionlist.length; i++) {
 		s = solutionlist[i];	// a solution
 		s.score = 0;
@@ -80,16 +78,18 @@ var compute_valid_solutions = function(input, term, callback) {
 				t = section.times[k];   // current timeslot
 				for (var z = 0; z < p_lst.length; z++) {
 					p = p_lst[z];    // current preference
-					s.score += compute_time_preference(t, p);
+					s.score += t.score;
 				}
 			}
 		}
-		console.log(s);
 	}
+	console.log("Solution Score done");
 
+	console.log("Starting sorting solutions");
     solutionlist.sort(function (a, b) {
 		return b.score - a.score;
     });
+    console.log("sort done");
 	callback(solutionlist.slice(0, 15));
 }
 module.exports= compute_valid_solutions;

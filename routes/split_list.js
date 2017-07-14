@@ -59,6 +59,7 @@ function split_list(input, term, callback){
   }
   p_lst = input[0];
 
+  console.log("Computing section score");
   input[1] = merge_sections(input.slice(1));
   var coursedata = input[1];
   for (var courseCode in coursedata) {
@@ -81,8 +82,8 @@ function split_list(input, term, callback){
         return b.score - a.score;
       });
     }
-
   }
+  console.log("section score done");
 
 
   return callback(input);

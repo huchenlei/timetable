@@ -143,7 +143,6 @@ function smart(req, res) {
         console.log("Computing valid solution");
         compute_valid_solutions(list, term, function(solutions) {
           console.log("Finished");
-          console.log("Solution", solutions);
           return res.json({
             solutions: JSON.stringify(solutions),
             courses: JSON.stringify(list[1])
