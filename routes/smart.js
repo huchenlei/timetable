@@ -30,6 +30,20 @@ var backtrack = function(courselist, clip_max) {
 	}
 }
 
+var time_overlap = function(a, b) {
+	var interval = Math.min(a.end,b.end) - Math.max(a.start,b.start);
+	if (interval > 0) return interval;
+	return 0;
+}
+
+var compute_time_preference = function(t, p) {
+	score = 0;
+	if (p.day == t.day || p.day == 'any') {
+		score += (-(p.exclude*2-1)) * time_overlap(t, p);
+	}
+	return score;
+}
+
 var compute_valid_solutions = function(input, term, callback) {
 	solutionlist = [];
 	currentlist = [];
@@ -68,11 +82,7 @@ var compute_valid_solutions = function(input, term, callback) {
 				else time = "evening";
 				for (var z = 0; z < p_lst.length; z++) {
 					p = p_lst[z];    // current preference
-					if (p.type == t.day) 
-						if (p.value == time)
-							s.score += t.duration;
-						else if (p.value == "no-class") 
-							s.score -= t.duration;
+					s.score += compute_time_preference(t, p);
 				}
 			}
 		}

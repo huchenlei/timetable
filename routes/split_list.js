@@ -33,15 +33,29 @@ var input = [
   [c165l0101, c165l0501]
 ];*/
 
+var time_overlap = function(a, b) {
+  var interval = Math.min(a.end, b.end) - Math.max(a.start, b.start);
+  if (interval > 0) return interval;
+  return 0;
+}
+
+var compute_time_preference = function(t, p) {
+  score = 0;
+  if (p.day == t.day || p.day == 'any') {
+    score += (-(p.exclude*2-1)) * time_overlap(t, p);
+  }
+  return score;
+}
+
 function split_list(input, term, callback){
   if (input == null) return callback(input);
   // convert the format of string value "type" in perference
   for (var i = 0; i < input[0].length; i++) {
-    if (input[0][i].type == "mon") input[0][i].type = "MONDAY";
-    else if (input[0][i].type == "tue") input[0][i].type = "TUESDAY";
-    else if (input[0][i].type == "wed") input[0][i].type = "WEDNESDAY";
-    else if (input[0][i].type == "thu") input[0][i].type = "THURSDAY";
-    else if (input[0][i].type == "fri") input[0][i].type = "FRIDAY";
+    if (input[0][i].day == "mon") input[0][i].day = "MONDAY";
+    else if (input[0][i].day == "tue") input[0][i].day = "TUESDAY";
+    else if (input[0][i].day == "wed") input[0][i].day = "WEDNESDAY";
+    else if (input[0][i].day == "thu") input[0][i].day = "THURSDAY";
+    else if (input[0][i].day == "fri") input[0][i].day = "FRIDAY";
   }
   p_lst = input[0];
 
@@ -62,11 +76,7 @@ function split_list(input, term, callback){
           else time = "evening";
           for (var k = 0; k < p_lst.length; k++) {
             p = p_lst[k];    // current preference
-            if (p.type == t.day) 
-              if (p.value == time)
-                section.score += t.duration;
-              else if (p.value == "no-class") 
-                section.score -= t.duration;
+            section.score += compute_time_preference(t, p);
           }
           
         }
