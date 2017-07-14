@@ -98,7 +98,8 @@ function populateCourseInfo(req, callback) {
 function find_all_sections(courses, callback) {
   var results = [];
   var counter = 0;
-  for (var i = courses.length - 1; i >= 0; i--) {
+  if (courses.length == 0) return callback([]);
+  for (var i = 0; i < courses.length; i++) {
         var section = {
           courseCode: courses[i]
         }
@@ -126,14 +127,21 @@ function smart(req, res) {
   //     value: preferences_raw[type]
   //   });
   // }
+  console.log("Getting request");
   console.log(preferences);
   console.log(courselist);
+  console.log("Getting course data from database");
   find_all_sections(courselist, function(results) {
+      console.log("Course Data get");
       var output = [];
       output.push(preferences);
       output = output.concat(results);
+      console.log("Spliting list");
       split_list(output, term, function(list) {
+        console.log("Split list done");
+        console.log("Computing valid solution");
         compute_valid_solutions(list, term, function(solutions) {
+          console.log("Finished");
           return res.json({
             solutions: JSON.stringify(solutions),
             courses: JSON.stringify(list[1])
