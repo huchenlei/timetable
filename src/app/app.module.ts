@@ -12,6 +12,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 
 import { PreferenceService } from './services/preference.service';
 import { CourseService } from './services/course.service';
+import { AlertService } from './services/alert.service';
 
 import { TranslatePipe } from './pipes/translate.pipe';
 import { ResponsiveModule } from 'ng2-responsive';
