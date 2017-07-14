@@ -9,6 +9,7 @@ import { CourseMin } from './models/course-min';
 
 import { CourseService } from './services/course.service'
 import { PreferenceService } from './services/preference.service'
+import { AlertService } from './services/alert.service'
 
 @Component({
   selector: 'app-root',
@@ -27,11 +28,14 @@ export class AppComponent {
   constructor(
     private courseService : CourseService,
     private preferenceService : PreferenceService,
+    private alertService : AlertService
   ) {
     this.courses = this.courseService.loadCourseData(this.term);
     this.selectedCourses = this.courseService.loadCourseList();
     this.preferences = this.preferenceService.loadPreferences();
     this.solutionlist = this.courseService.loadSolutionList();
+
+    this.alertService.success("hello world");
   }
 
   selectTerm(term) {

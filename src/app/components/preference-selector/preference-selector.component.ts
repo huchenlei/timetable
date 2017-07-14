@@ -14,7 +14,9 @@ export class PreferenceSelectorComponent implements OnInit {
   times = times;
   preference : Preference = new Preference();
 
-  constructor( private preferenceService : PreferenceService ) { }
+  constructor(
+    private preferenceService : PreferenceService,
+   ) { }
 
   ngOnInit() {
       this.preferenceService.loadPreferences;

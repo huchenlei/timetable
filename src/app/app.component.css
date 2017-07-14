@@ -55,6 +55,11 @@ app-course-item.course:hover {
   position: sticky;
 }
 
+alert {
+  position: fixed;
+  top: 0;
+}
+
 @media screen and (max-width: 990px) {
   .content {
     margin-left: 0px;

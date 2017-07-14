@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { Preference, Day } from '../models/preference';
 
-
 export const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
 export const times = ['morning', 'afternoon', 'evening'];
 
