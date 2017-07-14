@@ -22,24 +22,23 @@ export class SearchBarComponent implements OnInit {
         return Promise.resolve([]);
       }
       // Do the extended lookup on multiple fields manually here:
-      if (query.length >= 3) {
         return this.courseService
           .fetchCourse(query, this.term)
           .then(result => {
-            const courses = new Set();
-            for (let i = 0; i < result.length; i++) {
-        		  const new_code = result[i].code.substr(0, 6);
-        		  if (!courses.has(new_code)) {
-        			  courses.add(new_code);
-        		  }
-        		}
-            let l = [];
-            courses.forEach(c => l.push({code:c}))
-            return Promise.resolve(l);
+            // console.log(result)
+            // const courses = new Set();
+            // for (let i = 0; i < result.length; i++) {
+        		//   const new_code = result[i].code.substr(0, 6);
+        		//   if (!courses.has(new_code)) {
+        		// 	  courses.add(new_code);
+        		//   }
+        		// }
+            // let l = [];
+            // courses.forEach(c => l.push({code:c}))
+            result.forEach(c => c.code = c.code.substr(0, 6));
+            return Promise.resolve(result);
           })
-          .catch(err => Promise.reject("Course not found"));
-      }
-      return Promise.resolve([]);
+          .catch(err => {return Promise.reject("Course not found")});
     }
     // else {
     //   return Promise.reject("Invalid cosecode");

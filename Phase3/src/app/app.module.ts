@@ -14,7 +14,8 @@ import { PreferenceService } from './services/preference.service';
 import { CourseService } from './services/course.service';
 
 import { TranslatePipe } from './pipes/translate.pipe';
-import { ResponsiveModule } from 'ng2-responsive'
+import { ResponsiveModule } from 'ng2-responsive';
+import { CourseBodyComponent } from './components/course-body/course-body.component'
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ResponsiveModule } from 'ng2-responsive'
     TranslatePipe,
     TimetableComponent,
     SearchBarComponent,
+    CourseBodyComponent,
   ],
   imports: [
     BrowserModule,

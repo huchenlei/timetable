@@ -25,6 +25,31 @@ function getNewCourse(req, res) {
       }
     });
 }
+
+function getNewCourseMin(req, res) {
+  var code = req.params.code;
+  var semester = req.params.semester;
+  console.log("Receive " + code);
+  database.courseSchema.find({
+    code: new RegExp(code, 'i'),
+    term: semester,
+    campus: "UTSG"
+  },
+  {
+    code: 1, name: 1, _id:0
+  },
+    function(err, courses){
+      if (courses.length == 0) {
+        console.log("course not found");
+        // return res.sendStatus(404);
+        return res.status(404).send("Course not found.")
+      }
+      else {
+        return res.json(courses);
+      }
+    }).limit(7);
+}
+
 //Create a course
 function insertCourse(req, res) {
   var response = {
@@ -289,6 +314,8 @@ function deleteTimeslot(req, res) {
 // courseSchema
 router.post('/insertCourse', insertCourse);
 router.get('/:code/semester/:semester', getNewCourse);
+router.get('/s/:code/:semester', getNewCourseMin);
+
 //router.update('/updateCourse', updateCourse);
 
 //router.delete('/deleteCourse', deleteCourse);

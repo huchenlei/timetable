@@ -242,6 +242,7 @@ course.pre('remove', function(next) {
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://dev:devdev@ds153732.mlab.com:53732/smart-timetable');
+// mongoose.connect('mongodb://localhost:27017/timetable');
 var courseSchema = mongoose.model('courses', course);
 var courseSectionSchema = mongoose.model('course_sections', courseSection);
 var courseTimeSchema = mongoose.model('course_times', courseTime);

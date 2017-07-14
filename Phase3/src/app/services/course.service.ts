@@ -18,7 +18,20 @@ export class CourseService {
   fetchCourse(query: string, term: string): Promise<Course[]> {
     var course_code = query;
 
-    var url = '/courses/' + course_code + '/semester/' + term;
+    var url = 'courses/s/' + course_code + '/' + term;
+
+    return this.http.get(url)
+      .toPromise()
+      .then(res => {
+        return Promise.resolve(res.json() as Course[]);
+      })
+      .catch(err => Promise.reject(err));
+  }
+
+  fetchCourseBody(query: string, term: string): Promise<Course[]> {
+    var course_code = query;
+
+    var url = 'courses/' + course_code + '/semester/' + term;
 
     return this.http.get(url)
       .toPromise()
