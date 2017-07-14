@@ -7,9 +7,11 @@ export class Preference {
 }
 
 export class Day {
-    morning     : boolean = false;
-    afternoon   : boolean = false;
-    evening     : boolean = false;
+    morning     : boolean = false; // 8-12
+    noon        : boolean = false; // 12-1
+    highTea      : boolean = false; // 1-3
+    afternoon   : boolean = false; // 3-6
+    evening     : boolean = false; // 6-10
     any         : boolean = true;
     no          : boolean = false;
 }

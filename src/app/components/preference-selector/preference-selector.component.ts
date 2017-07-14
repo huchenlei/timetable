@@ -25,7 +25,4 @@ export class PreferenceSelectorComponent implements OnInit {
   flip(day : string, time : string) : void {
       this.preferenceService.updateDay(this.preference, day, time)
   }
-
-
-
 }

@@ -117,15 +117,15 @@ var compute_valid_solutions = require('./routes/smart');
 
 function smart(req, res) {
   const courselist = JSON.parse(req.body.courselist);
-  const preferences_raw = JSON.parse(req.body.preferences);
+  const preferences = JSON.parse(req.body.preferences);
   const term = req.body.term;
-  const preferences = [];
-  for (var type in preferences_raw) {
-    preferences.push({
-      type: type,
-      value: preferences_raw[type]
-    });
-  }
+  // const preferences = [];
+  // for (var type in preferences_raw) {
+  //   preferences.push({
+  //     type: type,
+  //     value: preferences_raw[type]
+  //   });
+  // }
   console.log(preferences);
   console.log(courselist);
   find_all_sections(courselist, function(results) {

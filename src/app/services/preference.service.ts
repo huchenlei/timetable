@@ -46,21 +46,73 @@ export class PreferenceService {
     return (p && p != "undefined") ? JSON.parse(p) : (new Preference());
   }
 
+  convertPrefToTime(dayObj: Day, day: string) {
+      var result = [];
+      var exclude = false;
+      if (dayObj.morning) 
+        result.push({
+          day: day.substr(0, 3),
+          start: 8 * 3600,
+          end: 12 * 3600,
+          exclude,
+        });
+      if (dayObj.noon) 
+        result.push({
+          day: day.substr(0, 3),
+          start: 12 * 3600,
+          end: 13 * 3600,
+          exclude,
+        });
+      if (dayObj.highTea) 
+        result.push({
+          day: day.substr(0, 3),
+          start: 13 * 3600,
+          end: 15 * 3600,
+          exclude
+        });
+      if (dayObj.afternoon) 
+        result.push({
+          day: day.substr(0, 3),
+          start: 15 * 3600,
+          end: 18 * 3600,
+          exclude,
+        });
+      if (dayObj.evening) 
+        result.push({
+          day: day.substr(0, 3),
+          start: 18 * 3600,
+          end: 22 * 3600,
+          exclude,
+        });
+      if (dayObj.no) 
+        result.push({
+          day: day.substr(0, 3),
+          start: 8 * 3600,
+          end: 22 * 3600,
+          exclude: true,
+        });
+      return result;
+  }
+
   parsePreference(preference: Preference) {
-    let result = {}
+    let result = [];
     days.forEach(d => {
-      if (preference[d].no) {
-        result[d.substr(0,3)] = "no-class";
-      } else {
-        times.forEach(t => {
-          if (preference[d][t]) {
-            result[d.substr(0,3)] = t;
-          }
-        })
-        if (!result.hasOwnProperty(d.substr(0,3))) {
-          result[d.substr(0,3)] = 'any';
-        }
-      }
+      // if (preference[d].no) {
+      //   result[d.substr(0,3)] = "no-class";
+      // } else {
+      //   times.forEach(t => {
+      //     if (preference[d][t]) {
+      //       result[d.substr(0,3)] = t;
+      //     }
+      //   })
+      //   if (!result.hasOwnProperty(d.substr(0,3))) {
+      //     result[d.substr(0,3)] = 'any';
+      //   }
+      // }
+      this.convertPrefToTime(preference[d], d).forEach(p => {
+          result.push(p);
+      });
+      
     })
     return result;
   }
