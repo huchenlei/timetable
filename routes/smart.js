@@ -59,12 +59,12 @@ var compute_valid_solutions = function(input, term, callback) {
 	console.log(c_lst);
 	backtrack(c_lst, 7);
 	if (solutionlist.length == 0)	{
-		backtrack(c_lst, 1000);
+		backtrack(c_lst, 100);
 		if (solutionlist.length == 0) {
 			for (var i = 0; i < c_lst.length; i++) {
 				var t = c_lst.splice(i, 1);
 				console.log(t);
-				backtrack(c_lst, 1000);
+				backtrack(c_lst, 100);
 				c_lst.splice(i, 0, t[0]);
 			}
 		}

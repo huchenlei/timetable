@@ -23,6 +23,7 @@ export class AppComponent {
   term : "2017 Fall" | "2018 Winter" = "2017 Fall";
   solutionlist = {}
   preferences;
+  loading: boolean = false;
   @ViewChild(TimetableComponent) timetable: TimetableComponent;
 
   constructor(
@@ -55,6 +56,7 @@ export class AppComponent {
   }
 
   getSolutions() : void {
+    this.loading = true
     this.courseService.getSolutions(this.term)
       .then((res) => {
         this.solutionlist[this.term] = JSON.parse(res.solutions);
@@ -66,8 +68,12 @@ export class AppComponent {
 
         this.timetable.updateSolution(this.solutionlist)
         this.timetable.renderSolution(0, this.term);
+        this.loading = false;
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.loading = false;
+      });
   }
 
 }
