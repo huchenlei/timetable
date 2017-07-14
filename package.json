@@ -11,9 +11,7 @@
     "build": "ng build -prod && node app.js",
     "test": "ng serve",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "preinstall": "npm install -g @angular/cli",
-    "postinstall": "ng build -prod && mv dist/* ."
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
