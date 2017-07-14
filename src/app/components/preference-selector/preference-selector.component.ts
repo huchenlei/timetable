@@ -19,10 +19,13 @@ export class PreferenceSelectorComponent implements OnInit {
    ) { }
 
   ngOnInit() {
-      this.preferenceService.loadPreferences;
+      this.preference = this.preferenceService.loadPreferences();
   }
 
   flip(day : string, time : string) : void {
-      this.preferenceService.updateDay(this.preference, day, time)
+      this.preferenceService.updateDay(this.preference, day, time);
+      this.preferenceService.storePreferences(this.preference);
   }
+
+
 }

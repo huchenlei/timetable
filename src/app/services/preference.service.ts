@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Preference, Day } from '../models/preference';
 
 export const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
-export const times = ['morning', 'afternoon', 'evening'];
+export const times = ['morning', 'noon', 'highTea', 'afternoon', 'evening'];
 
 @Injectable()
 export class PreferenceService {
@@ -12,9 +12,9 @@ export class PreferenceService {
 
   updateDay(preference: Preference, day: string, time: string) : void {
     let previous = preference[day][time];
-    if (times.indexOf(time) >= 0) {
-      preference[day] = new Day();
-    }
+    // if (times.indexOf(time) >= 0) {
+    //   preference[day] = new Day();
+    // }
       preference[day][time] = !previous;
       // console.log(this.print(preference));
       // console.log(this.parsePreference(preference))
@@ -49,42 +49,42 @@ export class PreferenceService {
   convertPrefToTime(dayObj: Day, day: string) {
       var result = [];
       var exclude = false;
-      if (dayObj.morning) 
+      if (dayObj.morning)
         result.push({
           day: day.substr(0, 3),
           start: 8 * 3600,
           end: 12 * 3600,
           exclude,
         });
-      if (dayObj.noon) 
+      if (dayObj.noon)
         result.push({
           day: day.substr(0, 3),
           start: 12 * 3600,
           end: 13 * 3600,
           exclude,
         });
-      if (dayObj.highTea) 
+      if (dayObj.highTea)
         result.push({
           day: day.substr(0, 3),
           start: 13 * 3600,
           end: 15 * 3600,
           exclude
         });
-      if (dayObj.afternoon) 
+      if (dayObj.afternoon)
         result.push({
           day: day.substr(0, 3),
           start: 15 * 3600,
           end: 18 * 3600,
           exclude,
         });
-      if (dayObj.evening) 
+      if (dayObj.evening)
         result.push({
           day: day.substr(0, 3),
           start: 18 * 3600,
           end: 22 * 3600,
           exclude,
         });
-      if (dayObj.no) 
+      if (dayObj.no)
         result.push({
           day: day.substr(0, 3),
           start: 8 * 3600,
@@ -112,7 +112,7 @@ export class PreferenceService {
       this.convertPrefToTime(preference[d], d).forEach(p => {
           result.push(p);
       });
-      
+
     })
     return result;
   }
