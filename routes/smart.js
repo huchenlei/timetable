@@ -74,13 +74,14 @@ var compute_valid_solutions = function(input, term, callback) {
 		s.score = 0;
 		for (var j = 0; j < s.length; j++) {
 			section = s[j];   // a course section
-			for (var k = 0; k < section.times.length; k++) {
-				t = section.times[k];   // current timeslot
-				for (var z = 0; z < p_lst.length; z++) {
-					p = p_lst[z];    // current preference
-					s.score += t.score;
-				}
-			}
+			// for (var k = 0; k < section.times.length; k++) {
+			// 	t = section.times[k];   // current timeslot
+			// 	for (var z = 0; z < p_lst.length; z++) {
+			// 		p = p_lst[z];    // current preference
+			// 		s.score += t.score;
+			// 	}
+			// }
+			s.score += section.score;
 		}
 	}
 	console.log("Solution Score done");
