@@ -36,7 +36,7 @@ app-course-item.course:hover {
 }
 
 .content {
-  margin-left: 260px;
+  margin-left: 375px;
   padding:25px;
 }
 
@@ -58,6 +58,14 @@ app-course-item.course:hover {
 alert {
   position: fixed;
   top: 0;
+}
+
+input * {
+  width: 100% !important;
+}
+
+.ui.input.icon, sui-search, app-search-bar, .ui.search {
+  width: 100% !important;
 }
 
 @media screen and (max-width: 990px) {

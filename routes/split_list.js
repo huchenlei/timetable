@@ -26,7 +26,7 @@ var p5 = {
  * of each preference and each session, add days property to session, assign
  * score to each session depending on preference and finally sort
  *
- 
+
 var input = [
   [p1, p2, p3, p4, p5 ],
   [c108l0101, c108l0201, c108l0501],
@@ -42,7 +42,7 @@ var time_overlap = function(a, b) {
 var compute_time_preference = function(t, p) {
   score = 0;
   if (p.day == t.day || p.day == 'any') {
-    score += (-(p.exclude*2-1)) * time_overlap(t, p);
+    score += p.exclude * time_overlap(t, p);
   }
   return score;
 }
@@ -70,25 +70,21 @@ function split_list(input, term, callback){
         section.score = 0;
         for (var j = 0; j < section.times.length; j++) {
           t = section.times[j];   // current timeslot
-          time = "";
-          if (t.start < 43200) time = "morning";
-          else if (t.start < 64800) time = "afternoon";
-          else time = "evening";
           for (var k = 0; k < p_lst.length; k++) {
             p = p_lst[k];    // current preference
             section.score += compute_time_preference(t, p);
           }
-          
+
         }
       }
       s.sort(function (a, b) {
         return b.score - a.score;
       });
     }
-      
+
   }
-    
-  
+
+
   return callback(input);
 }
 

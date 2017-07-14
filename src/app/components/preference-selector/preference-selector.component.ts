@@ -4,6 +4,12 @@ import { Preference, Day }           from '../../models/preference'
 
 import { PreferenceService, days, times }           from '../../services/preference.service'
 
+const timeToHour = {
+  morning: "8-12",
+  noon: "12-3",
+  afternoon: "3-6",
+  evening: "6-9"
+}
 @Component({
   selector: 'app-preference-selector',
   templateUrl: './preference-selector.component.html',
@@ -13,9 +19,10 @@ export class PreferenceSelectorComponent implements OnInit {
   days = days;
   times = times;
   preference : Preference = new Preference();
+  timeToHour = timeToHour;
 
   constructor(
-    private preferenceService : PreferenceService,
+    public preferenceService : PreferenceService,
    ) { }
 
   ngOnInit() {
@@ -27,5 +34,13 @@ export class PreferenceSelectorComponent implements OnInit {
       this.preferenceService.storePreferences(this.preference);
   }
 
+  excludeRow(time: string) : void {
+    this.preferenceService.excludeTime(this.preference, time);
+    this.preferenceService.storePreferences(this.preference);
+  }
 
+  excludeCol(day: string) : void {
+    this.preferenceService.excludeDay(this.preference, day);
+    this.preferenceService.storePreferences(this.preference);
+  }
 }

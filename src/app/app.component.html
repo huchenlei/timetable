@@ -4,6 +4,7 @@
     <sui-sidebar class="inverted vertical" #sidebar>
       <div class="item logo-branding">
           <img src="../assets/images/logo-white.svg" alt="" id="logo"> <span style="font-size:14px"> Smart Timetable</span> <sup style="font-size:9px">2018</sup>
+          <i class="close icon" (click)="sidebar.close();"></i>
       </div>
       <div class="item">
         <app-search-bar (addCourse)="addCourse($event)" [term]="term"></app-search-bar>
