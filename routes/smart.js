@@ -48,7 +48,6 @@ var compute_valid_solutions = function(input, term, callback) {
 	solutionlist = [];
 	currentlist = [];
 
-	console.log("Generating solutions");
 	course_data = input[1];
 	p_lst = input[0];
 	c_lst = [];
@@ -66,9 +65,7 @@ var compute_valid_solutions = function(input, term, callback) {
 			}
 		}
 	}
-	console.log("Solution generation done");
 
-	console.log("Computing Solution score");
 	for (var i = 0; i < solutionlist.length; i++) {
 		s = solutionlist[i];	// a solution
 		s.score = 0;
@@ -84,13 +81,10 @@ var compute_valid_solutions = function(input, term, callback) {
 			s.score += section.score;
 		}
 	}
-	console.log("Solution Score done");
 
-	console.log("Starting sorting solutions");
     solutionlist.sort(function (a, b) {
 		return b.score - a.score;
     });
-    console.log("sort done");
 	callback(solutionlist.slice(0, 15));
 }
 module.exports= compute_valid_solutions;
