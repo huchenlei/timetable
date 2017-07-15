@@ -24,6 +24,7 @@ export class AppComponent {
   solutionlist = {}
   preferences;
   loading: boolean = false;
+  dirty: any = {"2017 Fall": true, "2018 Winter": true};
   @ViewChild(TimetableComponent) timetable: TimetableComponent;
 
   constructor(
@@ -44,6 +45,7 @@ export class AppComponent {
     this.timetable.renderSolution(0, this.term);
   }
 
+
   getCourseInOneList() {
     let s = new Set();
     this.selectedCourses["2017 Fall"].forEach(c => s.add(c));
@@ -51,10 +53,18 @@ export class AppComponent {
     return Array.from(s);
   }
 
+  determineTerm(code) {
+    if (code.indexOf("H1F")) return ["2017 Fall"];
+    if (code.indexOf("H1S")) return ["2018 Winter"];
+    if (code.indexOf("Y1Y")) return ["2017 Fall", "2018 Winter"];
+    else return [];
+  }
+
   deleteCourse(course : string): void {
       this.selectedCourses["2017 Fall"].splice(this.selectedCourses[this.term].indexOf(course), 1);
       this.selectedCourses["2018 Winter"].splice(this.selectedCourses[this.term].indexOf(course), 1);
       this.courseService.storeCourseList(this.selectedCourses);
+      this.determineTerm(course).forEach(term => this.dirty[term] = true);
   }
 
   addCourse(course : Course) : void {
@@ -76,28 +86,60 @@ export class AppComponent {
         this.selectedCourses["2018 Winter"].push(course.code);
       }
       this.courseService.storeCourseList(this.selectedCourses);
+      this.determineTerm(course.code).forEach(term => this.dirty[term] = true);
     }
   }
 
-  getSolutions() : void {
-    this.loading = true
-    this.courseService.getSolutions(this.term)
-      .then((res) => {
-        this.solutionlist[this.term] = JSON.parse(res.solutions);
-        this.courses = JSON.parse(res.courses);
-        this.courseService.storeCourseData(this.courses, this.term);
-        this.courseService.storeSolutionList(this.solutionlist);
-        this.courseService.load_solution_list(this.solutionlist, this.term)
-        this.courseService.storeSolutionList(this.solutionlist);
+  receiveSolution(res, term) {
+    this.dirty[term] = false;
+    this.solutionlist[term] = JSON.parse(res.solutions);
+    this.courses = JSON.parse(res.courses);
+    this.courseService.storeCourseData(this.courses, term);
+    this.courseService.storeSolutionList(this.solutionlist);
+    this.courseService.load_solution_list(this.solutionlist, term)
+    this.courseService.storeSolutionList(this.solutionlist);
+    this.timetable.updateSolution(this.solutionlist);
+  }
 
-        this.timetable.updateSolution(this.solutionlist)
-        this.timetable.renderSolution(0, this.term);
+  getSolutions() : void {
+    var otherTerm = '2018 Winter';
+    if (this.term == otherTerm) otherTerm = '2017 Fall';
+    if (this.dirty[this.term]) {
+      this.loading = true;
+      this.courseService.getSolutions(this.term)
+        .then((res) => {
+          this.receiveSolution(res, this.term);
+          this.timetable.renderSolution(0, this.term);
+          this.loading = false;
+        })
+        .catch(err => {
+          console.log(err);
+          this.loading = false;
+        })
+        .then(() => {
+          if (this.dirty[otherTerm]) {
+            this.courseService.getSolutions(otherTerm)
+            .then((res) => {
+              this.receiveSolution(res, otherTerm);
+              this.loading = false;
+            })
+            .catch(err => {
+              console.log(err);
+              this.loading = false;
+            });
+          }
+        });
+    } else if (this.dirty[otherTerm]){
+      this.loading = true;
+      this.courseService.getSolutions(otherTerm)
+      .then((res) => {
+        this.receiveSolution(res, otherTerm);
         this.loading = false;
       })
       .catch(err => {
         console.log(err);
         this.loading = false;
       });
+    }
   }
-
 }

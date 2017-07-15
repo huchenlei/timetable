@@ -123,7 +123,7 @@ export class CourseService {
   			dict_sol_courselst[solution[j].courseCode] = true;
   		console.log(dict_sol_courselst);
   		for (var j = 0; j < courselist[semester].length; j++)
-  			if (!dict_sol_courselst.hasOwnProperty(courselist[semester][j])) {
+  			if (!dict_sol_courselst.hasOwnProperty(courselist[semester][j].substr(0,6))) {
   				solutionlist[semester][i].extraTitle =  "(not include " + courselist[semester][j] + ")";
           console.log(semester, i, "(not include " + courselist[semester][j] + ")")
   				not_complete = true;

@@ -14,7 +14,7 @@
               Courses
           </div>
           <app-course-item
-              *ngFor="let course of displayList"
+              *ngFor="let course of getCourseInOneList()"
               href=""
               class="course ui grid"
               [course]="course"

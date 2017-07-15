@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "./src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--The whole content below can be removed with the new code.-->\n<alert></alert>\n<sui-sidebar-container class=\"ui bottom attached segment\">\n    <sui-sidebar class=\"inverted vertical\" #sidebar>\n      <div class=\"item logo-branding\">\n          <img src=\"../assets/images/logo-white.svg\" alt=\"\" id=\"logo\"> <span style=\"font-size:14px\"> Smart Timetable</span> <sup style=\"font-size:9px\">2018</sup>\n          <i class=\"close icon\" (click)=\"sidebar.close();\"></i>\n      </div>\n      <div class=\"item\">\n        <app-search-bar (addCourse)=\"addCourse($event)\" [term]=\"term\"></app-search-bar>\n      </div>\n      <div class=\"item course-queue\">\n          <div class=\"header\">\n              Courses\n          </div>\n          <app-course-item\n              *ngFor=\"let course of displayList\"\n              href=\"\"\n              class=\"course ui grid\"\n              [course]=\"course\"\n              (deleteCourse)=\"deleteCourse($event)\">\n          </app-course-item>\n      </div>\n      <div class=\"item preferences\">\n          <div class=\"header\">\n              Preferences\n          </div>\n          <app-preference-selector>\n          </app-preference-selector>\n          <br />\n          <button (click)=\"getSolutions()\" class=\"fluid ui button\" style=\"background-color:#51B8A3; margin-top:10px\">\n              Get solution\n          </button>\n      </div>\n\n      <div class=\"item solutions\">\n        <div class=\"header\">\n            Solutions\n        </div>\n        <a *ngFor=\"let solution of solutionlist[term]; let i = index\" (click)=\"timetable.renderSolution(i, term);sidebar.close();\" class=\"solution\">\n          Solution {{i + 1}}<br /><span style=\"font-size:12px; opacity: 0.5\">{{solution.extraTitle}}</span>\n        </a>\n      </div>\n    </sui-sidebar>\n    <sui-sidebar-sibling [isDimmedWhenVisible]=\"true\">\n      <div *responsive=\"{\n                          bootstrap: ['xl','lg','md']\n                        }\">\n        <!-- ui inverted vertical left fixed menu tablet or lower hidden -->\n          <div class=\"ui left vertical inverted labeled sidebar menu pushable push visible tablet or lower hidden\" style=\"overflow:overlay;\">\n\n              <div class=\"item logo-branding\">\n                  <img src=\"../assets/images/logo-white.svg\" alt=\"\" id=\"logo\"> <span style=\"font-size:14px\"> Smart Timetable</span> <sup style=\"font-size:9px\">2018</sup>\n              </div>\n              <div class=\"item\">\n                <app-search-bar (addCourse)=\"addCourse($event)\" [term]=\"term\"></app-search-bar>\n              </div>\n              <div class=\"item course-queue\">\n                  <div class=\"header\">\n                      Courses\n                  </div>\n                  <app-course-item\n                      *ngFor=\"let course of getCourseInOneList()\"\n                      href=\"\"\n                      class=\"course ui grid\"\n                      [term]=\"term\"\n                      [course]=\"course\"\n                      (deleteCourse)=\"deleteCourse($event)\">\n                  </app-course-item>\n              </div>\n              <div class=\"item preferences\">\n                  <div class=\"header\">\n                      Preferences\n                  </div>\n                  <app-preference-selector>\n                  </app-preference-selector>\n                  <br />\n                  <button (click)=\"getSolutions()\" class=\"fluid ui button\" style=\"background-color:#51B8A3; margin-top:10px\">\n                      Get solution\n                  </button>\n              </div>\n\n              <div class=\"item solutions\">\n                <div class=\"header\">\n                    Solutions\n                </div>\n                <a *ngFor=\"let solution of solutionlist[term]; let i = index\" (click)=\"timetable.renderSolution(i, term)\" class=\"solution\">\n                  Solution {{i + 1}}<br /><span style=\"font-size:12px; opacity: 0.5\">{{solution.extraTitle}}</span>\n                </a>\n              </div>\n          </div>\n      </div>\n      <div class=\"side-button\" *responsive=\"{\n                          bootstrap: ['xs','sm']\n                        }\" (click)=\"sidebar.toggle()\">\n        <a class=\"launch icon item sidebar-toggle\">\n          <i class=\"sidebar icon\"></i>\n        </a>\n      </div>\n\n      <div class=\"content\" style=\"\">\n          <div class=\"ui container\">\n              <div class=\"ui segment\">\n                <div class=\"ui secondary pointing menu\">\n                  <a class=\"{{(this.term === '2017 Fall') ? 'active' : ''}} item\" (click)=\"selectTerm('2017 Fall')\">\n                    Fall 2017\n                  </a>\n                  <a class=\"{{(this.term === '2018 Winter') ? 'active' : ''}} item\" (click)=\"selectTerm('2018 Winter')\">\n                    Winter 2018\n                  </a>\n                  <!-- <a class=\"item disabled\" >\n                    Summer 2018\n                  </a> -->\n                </div>\n              </div>\n              <app-timetable></app-timetable>\n\n          </div>\n      </div>\n\n    </sui-sidebar-sibling>\n</sui-sidebar-container>\n<div class=\"ui active dimmer\" *ngIf=\"loading\">\n  <div class=\"ui loader\"></div>\n</div>\n"
+module.exports = "<!--The whole content below can be removed with the new code.-->\n<alert></alert>\n<sui-sidebar-container class=\"ui bottom attached segment\">\n    <sui-sidebar class=\"inverted vertical\" #sidebar>\n      <div class=\"item logo-branding\">\n          <img src=\"../assets/images/logo-white.svg\" alt=\"\" id=\"logo\"> <span style=\"font-size:14px\"> Smart Timetable</span> <sup style=\"font-size:9px\">2018</sup>\n          <i class=\"close icon\" (click)=\"sidebar.close();\"></i>\n      </div>\n      <div class=\"item\">\n        <app-search-bar (addCourse)=\"addCourse($event)\" [term]=\"term\"></app-search-bar>\n      </div>\n      <div class=\"item course-queue\">\n          <div class=\"header\">\n              Courses\n          </div>\n          <app-course-item\n              *ngFor=\"let course of getCourseInOneList()\"\n              href=\"\"\n              class=\"course ui grid\"\n              [course]=\"course\"\n              (deleteCourse)=\"deleteCourse($event)\">\n          </app-course-item>\n      </div>\n      <div class=\"item preferences\">\n          <div class=\"header\">\n              Preferences\n          </div>\n          <app-preference-selector>\n          </app-preference-selector>\n          <br />\n          <button (click)=\"getSolutions()\" class=\"fluid ui button\" style=\"background-color:#51B8A3; margin-top:10px\">\n              Get solution\n          </button>\n      </div>\n\n      <div class=\"item solutions\">\n        <div class=\"header\">\n            Solutions\n        </div>\n        <a *ngFor=\"let solution of solutionlist[term]; let i = index\" (click)=\"timetable.renderSolution(i, term);sidebar.close();\" class=\"solution\">\n          Solution {{i + 1}}<br /><span style=\"font-size:12px; opacity: 0.5\">{{solution.extraTitle}}</span>\n        </a>\n      </div>\n    </sui-sidebar>\n    <sui-sidebar-sibling [isDimmedWhenVisible]=\"true\">\n      <div *responsive=\"{\n                          bootstrap: ['xl','lg','md']\n                        }\">\n        <!-- ui inverted vertical left fixed menu tablet or lower hidden -->\n          <div class=\"ui left vertical inverted labeled sidebar menu pushable push visible tablet or lower hidden\" style=\"overflow:overlay;\">\n\n              <div class=\"item logo-branding\">\n                  <img src=\"../assets/images/logo-white.svg\" alt=\"\" id=\"logo\"> <span style=\"font-size:14px\"> Smart Timetable</span> <sup style=\"font-size:9px\">2018</sup>\n              </div>\n              <div class=\"item\">\n                <app-search-bar (addCourse)=\"addCourse($event)\" [term]=\"term\"></app-search-bar>\n              </div>\n              <div class=\"item course-queue\">\n                  <div class=\"header\">\n                      Courses\n                  </div>\n                  <app-course-item\n                      *ngFor=\"let course of getCourseInOneList()\"\n                      href=\"\"\n                      class=\"course ui grid\"\n                      [term]=\"term\"\n                      [course]=\"course\"\n                      (deleteCourse)=\"deleteCourse($event)\">\n                  </app-course-item>\n              </div>\n              <div class=\"item preferences\">\n                  <div class=\"header\">\n                      Preferences\n                  </div>\n                  <app-preference-selector>\n                  </app-preference-selector>\n                  <br />\n                  <button (click)=\"getSolutions()\" class=\"fluid ui button\" style=\"background-color:#51B8A3; margin-top:10px\">\n                      Get solution\n                  </button>\n              </div>\n\n              <div class=\"item solutions\">\n                <div class=\"header\">\n                    Solutions\n                </div>\n                <a *ngFor=\"let solution of solutionlist[term]; let i = index\" (click)=\"timetable.renderSolution(i, term)\" class=\"solution\">\n                  Solution {{i + 1}}<br /><span style=\"font-size:12px; opacity: 0.5\">{{solution.extraTitle}}</span>\n                </a>\n              </div>\n          </div>\n      </div>\n      <div class=\"side-button\" *responsive=\"{\n                          bootstrap: ['xs','sm']\n                        }\" (click)=\"sidebar.toggle()\">\n        <a class=\"launch icon item sidebar-toggle\">\n          <i class=\"sidebar icon\"></i>\n        </a>\n      </div>\n\n      <div class=\"content\" style=\"\">\n          <div class=\"ui container\">\n              <div class=\"ui segment\">\n                <div class=\"ui secondary pointing menu\">\n                  <a class=\"{{(this.term === '2017 Fall') ? 'active' : ''}} item\" (click)=\"selectTerm('2017 Fall')\">\n                    Fall 2017\n                  </a>\n                  <a class=\"{{(this.term === '2018 Winter') ? 'active' : ''}} item\" (click)=\"selectTerm('2018 Winter')\">\n                    Winter 2018\n                  </a>\n                  <!-- <a class=\"item disabled\" >\n                    Summer 2018\n                  </a> -->\n                </div>\n              </div>\n              <app-timetable></app-timetable>\n\n          </div>\n      </div>\n\n    </sui-sidebar-sibling>\n</sui-sidebar-container>\n<div class=\"ui active dimmer\" *ngIf=\"loading\">\n  <div class=\"ui loader\"></div>\n</div>\n"
 
 /***/ }),
 
@@ -72,6 +72,7 @@ var AppComponent = (function () {
         this.term = "2017 Fall";
         this.solutionlist = {};
         this.loading = false;
+        this.dirty = { "2017 Fall": true, "2018 Winter": true };
         this.courses = this.courseService.loadCourseData(this.term);
         this.selectedCourses = this.courseService.loadCourseList();
         this.preferences = this.preferenceService.loadPreferences();
@@ -88,12 +89,25 @@ var AppComponent = (function () {
         this.selectedCourses["2018 Winter"].forEach(function (c) { return s.add(c); });
         return Array.from(s);
     };
+    AppComponent.prototype.determineTerm = function (code) {
+        if (code.indexOf("H1F"))
+            return ["2017 Fall"];
+        if (code.indexOf("H1S"))
+            return ["2018 Winter"];
+        if (code.indexOf("Y1Y"))
+            return ["2017 Fall", "2018 Winter"];
+        else
+            return [];
+    };
     AppComponent.prototype.deleteCourse = function (course) {
+        var _this = this;
         this.selectedCourses["2017 Fall"].splice(this.selectedCourses[this.term].indexOf(course), 1);
         this.selectedCourses["2018 Winter"].splice(this.selectedCourses[this.term].indexOf(course), 1);
         this.courseService.storeCourseList(this.selectedCourses);
+        this.determineTerm(course).forEach(function (term) { return _this.dirty[term] = true; });
     };
     AppComponent.prototype.addCourse = function (course) {
+        var _this = this;
         if (course.code.indexOf("H1F") >= 0) {
             if (this.selectedCourses["2017 Fall"].indexOf(course.code) == -1) {
                 this.selectedCourses["2017 Fall"].push(course.code);
@@ -114,27 +128,62 @@ var AppComponent = (function () {
                 this.selectedCourses["2018 Winter"].push(course.code);
             }
             this.courseService.storeCourseList(this.selectedCourses);
+            this.determineTerm(course.code).forEach(function (term) { return _this.dirty[term] = true; });
         }
+    };
+    AppComponent.prototype.receiveSolution = function (res, term) {
+        this.dirty[term] = false;
+        this.solutionlist[term] = JSON.parse(res.solutions);
+        this.courses = JSON.parse(res.courses);
+        this.courseService.storeCourseData(this.courses, term);
+        this.courseService.storeSolutionList(this.solutionlist);
+        this.courseService.load_solution_list(this.solutionlist, term);
+        this.courseService.storeSolutionList(this.solutionlist);
+        this.timetable.updateSolution(this.solutionlist);
     };
     AppComponent.prototype.getSolutions = function () {
         var _this = this;
-        this.loading = true;
-        this.courseService.getSolutions(this.term)
-            .then(function (res) {
-            _this.solutionlist[_this.term] = JSON.parse(res.solutions);
-            _this.courses = JSON.parse(res.courses);
-            _this.courseService.storeCourseData(_this.courses, _this.term);
-            _this.courseService.storeSolutionList(_this.solutionlist);
-            _this.courseService.load_solution_list(_this.solutionlist, _this.term);
-            _this.courseService.storeSolutionList(_this.solutionlist);
-            _this.timetable.updateSolution(_this.solutionlist);
-            _this.timetable.renderSolution(0, _this.term);
-            _this.loading = false;
-        })
-            .catch(function (err) {
-            console.log(err);
-            _this.loading = false;
-        });
+        var otherTerm = '2018 Winter';
+        if (this.term == otherTerm)
+            otherTerm = '2017 Fall';
+        if (this.dirty[this.term]) {
+            this.loading = true;
+            this.courseService.getSolutions(this.term)
+                .then(function (res) {
+                _this.receiveSolution(res, _this.term);
+                _this.timetable.renderSolution(0, _this.term);
+                _this.loading = false;
+            })
+                .catch(function (err) {
+                console.log(err);
+                _this.loading = false;
+            })
+                .then(function () {
+                if (_this.dirty[otherTerm]) {
+                    _this.courseService.getSolutions(otherTerm)
+                        .then(function (res) {
+                        _this.receiveSolution(res, otherTerm);
+                        _this.loading = false;
+                    })
+                        .catch(function (err) {
+                        console.log(err);
+                        _this.loading = false;
+                    });
+                }
+            });
+        }
+        else if (this.dirty[otherTerm]) {
+            this.loading = true;
+            this.courseService.getSolutions(otherTerm)
+                .then(function (res) {
+                _this.receiveSolution(res, otherTerm);
+                _this.loading = false;
+            })
+                .catch(function (err) {
+                console.log(err);
+                _this.loading = false;
+            });
+        }
     };
     return AppComponent;
 }());
@@ -1375,7 +1424,7 @@ var CourseService = (function () {
                 dict_sol_courselst[solution[j].courseCode] = true;
             console.log(dict_sol_courselst);
             for (var j = 0; j < courselist[semester].length; j++)
-                if (!dict_sol_courselst.hasOwnProperty(courselist[semester][j])) {
+                if (!dict_sol_courselst.hasOwnProperty(courselist[semester][j].substr(0, 6))) {
                     solutionlist[semester][i].extraTitle = "(not include " + courselist[semester][j] + ")";
                     console.log(semester, i, "(not include " + courselist[semester][j] + ")");
                     not_complete = true;
