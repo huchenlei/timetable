@@ -1,95 +1,60 @@
 <!--The whole content below can be removed with the new code.-->
 <alert></alert>
+<ng-template #toolbar>
+  <div class="item logo-branding">
+      <img src="../assets/images/logo-white.svg" alt="" id="logo"> <span style="font-size:18px"> Smart Timetable</span> <sup style="font-size:9px">2018</sup>
+      <i class="close icon" (click)="sidebar.close();" *responsive="{
+                          bootstrap: ['xs','sm']
+                        }"></i>
+  </div>
+  <div class="item">
+    <app-search-bar (addCourse)="addCourse($event)" [term]="term"></app-search-bar>
+  </div>
+  <div class="item course-queue">
+      <div class="header">
+          Courses
+      </div>
+      <app-course-item
+          *ngFor="let course of getCourseInOneList()"
+          href=""
+          class="course ui grid"
+          [course]="course"
+          (deleteCourse)="deleteCourse($event)">
+      </app-course-item>
+  </div>
+  <div class="item preferences">
+      <div class="header">
+          Preferences
+      </div>
+      <app-preference-selector>
+      </app-preference-selector>
+      <br />
+      <button (click)="getSolutions()" class="fluid ui {{dirty['2017 Fall'] || dirty['2018 Winter'] ? '' : 'disabled'}} button" style="background-color:#51B8A3; margin-top:10px">
+          Get solution
+      </button>
+  </div>
+
+  <div class="item solutions">
+    <div class="header">
+        Solutions
+    </div>
+    <a *ngFor="let solution of solutionlist[term]; let i = index" (click)="timetable.renderSolution(i, term);sidebar.close();" class="solution">
+      Solution {{i + 1}}<br /><span style="font-size:12px; opacity: 0.5">{{solution.extraTitle}}</span>
+    </a>
+  </div>
+</ng-template>
+
+<div class="ui left vertical inverted labeled sidebar menu pushable push visible tablet or lower hidden" style="overflow:overlay;" *responsive="{
+                    bootstrap: ['xl','lg','md']
+                  }">
+  <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+</div>
 <sui-sidebar-container class="ui bottom attached segment">
     <sui-sidebar class="inverted vertical" #sidebar>
-      <div class="item logo-branding">
-          <img src="../assets/images/logo-white.svg" alt="" id="logo"> <span style="font-size:14px"> Smart Timetable</span> <sup style="font-size:9px">2018</sup>
-          <i class="close icon" (click)="sidebar.close();"></i>
-      </div>
-      <div class="item">
-        <app-search-bar (addCourse)="addCourse($event)" [term]="term"></app-search-bar>
-      </div>
-      <div class="item course-queue">
-          <div class="header">
-              Courses
-          </div>
-          <app-course-item
-              *ngFor="let course of getCourseInOneList()"
-              href=""
-              class="course ui grid"
-              [course]="course"
-              (deleteCourse)="deleteCourse($event)">
-          </app-course-item>
-      </div>
-      <div class="item preferences">
-          <div class="header">
-              Preferences
-          </div>
-          <app-preference-selector>
-          </app-preference-selector>
-          <br />
-          <button (click)="getSolutions()" class="fluid ui {{dirty['2017 Fall'] || dirty['2018 Winter'] ? '' : 'disabled'}} button" style="background-color:#51B8A3; margin-top:10px">
-              Get solution
-          </button>
-      </div>
-
-      <div class="item solutions">
-        <div class="header">
-            Solutions
-        </div>
-        <a *ngFor="let solution of solutionlist[term]; let i = index" (click)="timetable.renderSolution(i, term);sidebar.close();" class="solution">
-          Solution {{i + 1}}<br /><span style="font-size:12px; opacity: 0.5">{{solution.extraTitle}}</span>
-        </a>
-      </div>
+      <ng-container *ngTemplateOutlet="toolbar"></ng-container>
     </sui-sidebar>
     <sui-sidebar-sibling [isDimmedWhenVisible]="true">
-      <div *responsive="{
-                          bootstrap: ['xl','lg','md']
-                        }">
         <!-- ui inverted vertical left fixed menu tablet or lower hidden -->
-          <div class="ui left vertical inverted labeled sidebar menu pushable push visible tablet or lower hidden" style="overflow:overlay;">
-
-              <div class="item logo-branding">
-                  <img src="../assets/images/logo-white.svg" alt="" id="logo"> <span style="font-size:14px"> Smart Timetable</span> <sup style="font-size:9px">2018</sup>
-              </div>
-              <div class="item">
-                <app-search-bar (addCourse)="addCourse($event)" [term]="term"></app-search-bar>
-              </div>
-              <div class="item course-queue">
-                  <div class="header">
-                      Courses
-                  </div>
-                  <app-course-item
-                      *ngFor="let course of getCourseInOneList()"
-                      href=""
-                      class="course ui grid"
-                      [term]="term"
-                      [course]="course"
-                      (deleteCourse)="deleteCourse($event)">
-                  </app-course-item>
-              </div>
-              <div class="item preferences">
-                  <div class="header">
-                      Preferences
-                  </div>
-                  <app-preference-selector>
-                  </app-preference-selector>
-                  <br />
-                  <button (click)="getSolutions()" class="fluid ui {{dirty['2017 Fall'] || dirty['2018 Winter'] ? '' : 'disabled'}} button" style="background-color:#51B8A3; margin-top:10px">
-                      Get solution
-                  </button>
-              </div>
-
-              <div class="item solutions">
-                <div class="header">
-                    Solutions
-                </div>
-                <a *ngFor="let solution of solutionlist[term]; let i = index" (click)="timetable.renderSolution(i, term)" class="solution">
-                  Solution {{i + 1}}<br /><span style="font-size:12px; opacity: 0.5">{{solution.extraTitle}}</span>
-                </a>
-              </div>
-          </div>
-      </div>
       <div class="side-button" *responsive="{
                           bootstrap: ['xs','sm']
                         }" (click)="sidebar.toggle()">
