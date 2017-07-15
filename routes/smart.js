@@ -51,9 +51,15 @@ var compute_valid_solutions = function(input, term, callback) {
 	course_data = input[1];
 	p_lst = input[0];
 	c_lst = [];
-	for (var key in course_data)
-		for (var type in course_data[key][term])
-			c_lst.push(course_data[key][term][type]);
+	for (var key in course_data) {
+		if (key.indexOf("Y1Y") > -1) {
+			for (var type in course_data[key]["2017 Fall"])
+				c_lst.push(course_data[key]["2017 Fall"][type]);
+		} else {
+			for (var type in course_data[key][term])
+				c_lst.push(course_data[key][term][type]);
+		}
+	}
 	backtrack(c_lst, 7);
 	if (solutionlist.length == 0)	{
 		backtrack(c_lst, 1000);
