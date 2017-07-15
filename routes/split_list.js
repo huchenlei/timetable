@@ -134,6 +134,7 @@ function merge_sections(course_data) {
   var merge_result = {};
   for (var n = 0; n < course_data.length; n++) {
     var all_sections = course_data[n].slice();
+    if (all_sections.length == 0) continue;
     var courseCode = all_sections[0].courseCode;
     var term = all_sections[0].term;
     for (var i = 0; i < all_sections.length; i++) {
