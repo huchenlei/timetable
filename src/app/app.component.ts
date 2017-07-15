@@ -54,15 +54,16 @@ export class AppComponent {
   }
 
   determineTerm(code) {
-    if (code.indexOf("H1F")) return ["2017 Fall"];
-    if (code.indexOf("H1S")) return ["2018 Winter"];
-    if (code.indexOf("Y1Y")) return ["2017 Fall", "2018 Winter"];
+    if (code.indexOf("H1F") > -1) return ["2017 Fall"];
+    if (code.indexOf("H1S") > -1) return ["2018 Winter"];
+    if (code.indexOf("Y1Y") > -1) return ["2017 Fall", "2018 Winter"];
     else return [];
   }
 
   deleteCourse(course : string): void {
-      this.selectedCourses["2017 Fall"].splice(this.selectedCourses[this.term].indexOf(course), 1);
-      this.selectedCourses["2018 Winter"].splice(this.selectedCourses[this.term].indexOf(course), 1);
+    console.log(course);
+      if (this.selectedCourses["2017 Fall"].indexOf(course) > -1) this.selectedCourses["2017 Fall"].splice(this.selectedCourses["2017 Fall"].indexOf(course), 1);
+      if (this.selectedCourses["2018 Winter"].indexOf(course) >-1) this.selectedCourses["2018 Winter"].splice(this.selectedCourses["2018 Winter"].indexOf(course), 1);
       this.courseService.storeCourseList(this.selectedCourses);
       this.determineTerm(course).forEach(term => this.dirty[term] = true);
   }
@@ -86,8 +87,8 @@ export class AppComponent {
         this.selectedCourses["2018 Winter"].push(course.code);
       }
       this.courseService.storeCourseList(this.selectedCourses);
-      this.determineTerm(course.code).forEach(term => this.dirty[term] = true);
     }
+    this.determineTerm(course.code).forEach(term => this.dirty[term] = true);
   }
 
   receiveSolution(res, term) {
@@ -102,6 +103,10 @@ export class AppComponent {
   }
 
   getSolutions() : void {
+    let emptyRes = {
+      solutions: JSON.stringify([]),
+      courses: JSON.stringify({})
+    }
     var otherTerm = '2018 Winter';
     if (this.term == otherTerm) otherTerm = '2017 Fall';
     if (this.dirty[this.term]) {
@@ -113,7 +118,8 @@ export class AppComponent {
           this.loading = false;
         })
         .catch(err => {
-          console.log(err);
+          this.receiveSolution(emptyRes, this.term);
+          this.timetable.renderSolution(0, this.term);
           this.loading = false;
         })
         .then(() => {
@@ -124,7 +130,9 @@ export class AppComponent {
               this.loading = false;
             })
             .catch(err => {
-              console.log(err);
+              this.receiveSolution(emptyRes, otherTerm);
+              this.timetable.renderSolution(0, otherTerm);
+              this.dirty[otherTerm] = false;
               this.loading = false;
             });
           }
@@ -134,10 +142,13 @@ export class AppComponent {
       this.courseService.getSolutions(otherTerm)
       .then((res) => {
         this.receiveSolution(res, otherTerm);
+        this.dirty[otherTerm] = false;
         this.loading = false;
       })
       .catch(err => {
-        console.log(err);
+        this.receiveSolution(emptyRes, otherTerm);
+        this.timetable.renderSolution(0, otherTerm);
+        this.dirty[otherTerm] = false;
         this.loading = false;
       });
     }

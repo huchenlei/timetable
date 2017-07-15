@@ -84,7 +84,7 @@ function split_list(input, term, callback){
     }
   }
 
-
+  console.log("split", "term", input[1]);
   return callback(input);
 }
 

@@ -28,7 +28,7 @@
           <app-preference-selector>
           </app-preference-selector>
           <br />
-          <button (click)="getSolutions()" class="fluid ui button" style="background-color:#51B8A3; margin-top:10px">
+          <button (click)="getSolutions()" class="fluid ui {{dirty['2017 Fall'] || dirty['2018 Winter'] ? '' : 'disabled'}} button" style="background-color:#51B8A3; margin-top:10px">
               Get solution
           </button>
       </div>
@@ -75,7 +75,7 @@
                   <app-preference-selector>
                   </app-preference-selector>
                   <br />
-                  <button (click)="getSolutions()" class="fluid ui button" style="background-color:#51B8A3; margin-top:10px">
+                  <button (click)="getSolutions()" class="fluid ui {{dirty['2017 Fall'] || dirty['2018 Winter'] ? '' : 'disabled'}} button" style="background-color:#51B8A3; margin-top:10px">
                       Get solution
                   </button>
               </div>
