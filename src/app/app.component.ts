@@ -68,12 +68,30 @@ export class AppComponent {
 
         this.timetable.updateSolution(this.solutionlist)
         this.timetable.renderSolution(0, this.term);
-        this.loading = false;
       })
       .catch(err => {
         console.log(err);
         this.loading = false;
+      })
+      .then(() => {
+        var otherTerm = '2018 Winter';
+        if (this.term == otherTerm) otherTerm = '2017 Fall';
+        this.courseService.getSolutions(otherTerm)
+        .then((res) => {
+          this.solutionlist[otherTerm] = JSON.parse(res.solutions);
+          this.courses = JSON.parse(res.courses);
+          this.courseService.storeCourseData(this.courses, otherTerm);
+          this.courseService.storeSolutionList(this.solutionlist);
+          this.courseService.load_solution_list(this.solutionlist, otherTerm)
+          this.courseService.storeSolutionList(this.solutionlist);
+
+          this.timetable.updateSolution(this.solutionlist)
+          this.loading = false;
+        })
+        .catch(err => {
+          console.log(err);
+          this.loading = false;
+        });
       });
   }
-
 }
