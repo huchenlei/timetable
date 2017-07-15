@@ -130,8 +130,8 @@ export class AppComponent {
               this.loading = false;
             })
             .catch(err => {
-              this.receiveSolution(emptyRes, this.term);
-              this.timetable.renderSolution(0, this.term);
+              this.receiveSolution(emptyRes, otherTerm);
+              this.timetable.renderSolution(0, otherTerm);
               this.loading = false;
             });
           }
@@ -144,8 +144,8 @@ export class AppComponent {
         this.loading = false;
       })
       .catch(err => {
-        this.receiveSolution(emptyRes, this.term);
-        this.timetable.renderSolution(0, this.term);
+        this.receiveSolution(emptyRes, otherTerm);
+        this.timetable.renderSolution(0, otherTerm);
         this.loading = false;
       });
     }
