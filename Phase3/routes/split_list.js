@@ -63,6 +63,7 @@ function split_list(input, term, callback){
   var coursedata = input[1];
   for (var courseCode in coursedata) {
     var types = coursedata[courseCode][term];
+    if (courseCode.indexOf("Y1Y") > -1) types = coursedata[courseCode]["2017 Fall"];
     for (var type in types) {
       var s = types[type];
       for (var i = 0; i < s.length; i++) {
@@ -83,7 +84,7 @@ function split_list(input, term, callback){
     }
   }
 
-
+  console.log("split", "term", input[1]);
   return callback(input);
 }
 

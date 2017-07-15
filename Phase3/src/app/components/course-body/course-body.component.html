@@ -5,5 +5,5 @@
   </p>
 <div class="ui divider"></div>
 <div *ngFor="let section of lectures">
-  {{section.code}}: {{section.instructors}}
+  {{section.code}}: {{section.instructors}} @{{section.locations.length>0 ? section.locations : 'TBA'}}
 </div>

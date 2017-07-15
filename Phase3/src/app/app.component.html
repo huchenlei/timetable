@@ -14,10 +14,9 @@
               Courses
           </div>
           <app-course-item
-              *ngFor="let course of selectedCourses[term]"
+              *ngFor="let course of getCourseInOneList()"
               href=""
               class="course ui grid"
-              [term]="term"
               [course]="course"
               (deleteCourse)="deleteCourse($event)">
           </app-course-item>
@@ -29,7 +28,7 @@
           <app-preference-selector>
           </app-preference-selector>
           <br />
-          <button (click)="getSolutions()" class="fluid ui button" style="background-color:#51B8A3; margin-top:10px">
+          <button (click)="getSolutions()" class="fluid ui {{dirty['2017 Fall'] || dirty['2018 Winter'] ? '' : 'disabled'}} button" style="background-color:#51B8A3; margin-top:10px">
               Get solution
           </button>
       </div>
@@ -61,7 +60,7 @@
                       Courses
                   </div>
                   <app-course-item
-                      *ngFor="let course of selectedCourses[term]"
+                      *ngFor="let course of getCourseInOneList()"
                       href=""
                       class="course ui grid"
                       [term]="term"
@@ -76,7 +75,7 @@
                   <app-preference-selector>
                   </app-preference-selector>
                   <br />
-                  <button (click)="getSolutions()" class="fluid ui button" style="background-color:#51B8A3; margin-top:10px">
+                  <button (click)="getSolutions()" class="fluid ui {{dirty['2017 Fall'] || dirty['2018 Winter'] ? '' : 'disabled'}} button" style="background-color:#51B8A3; margin-top:10px">
                       Get solution
                   </button>
               </div>
