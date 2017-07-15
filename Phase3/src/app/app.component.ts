@@ -24,7 +24,7 @@ export class AppComponent {
   solutionlist = {}
   preferences;
   loading: boolean = false;
-  dirty: any = {"2017 Fall": !true, "2018 Winter": !true};
+  dirty: any = {"2017 Fall": true, "2018 Winter": true};
   @ViewChild(TimetableComponent) timetable: TimetableComponent;
 
   constructor(
@@ -130,8 +130,9 @@ export class AppComponent {
               this.loading = false;
             })
             .catch(err => {
-              this.receiveSolution(emptyRes, this.term);
-              this.timetable.renderSolution(0, this.term);
+              this.receiveSolution(emptyRes, otherTerm);
+              this.timetable.renderSolution(0, otherTerm);
+              this.dirty[otherTerm] = false;
               this.loading = false;
             });
           }
@@ -141,11 +142,13 @@ export class AppComponent {
       this.courseService.getSolutions(otherTerm)
       .then((res) => {
         this.receiveSolution(res, otherTerm);
+        this.dirty[otherTerm] = false;
         this.loading = false;
       })
       .catch(err => {
-        this.receiveSolution(emptyRes, this.term);
-        this.timetable.renderSolution(0, this.term);
+        this.receiveSolution(emptyRes, otherTerm);
+        this.timetable.renderSolution(0, otherTerm);
+        this.dirty[otherTerm] = false;
         this.loading = false;
       });
     }
