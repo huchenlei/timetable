@@ -24,7 +24,7 @@ export class AppComponent {
   solutionlist = {}
   preferences;
   loading: boolean = false;
-  dirty: any = {"2017 Fall": false, "2018 Winter": false};
+  dirty: any = {"2017 Fall": true, "2018 Winter": true};
   @ViewChild(TimetableComponent) timetable: TimetableComponent;
 
   constructor(
@@ -86,6 +86,7 @@ export class AppComponent {
         .then((res) => {
           this.receiveSolution(res, this.term);
           this.timetable.renderSolution(0, this.term);
+          this.loading = false;
         })
         .catch(err => {
           console.log(err);
