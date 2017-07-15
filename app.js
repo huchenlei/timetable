@@ -117,6 +117,9 @@ var split_list = require('./routes/split_list');
 var compute_valid_solutions = require('./routes/smart');
 
 function smart(req, res) {
+  if (!(req.body.courselist && req.body.preferences && req.body.term)) {
+    return res.sendStatus(400);
+  }
   const courselist = JSON.parse(req.body.courselist);
   const preferences = JSON.parse(req.body.preferences);
   const term = req.body.term;
