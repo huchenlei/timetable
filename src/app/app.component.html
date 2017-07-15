@@ -17,6 +17,7 @@
               *ngFor="let course of selectedCourses[term]"
               href=""
               class="course ui grid"
+              [term]="term"
               [course]="course"
               (deleteCourse)="deleteCourse($event)">
           </app-course-item>
@@ -63,6 +64,7 @@
                       *ngFor="let course of selectedCourses[term]"
                       href=""
                       class="course ui grid"
+                      [term]="term"
                       [course]="course"
                       (deleteCourse)="deleteCourse($event)">
                   </app-course-item>

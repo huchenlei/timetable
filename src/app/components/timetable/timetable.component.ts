@@ -4,59 +4,6 @@ import { CourseMin } from '../../models/course-min';
 import { TimetableSlot, Cell } from '../../models/timetable-slot';
 
 import { CourseService } from '../../services/course.service'
-const sample = [
-  [{
-      "courseCode": "CSC120",
-      "code": ["L0101"],
-      "times": [{
-        "day": "MONDAY",
-        "start": 46800,
-        "end": 50400,
-        "duration": 3600,
-        "location": "NF 003"
-      }, {
-        "day": "WEDNESDAY",
-        "start": 46800,
-        "end": 50400,
-        "duration": 3600,
-        "location": "NF 003"
-      }, {
-        "day": "FRIDAY",
-        "start": 46800,
-        "end": 50400,
-        "duration": 3600,
-        "location": "NF 003"
-      }, {
-        "day": "THURSDAY",
-        "start": 54000,
-        "end": 61200,
-        "duration": 7200,
-        "location": ""
-      }]
-    }, {
-      "courseCode": "CSC108",
-      "code": ["L0101"],
-      "times": [{
-        "day": "MONDAY",
-        "start": 36000,
-        "end": 39600,
-        "duration": 3600,
-        "location": "MP 102"
-      }, {
-        "day": "WEDNESDAY",
-        "start": 36000,
-        "end": 39600,
-        "duration": 3600,
-        "location": "MP 102"
-      }, {
-        "day": "FRIDAY",
-        "start": 36000,
-        "end": 39600,
-        "duration": 3600,
-        "location": "MP 102"
-      }]
-    }]
-];
 
 @Component({
   selector: 'app-timetable',
