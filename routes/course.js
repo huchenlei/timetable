@@ -11,7 +11,9 @@ function getNewCourse(req, res) {
   var semester = req.params.semester;
   database.courseSchema.find({
     code: new RegExp(code, 'i'),
-    term: semester,
+    term: {
+      $in: ["2017 Fall", "2018 Winter"]
+    },
     campus: "UTSG"
   },
     function(err, courses){
@@ -26,11 +28,12 @@ function getNewCourse(req, res) {
 
 function getNewCourseMin(req, res) {
   var code = req.params.code;
-  var semester = req.params.semester;
   database.courseSchema.find({
     code: new RegExp(code, 'i'),
-    term: semester,
-    campus: "UTSG"
+    campus: "UTSG",
+    term: {
+      $in: ["2017 Fall", "2018 Winter"]
+    }
   },
   {
     code: 1, name: 1, _id:0
@@ -282,8 +285,8 @@ function deleteTimeslot(req, res) {
 
 // courseSchema
 router.post('/insertCourse', insertCourse);
-router.get('/:code/semester/:semester', getNewCourse);
-router.get('/s/:code/:semester', getNewCourseMin);
+router.get('/:code', getNewCourse);
+router.get('/s/:code', getNewCourseMin);
 
 //router.update('/updateCourse', updateCourse);
 

@@ -25,17 +25,6 @@ export class SearchBarComponent implements OnInit {
         return this.courseService
           .fetchCourse(query, this.term)
           .then(result => {
-            // console.log(result)
-            // const courses = new Set();
-            // for (let i = 0; i < result.length; i++) {
-        		//   const new_code = result[i].code.substr(0, 6);
-        		//   if (!courses.has(new_code)) {
-        		// 	  courses.add(new_code);
-        		//   }
-        		// }
-            // let l = [];
-            // courses.forEach(c => l.push({code:c}))
-            result.forEach(c => c.code = c.code.substr(0, 6));
             return Promise.resolve(result);
           })
           .catch(err => {return Promise.reject("Course not found")});

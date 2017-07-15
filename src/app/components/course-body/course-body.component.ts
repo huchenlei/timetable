@@ -11,7 +11,6 @@ import {Course} from "../../models/course"
 })
 export class CourseBodyComponent implements OnInit {
   @Input() courseCode : string;
-  @Input() term: string;
   body = new Course();
   sections: any[] = [];
   lectures: any[] = [];
@@ -20,7 +19,7 @@ export class CourseBodyComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.courseService.fetchCourseBody(this.courseCode, this.term)
+    this.courseService.fetchCourseBody(this.courseCode)
       .then(body => {
         this.body = body[0];
         this.sections = body[0].meeting_sections;
@@ -30,6 +29,9 @@ export class CourseBodyComponent implements OnInit {
             if (s.instructors.length == 0) {
               copy.instructors.push("TBA")
             }
+            let times = new Set();
+            s.times.forEach(t => {console.log(t);times.add(t.location);})
+            copy.locations = Array.from(times);
             this.lectures.push(copy)
           }
         })

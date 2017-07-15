@@ -14,10 +14,9 @@
               Courses
           </div>
           <app-course-item
-              *ngFor="let course of selectedCourses[term]"
+              *ngFor="let course of displayList"
               href=""
               class="course ui grid"
-              [term]="term"
               [course]="course"
               (deleteCourse)="deleteCourse($event)">
           </app-course-item>
@@ -61,7 +60,7 @@
                       Courses
                   </div>
                   <app-course-item
-                      *ngFor="let course of selectedCourses[term]"
+                      *ngFor="let course of getCourseInOneList()"
                       href=""
                       class="course ui grid"
                       [term]="term"
