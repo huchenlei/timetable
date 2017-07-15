@@ -68,6 +68,12 @@ input * {
   width: 100% !important;
 }
 
+.ui.sidebar.menu: {
+    min-height: 100%;
+    position: fixed;
+
+}
+
 @media screen and (max-width: 990px) {
   .content {
     margin-left: 0px;
