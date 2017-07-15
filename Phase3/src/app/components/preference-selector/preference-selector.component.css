@@ -35,3 +35,7 @@ td.red {
 th.red {
   background-color: #DC4C46 !important;
 }
+
+table {
+  background-image: url(/assets/images/preference.svg)
+}

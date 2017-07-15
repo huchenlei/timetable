@@ -98,7 +98,8 @@ function populateCourseInfo(req, callback) {
 function find_all_sections(courses, callback) {
   var results = [];
   var counter = 0;
-  for (var i = courses.length - 1; i >= 0; i--) {
+  if (courses.length == 0) return callback([]);
+  for (var i = 0; i < courses.length; i++) {
         var section = {
           courseCode: courses[i]
         }
@@ -116,19 +117,21 @@ var split_list = require('./routes/split_list');
 var compute_valid_solutions = require('./routes/smart');
 
 function smart(req, res) {
-  const courselist = JSON.parse(req.body.courselist);
-  const preferences_raw = JSON.parse(req.body.preferences);
-  const term = req.body.term;
-  const preferences = [];
-  for (var type in preferences_raw) {
-    preferences.push({
-      type: type,
-      value: preferences_raw[type]
-    });
+  if (!(req.body.courselist && req.body.preferences && req.body.term)) {
+    return res.sendStatus(400);
   }
-  console.log(preferences);
-  console.log(courselist);
+  const courselist = JSON.parse(req.body.courselist);
+  const preferences = JSON.parse(req.body.preferences);
+  const term = req.body.term;
+  // const preferences = [];
+  // for (var type in preferences_raw) {
+  //   preferences.push({
+  //     type: type,
+  //     value: preferences_raw[type]
+  //   });
+  // }
   find_all_sections(courselist, function(results) {
+      if (results.length == 0) return res.sendStatus(404);
       var output = [];
       output.push(preferences);
       output = output.concat(results);

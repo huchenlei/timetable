@@ -10,7 +10,8 @@ import {Course} from "../../models/course"
   styleUrls: ['./course-body.component.css']
 })
 export class CourseBodyComponent implements OnInit {
-  @Input() courseCode : string
+  @Input() courseCode : string;
+  @Input() term: string;
   body = new Course();
   sections: any[] = [];
   lectures: any[] = [];
@@ -19,7 +20,7 @@ export class CourseBodyComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.courseService.fetchCourseBody(this.courseCode, "2017 Fall")
+    this.courseService.fetchCourseBody(this.courseCode, this.term)
       .then(body => {
         this.body = body[0];
         this.sections = body[0].meeting_sections;

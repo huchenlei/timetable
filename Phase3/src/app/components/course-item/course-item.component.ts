@@ -8,6 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class CourseItemComponent implements OnInit {
 
   @Input() course: string;
+  @Input() term: string;
   @Output() deleteCourse: EventEmitter<string> = new EventEmitter<string>();
   right = "right";
   constructor() { }

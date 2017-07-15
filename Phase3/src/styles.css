@@ -1,9 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 .ui.search>.results {
-  max-width: 230px !important;
+  width: 343px !important;
   overflow: overlay;
 }
 
+.ui.input.icon, sui-search, app-search-bar, .ui.search {
+  width: 100% !important;
+}
+
+.ui.left.sidebar {
+  width: 375px !important;
+}
 /*// Semantic UI has these classes, however they're only applicable to
 // grids, containers, rows and columns.
 // plus, there isn't any `mobile hidden`, `X hidden` class.
@@ -21,6 +28,14 @@
   [class*="widescreen only"]:not(.mobile),
   [class*="or lower hidden"] {
     display: none !important;
+  }
+  .ui.left.sidebar {
+    width: 100% !important;
+  }
+
+  .ui.search>.results {
+    max-width: 100% !important;
+    overflow: overlay;
   }
 }
 
