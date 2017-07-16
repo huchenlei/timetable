@@ -1,0 +1,29 @@
+<div *responsive="{
+                    bootstrap: ['xl','lg','md']
+                  }"
+      class="row" suiPopup [popupTemplate]="popupTemplate" [popupPlacement]="right" popupTrigger="outsideClick">
+    <div class="left floated column">
+        {{course}}
+    </div>
+    <div class="right floated column">
+        <a (click)='onClickClose()'><i class="close icon" style="color:white"></i></a>
+    </div>
+</div>
+
+<div *responsive="{
+                    bootstrap: ['sm','xs']
+                  }"
+      class="row">
+    <div class="left floated column">
+        {{course}}
+    </div>
+    <div class="right floated column">
+        <a (click)='onClickClose()'><i class="close icon" style="color:white"></i></a>
+    </div>
+</div>
+
+<ng-template let-popup #popupTemplate>
+    <div class="content">
+      <app-course-body [courseCode]="course"></app-course-body>
+    </div>
+</ng-template>

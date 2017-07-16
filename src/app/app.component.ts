@@ -45,11 +45,6 @@ export class AppComponent {
     this.timetable.renderSolution(0, this.term);
   }
 
-  markDirty() {
-    this.dirty["2017 Fall"] = true;
-    this.dirty["2018 Winter"] = true;
-  }
-
 
   getCourseInOneList() {
     let s = new Set();
@@ -136,6 +131,7 @@ export class AppComponent {
             })
             .catch(err => {
               this.receiveSolution(emptyRes, otherTerm);
+              this.timetable.renderSolution(0, otherTerm);
               this.dirty[otherTerm] = false;
               this.loading = false;
             });
@@ -151,6 +147,7 @@ export class AppComponent {
       })
       .catch(err => {
         this.receiveSolution(emptyRes, otherTerm);
+        this.timetable.renderSolution(0, otherTerm);
         this.dirty[otherTerm] = false;
         this.loading = false;
       });
