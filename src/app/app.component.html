@@ -26,7 +26,7 @@
       <div class="header">
           Preferences
       </div>
-      <app-preference-selector>
+      <app-preference-selector (markDirty)="markDirty()">
       </app-preference-selector>
       <br />
       <button (click)="getSolutions()" class="fluid ui {{dirty['2017 Fall'] || dirty['2018 Winter'] ? '' : 'disabled'}} button" style="background-color:#51B8A3; margin-top:10px">

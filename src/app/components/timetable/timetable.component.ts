@@ -33,6 +33,7 @@ export class TimetableComponent implements OnInit {
     this.term = "2017 Fall";
     this.timetableSlot = new TimetableSlot();
     this.solutionList = this.courseService.loadSolutionList();
+    this.courseService.load_solution_list(this.solutionList, "2017 Fall");
     this.renderSolution(0, this.term);
   }
 

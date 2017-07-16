@@ -97,6 +97,17 @@ export class CourseService {
   }
 
   loadCourseList() : string[] {
+    console.log("load course list");
+    var data = JSON.parse(localStorage.getItem("courselist"));
+    if (data) {
+      console.log("2017 Fall", data["2017 Fall"]);
+      console.log("2018 Winter", data["2018 Winter"]);
+      if ((data["2017 Fall"].length > 0 && data["2017 Fall"][0].length == 6)
+        || (data["2018 Winter"].length > 0 && data["2018 Winter"][0].length == 6)) {
+        console.log(data);
+        this.initLocalStorage();
+      }
+    }
     return JSON.parse(localStorage.getItem("courselist"))
     ? JSON.parse(localStorage.getItem("courselist"))
     : {"2017 Fall":[], "2018 Winter":[]};

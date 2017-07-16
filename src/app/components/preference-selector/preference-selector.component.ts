@@ -1,4 +1,4 @@
-import { Component, OnInit }    from '@angular/core';
+import { Component, OnInit, Output, EventEmitter }    from '@angular/core';
 
 import { Preference, Day }           from '../../models/preference'
 
@@ -16,6 +16,7 @@ const timeToHour = {
   styleUrls: ['./preference-selector.component.css']
 })
 export class PreferenceSelectorComponent implements OnInit {
+  @Output() markDirty = new EventEmitter<any>()
   days = days;
   times = times;
   preference : Preference = new Preference();
@@ -32,15 +33,18 @@ export class PreferenceSelectorComponent implements OnInit {
   flip(day : string, time : string) : void {
       this.preferenceService.updateDay(this.preference, day, time);
       this.preferenceService.storePreferences(this.preference);
+      this.markDirty.emit();
   }
 
   excludeRow(time: string) : void {
     this.preferenceService.excludeTime(this.preference, time);
     this.preferenceService.storePreferences(this.preference);
+    this.markDirty.emit();
   }
 
   excludeCol(day: string) : void {
     this.preferenceService.excludeDay(this.preference, day);
     this.preferenceService.storePreferences(this.preference);
+    this.markDirty.emit();
   }
 }
