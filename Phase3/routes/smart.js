@@ -53,7 +53,6 @@ var compute_valid_solutions = function(input, term, callback) {
 	c_lst = [];
 	for (var courseCode in course_data) {
 		if (courseCode.indexOf("Y1Y") > -1) {
-			console.log(course_data[courseCode]);
 			for (var type in course_data[courseCode]["2017 Fall"])
 				c_lst.push(course_data[courseCode]["2017 Fall"][type]);
 		} else {
@@ -61,7 +60,6 @@ var compute_valid_solutions = function(input, term, callback) {
 				c_lst.push(course_data[courseCode][term][type]);
 		}
 	}
-	console.log(term, "smart", c_lst);
 	backtrack(c_lst, 7);
 	if (solutionlist.length == 0)	{
 		backtrack(c_lst, 1000);
