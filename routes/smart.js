@@ -13,7 +13,7 @@ var backtrack = function(courselist, clip_max) {
 		solutionlist.push(JSON.parse(JSON.stringify(currentlist)));
 	} else {
 		var depth = currentlist.length;
-		var clip = Math.min(7, courselist[depth].length);
+		var clip = Math.min(clip_max, courselist[depth].length);
 		for (var i = 0; i < clip; i++) {
 			var ok = true;
 			for (var j = 0; j < depth; j++)
@@ -53,7 +53,6 @@ var compute_valid_solutions = function(input, term, callback) {
 	c_lst = [];
 	for (var key in course_data) {
 		if (key.indexOf("Y1Y") > -1) {
-			console.log(course_data[key]);
 			for (var type in course_data[key]["2017 Fall"])
 				c_lst.push(course_data[key]["2017 Fall"][type]);
 		} else {
@@ -61,15 +60,13 @@ var compute_valid_solutions = function(input, term, callback) {
 				c_lst.push(course_data[key][term][type]);
 		}
 	}
-	console.log(term, "smart", c_lst);
 	backtrack(c_lst, 7);
 	if (solutionlist.length == 0)	{
 		backtrack(c_lst, 1000);
 		if (solutionlist.length == 0) {
-			for (var i = 0; i < c_lst.length; i++) {
-				var t = c_lst.splice(i, 1);
-				backtrack(c_lst, 1000);
-				c_lst.splice(i, 0, t[0]);
+			for (var courseCode in course_data) {
+				var t = c_lst.filter(e => e[0].courseCode != courseCode);
+				backtrack(t, 1000);
 			}
 		}
 	}

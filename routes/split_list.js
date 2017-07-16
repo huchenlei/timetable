@@ -130,6 +130,22 @@ function nestedGetList(obj, keys) {
   return cur_obj;
 }
 
+function merge_timeslot(timeslots) {
+  var timeslots = timeslots.slice();
+  for (var i = 0; i < timeslots.length; i++) {
+    var cur = timeslots[i];
+    for (var k = i + 1; k < timeslots.length; k++) {
+      if (cur.start == timeslots[k].start
+        && cur.end == timeslots[k].end
+        && cur.day == timeslots[k].day) {
+        timeslots.splice(k, 1);
+        k--;
+      }
+    }
+  }
+  return timeslots;
+}
+
 function merge_sections(course_data) {
   // merge section with same timeslots
   var merge_result = {};
@@ -146,7 +162,7 @@ function merge_sections(course_data) {
       var merge_unit = {
         courseCode: all_sections[0].courseCode,
         code: [cur_obj.code],
-        times: cur_obj.times,
+        times: merge_timeslot(cur_obj.times),
         instructors: cur_obj.instructors,
       };
       for (var k = i + 1; k < all_sections.length; k++) {
