@@ -97,10 +97,12 @@ export class CourseService {
   }
 
   loadCourseList() : string[] {
+    console.log("load course list");
     var data = JSON.parse(localStorage.getItem("courselist"));
     if (data) {
       if (data["2017 Fall"].length > 0 || data["2018 Winter"].length > 0) {
         if (data["2017 Fall"][0].length == 6 || data["2018 Winter"][0].length == 6) {
+          console.log(data);
           this.initLocalStorage();
         }
       }
