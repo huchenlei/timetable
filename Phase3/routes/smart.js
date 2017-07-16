@@ -51,14 +51,14 @@ var compute_valid_solutions = function(input, term, callback) {
 	course_data = input[1];
 	p_lst = input[0];
 	c_lst = [];
-	for (var key in course_data) {
-		if (key.indexOf("Y1Y") > -1) {
-			console.log(course_data[key]);
-			for (var type in course_data[key]["2017 Fall"])
-				c_lst.push(course_data[key]["2017 Fall"][type]);
+	for (var courseCode in course_data) {
+		if (courseCode.indexOf("Y1Y") > -1) {
+			console.log(course_data[courseCode]);
+			for (var type in course_data[courseCode]["2017 Fall"])
+				c_lst.push(course_data[courseCode]["2017 Fall"][type]);
 		} else {
-			for (var type in course_data[key][term])
-				c_lst.push(course_data[key][term][type]);
+			for (var type in course_data[courseCode][term])
+				c_lst.push(course_data[courseCode][term][type]);
 		}
 	}
 	console.log(term, "smart", c_lst);

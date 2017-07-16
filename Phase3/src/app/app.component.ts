@@ -45,6 +45,11 @@ export class AppComponent {
     this.timetable.renderSolution(0, this.term);
   }
 
+  markDirty() {
+    this.dirty["2017 Fall"] = true;
+    this.dirty["2018 Winter"] = true;
+  }
+
 
   getCourseInOneList() {
     let s = new Set();
