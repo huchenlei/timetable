@@ -97,6 +97,14 @@ export class CourseService {
   }
 
   loadCourseList() : string[] {
+    var data = JSON.parse(localStorage.getItem("courselist"));
+    if (data) {
+      if (data["2017 Fall"].length > 0 || data["2018 Winter"].length > 0) {
+        if (data["2017 Fall"][0].length == 6 || data["2018 Winter"][0].length == 6) {
+          this.initLocalStorage();
+        }
+      }
+    }
     return JSON.parse(localStorage.getItem("courselist"))
     ? JSON.parse(localStorage.getItem("courselist"))
     : {"2017 Fall":[], "2018 Winter":[]};
