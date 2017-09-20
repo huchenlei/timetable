@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Teamwork
 to be used for your teamwork on the project
 
@@ -83,4 +82,3 @@ Before running the tests make sure you are serving the app via `ng serve`.
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
->>>>>>> 0615c6bbe09559e3d88e3095dea8c7109f2c709b
