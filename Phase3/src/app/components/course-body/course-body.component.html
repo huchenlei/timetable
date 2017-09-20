@@ -1,9 +1,0 @@
-<h2>{{courseCode}}</h2>
-<h3>{{body.name}}</h3>
-  <p>
-    {{body.description}}
-  </p>
-<div class="ui divider"></div>
-<div *ngFor="let section of lectures">
-  {{section.code}}: {{section.instructors}} @{{section.locations.length>0 ? section.locations : 'TBA'}}
-</div>

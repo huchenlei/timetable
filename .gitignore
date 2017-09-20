@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-.DS_Store
-=======
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
 # compiled output
 /dist
 /tmp
@@ -43,4 +38,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
->>>>>>> 0615c6bbe09559e3d88e3095dea8c7109f2c709b
+
+# npm generated
+/package-lock.json
