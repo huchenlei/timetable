@@ -1,0 +1,4 @@
+- deal with conflict 
+- add smart2
+- switch semester
+- reset button
