@@ -30,7 +30,7 @@ export class AlertComponent {
         this.alerts = this.alerts.filter(x => x !== alert);
     }
 
-    cssClass(alert: Alert) {
+    static cssClass(alert: Alert) {
         if (!alert) {
             return;
         }

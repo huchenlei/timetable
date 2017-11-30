@@ -1,5 +1,4 @@
-import { Section } from './section';
-import { Time } from './time';
+import {Time} from "./time";
 
 export class CourseMin {
   code : string[];

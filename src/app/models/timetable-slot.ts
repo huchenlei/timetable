@@ -1,6 +1,3 @@
-import { TimetableComponent } from '../components/timetable/timetable.component'
-import { ViewChild } from '@angular/core';
-
 export class TimetableSlot {
   map : any[5][15];
 

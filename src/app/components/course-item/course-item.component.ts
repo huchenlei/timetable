@@ -19,5 +19,4 @@ export class CourseItemComponent implements OnInit {
   onClickClose():void {
       this.deleteCourse.emit(this.course);
   }
-
 }
