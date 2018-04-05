@@ -162,6 +162,7 @@ export class StepHeuristicSolver extends Solver {
                 if (result.length == resultNum) {
                     return result;
                 }
+                continue;
             }
 
             for (let section of components[componentIndex].sections) {

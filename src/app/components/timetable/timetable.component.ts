@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {CourseMin} from '../../models/course-min';
-import {Cell, TimetableSlotLegacy} from '../../models/timetable-slot-legacy';
+import {TimetableSlotLegacy} from '../../models/timetable-slot-legacy';
 
 import {CourseService} from '../../services/course.service'
 import {Timetable} from "../../models/timetable";
-import {CourseSolution} from "../../course-arrange";
+import {StepHeuristicSolver, TimeConflictConstraint} from "../../course-arrange";
+import {CHE, CIV, ECE, parseCourse, UofT} from "./mocking";
+
 
 @Component({
     selector: 'app-timetable',
@@ -44,7 +46,14 @@ export class TimetableComponent implements OnInit {
         // this.renderSolution(0, this.term);
 
         this.timetable = new Timetable();
-        this.timetable.parseSolution(new CourseSolution());
+        const courses: UofT.Course[] = [
+            <UofT.Course>CHE,
+            <UofT.Course>ECE,
+            <UofT.Course>CIV
+        ];
+
+        const solver = new StepHeuristicSolver(courses.map(parseCourse));
+        this.timetable.parseSolution(solver.solve([new TimeConflictConstraint()])[0]);
     }
 
     overlap(a, b) {
@@ -61,16 +70,6 @@ export class TimetableComponent implements OnInit {
             items.push(i);
         }
         return items;
-    }
-
-    createTd(a: Cell[][], index: number) {
-        var result = [];
-        for (let i = 0; i < 5; i++) {
-            if (!a[i][index].delete) {
-                result.push(a[i][index])
-            }
-        }
-        return result;
     }
 
     updateSolution(solutionlist) {
@@ -163,22 +162,6 @@ export class TimetableComponent implements OnInit {
                     })
                 }
             }
-        }
-    }
-
-    onClickCourse(course) {
-        this.renderSolution(this.cur, this.term);
-        let courseData = this.courseService.loadCourseData(this.term);
-        let optLst = courseData[course.courseCode][this.term][course.code[0][0]];
-        this.drawOption(course);
-        for (var i = 0; i < optLst.length; i++) {
-            var ok = true;
-            for (var j = 0; j < this.currentlist.length; j++)
-                if (this.currentlist[j] != course && this.overlap(optLst[i].times, this.currentlist[j].times)) {
-                    ok = false;
-                    break;
-                }
-            if (ok) this.drawOption(optLst[i]);
         }
     }
 

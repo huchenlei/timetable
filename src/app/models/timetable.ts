@@ -1,6 +1,7 @@
 import {CourseSection, CourseSolution, Time} from "../course-arrange";
 import {isNull} from "util";
 import Collections = require("typescript-collections");
+import log = require("loglevel");
 
 
 export class TimeTableColumn {
@@ -106,6 +107,7 @@ export class TimetableCell {
 
             this.code = course.name;
             this.section = component.type.toString();
+            this.color = "#cff";
         }
     }
 }
@@ -140,7 +142,7 @@ export class Timetable {
     /**
      * Clear the trackTable and fill it with default values
      */
-    initTrackTable() {
+    private initTrackTable() {
         this.minTime = START_HOUR + MAX_HOURS;
         this.maxTime = START_HOUR;
         this.trackTable.clear();
@@ -154,7 +156,7 @@ export class Timetable {
      * Add a course time to current table
      * @param {Time} time
      */
-    addTime(time: Time) {
+    private addTime(time: Time) {
         if (this.minTime > time.start)
             this.minTime = time.start;
         if (this.maxTime < time.end)
@@ -174,7 +176,7 @@ export class Timetable {
      * Add a course section to current table
      * @param {CourseSection} section
      */
-    addCourseSection(section: CourseSection) {
+    private addCourseSection(section: CourseSection) {
         for (let time of section.times)
             this.addTime(time);
     }
@@ -182,7 +184,7 @@ export class Timetable {
     /**
      * Generate course table based on tracks information
      */
-    generateTable() {
+    private generateTable() {
         const totalColumn = this.trackTable.values()
             .reduce((total, val) => total + val.length, 0);
         let totalRow = this.maxTime - this.minTime;
@@ -205,6 +207,7 @@ export class Timetable {
      * @param {CourseSolution} solution
      */
     parseSolution(solution: CourseSolution) {
+        log.info(`Course solution: score ${solution.score}, ${solution.choices.length} sections`);
         this.initTrackTable();
         for (let section of solution.choices) {
             this.addCourseSection(section);
