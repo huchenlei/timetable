@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Headers, Http, RequestOptions, Response}  from '@angular/http';
+import {Http} from '@angular/http';
 import {Course} from '../models/course';
-import {CourseMin} from '../models/course-min';
 import {PreferenceService} from './preference.service'
 
 import 'rxjs/add/operator/toPromise';
@@ -64,12 +63,6 @@ export class CourseService {
         course_data[term] = courseList;
         localStorage.setItem("course_data", JSON.stringify(course_data));
     }
-
-    // removeCourseData(course: string) {
-    //   var course_data = this.loadCourseData();
-    //   delete course_data[course];
-    //   localStorage.setItem("course_data", JSON.stringify(course_data));
-    // }
 
     initLocalStorage() {
         localStorage.setItem("course_data", JSON.stringify({

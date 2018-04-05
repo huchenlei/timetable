@@ -3,6 +3,8 @@ import {CourseMin} from '../../models/course-min';
 import {Cell, TimetableSlotLegacy} from '../../models/timetable-slot-legacy';
 
 import {CourseService} from '../../services/course.service'
+import {Timetable} from "../../models/timetable";
+import {CourseSolution} from "../../course-arrange";
 
 @Component({
     selector: 'app-timetable',
@@ -10,6 +12,9 @@ import {CourseService} from '../../services/course.service'
     styleUrls: ['./timetable.component.css']
 })
 export class TimetableComponent implements OnInit {
+    /*
+    Legacy version
+     */
     // index of current solution
     cur;
     currentlist: CourseMin[] = [];
@@ -20,6 +25,11 @@ export class TimetableComponent implements OnInit {
     timetableSlot: TimetableSlotLegacy = new TimetableSlotLegacy();
     term: string;
 
+    /*
+    New version
+     */
+    timetable: Timetable;
+
     constructor(
         private courseService: CourseService
     ) {
@@ -28,9 +38,13 @@ export class TimetableComponent implements OnInit {
     ngOnInit() {
         this.term = "2017 Fall";
         this.timetableSlot = new TimetableSlotLegacy();
-        this.solutionList = this.courseService.loadSolutionList();
-        this.courseService.load_solution_list(this.solutionList, "2017 Fall");
-        this.renderSolution(0, this.term);
+
+        // this.solutionList = this.courseService.loadSolutionList();
+        // this.courseService.load_solution_list(this.solutionList, "2017 Fall");
+        // this.renderSolution(0, this.term);
+
+        this.timetable = new Timetable();
+        this.timetable.parseSolution(new CourseSolution());
     }
 
     overlap(a, b) {
@@ -59,10 +73,6 @@ export class TimetableComponent implements OnInit {
         return result;
     }
 
-    countCol(a: Cell[][], i: number) {
-
-    }
-
     updateSolution(solutionlist) {
         this.solutionList = solutionlist;
     }
@@ -70,7 +80,6 @@ export class TimetableComponent implements OnInit {
     renderSolution(index, term = "2017 Fall") {
         this.term = term;
         this.cleanTable();
-        // console.log(this.solutionList)
         this.solutionList = this.courseService.loadSolutionList();
         if (this.solutionList[term].length != 0) {
             var solution = this.solutionList[term][index];

@@ -37,6 +37,7 @@ export class Location {
 }
 
 export class Time {
+    belongsTo: CourseSection | null;
     day: number;
     start: number;
     end: number;
@@ -47,6 +48,7 @@ export class Time {
             throw `Time ends(${end}) before start(${start})`;
         if (day < 1 || day > 7)
             throw `Invalid week day ${day}, must in range [1, 7]`;
+        this.belongsTo = null;
         this.day = day;
         this.start = start;
         this.end = end;
@@ -81,6 +83,9 @@ export class CourseSection {
     constructor(times: Time[]) {
         this.belongsTo = null;
         this.times = times;
+        for (let time of this.times) {
+            time.belongsTo = this;
+        }
     }
 
     intersect(a: CourseSection | Time): boolean {
