@@ -3,6 +3,15 @@ import {isNull} from "util";
 import Collections = require("typescript-collections");
 import log = require("loglevel");
 
+export class ST_Time extends Time {
+    conflict: boolean;
+
+    constructor(other: Time, conflict: boolean = false) {
+        super(other.day, other.start, other.end, other.location);
+        this.belongsTo = other.belongsTo;
+        this.conflict = conflict;
+    }
+}
 
 export class TimeTableColumn {
     /**
@@ -17,9 +26,9 @@ export class TimeTableColumn {
     /**
      * Course times on this track(column)
      */
-    times: Time[];
+    times: ST_Time[];
 
-    constructor(day: number, trackNum: number = 0, times: Time[] = []) {
+    constructor(day: number, trackNum: number = 0, times: ST_Time[] = []) {
         this.day = day;
         this.trackNum = trackNum;
         this.times = times;
@@ -32,10 +41,12 @@ export class TimeTableColumn {
      */
     addTime(time: Time): boolean {
         for (let t of this.times) {
-            if (t.intersect(time))
+            if (t.intersect(time)) {
+                t.conflict = true;
                 return false;
+            }
         }
-        this.times.push(time);
+        this.times.push(new ST_Time(time));
         return true;
     }
 
@@ -97,7 +108,7 @@ export class TimetableCell {
      Newly added attrs
      */
 
-    constructor(time: Time | null = null) {
+    constructor(time: ST_Time | null = null) {
         if (!isNull(time)) {
             this.rowspan = time.end - time.start;
 
@@ -107,7 +118,11 @@ export class TimetableCell {
 
             this.code = course.name;
             this.section = component.type.toString();
-            this.color = "#cff";
+            if (time.conflict) {
+                this.color = "#f00";
+            } else {
+                this.color = "#cff";
+            }
         }
     }
 }
@@ -116,12 +131,25 @@ export const MAX_DAYS: number = 5;
 export const MAX_HOURS: number = 15;
 export const START_HOUR = 9;
 
+export class TimeTableHeaderCell {
+    title: string;
+    colspan: number;
+
+    constructor(title: string, rowspan: number) {
+        this.title = title;
+        this.colspan = rowspan;
+    }
+}
+
+const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+
 export class Timetable {
     /**
      * Final rendered version which is directly used to generate table content
      * in HTML
      */
     table: TimetableCell[][];
+    header: TimeTableHeaderCell[];
 
     /**
      * The earliest course hour and the latest course hour
@@ -169,7 +197,7 @@ export class Timetable {
                 return;
         }
         // If all tracks rejects the time create a new track and add the time
-        trackList.push(new TimeTableColumn(time.day, trackList.length, [time]));
+        trackList.push(new TimeTableColumn(time.day, trackList.length, [new ST_Time(time, true)]));
     }
 
     /**
@@ -199,6 +227,11 @@ export class Timetable {
             for (let column of columns) {
                 this.table.push(column.toTimeTableCells(this.minTime, this.maxTime));
             }
+        }
+        this.header = [];
+        for (let i = 0; i < this.trackTable.values().length; i++) {
+            const rowspan = this.trackTable.values()[i].length;
+            this.header.push(new TimeTableHeaderCell(days[i], rowspan));
         }
     }
 

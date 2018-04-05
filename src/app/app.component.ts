@@ -34,7 +34,7 @@ export class AppComponent {
 
     selectTerm(term) {
         this.term = term;
-        this.timetable.renderSolution(0, this.term);
+        // this.timetable.renderSolution(0, this.term);
     }
 
     markDirty() {
@@ -96,7 +96,7 @@ export class AppComponent {
         this.courseService.storeSolutionList(this.solutionlist);
         this.courseService.load_solution_list(this.solutionlist, term);
         this.courseService.storeSolutionList(this.solutionlist);
-        this.timetable.updateSolution(this.solutionlist);
+        // this.timetable.updateSolution(this.solutionlist);
     }
 
     getSolutions(): void {
@@ -111,12 +111,12 @@ export class AppComponent {
             this.courseService.getSolutions(this.term)
                 .then((res) => {
                     this.receiveSolution(res, this.term);
-                    this.timetable.renderSolution(0, this.term);
+                    // this.timetable.renderSolution(0, this.term);
                     this.loading = false;
                 })
                 .catch(err => {
                     this.receiveSolution(emptyRes, this.term);
-                    this.timetable.renderSolution(0, this.term);
+                    // this.timetable.renderSolution(0, this.term);
                     this.loading = false;
                 })
                 .then(() => {

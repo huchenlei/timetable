@@ -1,12 +1,10 @@
 <table class="ui fixed center aligned equal height row unstackable table">
-    <thead>
-    <tr>
+    <thead *ngIf="timetable">
+    <tr *ngIf="timetable.header">
         <th class="first"></th>
-        <th>Mon</th>
-        <th>Tue</th>
-        <th>Wed</th>
-        <th>Thu</th>
-        <th>Fri</th>
+        <th *ngFor="let day of timetable.header" [attr.colspan]="day.colspan">
+            {{day.title}}
+        </th>
     </tr>
     </thead>
     <tbody *ngIf="timetable">
