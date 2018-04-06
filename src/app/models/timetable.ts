@@ -130,7 +130,7 @@ export const MAX_DAYS: number = 5;
 export const MAX_HOURS: number = 15;
 export const START_HOUR = 9;
 
-export class TimeTableHeaderCell {
+export class TimetableHeaderCell {
     title: string;
     colspan: number;
 
@@ -148,7 +148,7 @@ export class Timetable {
      * in HTML
      */
     table: TimetableCell[][];
-    header: TimeTableHeaderCell[];
+    header: TimetableHeaderCell[];
 
     /**
      * The earliest course hour and the latest course hour
@@ -249,7 +249,7 @@ export class Timetable {
         this.header = [];
         for (let i = 0; i < this.trackTable.values().length; i++) {
             const rowspan = this.trackTable.getValue(i + 1).length;
-            this.header.push(new TimeTableHeaderCell(days[i], rowspan));
+            this.header.push(new TimetableHeaderCell(days[i], rowspan));
         }
     }
 

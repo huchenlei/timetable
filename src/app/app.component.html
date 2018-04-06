@@ -30,21 +30,22 @@
         <app-preference-selector (markDirty)="markDirty()">
         </app-preference-selector>
         <br/>
-        <button (click)="getSolutions()"
-                class="fluid ui {{dirty['2017 Fall'] || dirty['2018 Winter'] ? '' : 'disabled'}} button"
-                style="background-color:#51B8A3; margin-top:10px">
-            Get solution
-        </button>
+        <!--Solutions are now dynamically generated on client side No longer need to get solution from server-->
+        <!--<button (click)="getSolutions()"-->
+                <!--class="fluid ui {{dirty['2017 Fall'] || dirty['2018 Winter'] ? '' : 'disabled'}} button"-->
+                <!--style="background-color:#51B8A3; margin-top:10px">-->
+            <!--Get solution-->
+        <!--</button>-->
     </div>
 
     <div class="item solutions">
         <div class="header">
             Solutions
         </div>
-        <a *ngFor="let solution of solutionlist[term]; let i = index"
-           (click)="timetable.renderSolution(i, term);sidebar.close();" class="solution">
-            Solution {{i + 1}}<br/><span style="font-size:12px; opacity: 0.5">{{solution.extraTitle}}</span>
-        </a>
+        <!--<a *ngFor="let solution of solutionlist[term]; let i = index"-->
+           <!--(click)="timetable.renderSolution(i, term);sidebar.close();" class="solution">-->
+            <!--Solution {{i + 1}}<br/><span style="font-size:12px; opacity: 0.5">{{solution.extraTitle}}</span>-->
+        <!--</a>-->
     </div>
 </ng-template>
 
