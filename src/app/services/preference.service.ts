@@ -114,29 +114,6 @@ export class PreferenceService {
         return result;
     }
 
-    parsePreference(preference: Preference) {
-        let result = [];
-        days.forEach(d => {
-            // if (preference[d].no) {
-            //   result[d.substr(0,3)] = "no-class";
-            // } else {
-            //   times.forEach(t => {
-            //     if (preference[d][t]) {
-            //       result[d.substr(0,3)] = t;
-            //     }
-            //   })
-            //   if (!result.hasOwnProperty(d.substr(0,3))) {
-            //     result[d.substr(0,3)] = 'any';
-            //   }
-            // }
-            this.convertPrefToTime(preference[d], d).forEach(p => {
-                result.push(p);
-            });
-
-        })
-        return result;
-    }
-
     storePreferences(p: Preference) {
         localStorage.setItem("preferences", JSON.stringify(p));
     }

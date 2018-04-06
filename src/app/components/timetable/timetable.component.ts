@@ -41,7 +41,7 @@ export class TimetableComponent implements OnInit {
             <UofT.Course>CIV
         ];
         // const solver = new ExhaustiveSolver(courses.map(parseCourse));
-        const solver = new StepHeuristicSolver(courses.map(parseCourse));
+        const solver = new StepHeuristicSolver(courses.map(parseCourse), 1000 * 1000, 50);
         this.timetable.parseSolution(solver.solve([new TimeConflictConstraint()], 1)[0]);
     }
 

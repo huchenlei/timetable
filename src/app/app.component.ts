@@ -26,9 +26,6 @@ export class AppComponent {
                 private alertService: AlertService) {
         this.courses = this.courseService.loadCourseData(this.term);
         this.selectedCourses = this.courseService.loadCourseList();
-        this.preferences = this.preferenceService.loadPreferences();
-        this.solutionlist = this.courseService.loadSolutionList();
-
         this.alertService.success("hello world");
     }
 
@@ -86,66 +83,5 @@ export class AppComponent {
             this.courseService.storeCourseList(this.selectedCourses);
         }
         this.determineTerm(course.code).forEach(term => this.dirty[term] = true);
-    }
-
-    receiveSolution(res, term) {
-        this.dirty[term] = false;
-        this.solutionlist[term] = JSON.parse(res.solutions);
-        this.courses = JSON.parse(res.courses);
-        this.courseService.storeCourseData(this.courses, term);
-        this.courseService.storeSolutionList(this.solutionlist);
-        this.courseService.load_solution_list(this.solutionlist, term);
-        this.courseService.storeSolutionList(this.solutionlist);
-        // this.timetable.updateSolution(this.solutionlist);
-    }
-
-    getSolutions(): void {
-        let emptyRes = {
-            solutions: JSON.stringify([]),
-            courses: JSON.stringify({})
-        }
-        var otherTerm = '2018 Winter';
-        if (this.term == otherTerm) otherTerm = '2017 Fall';
-        if (this.dirty[this.term]) {
-            this.loading = true;
-            this.courseService.getSolutions(this.term)
-                .then((res) => {
-                    this.receiveSolution(res, this.term);
-                    // this.timetable.renderSolution(0, this.term);
-                    this.loading = false;
-                })
-                .catch(err => {
-                    this.receiveSolution(emptyRes, this.term);
-                    // this.timetable.renderSolution(0, this.term);
-                    this.loading = false;
-                })
-                .then(() => {
-                    if (this.dirty[otherTerm]) {
-                        this.courseService.getSolutions(otherTerm)
-                            .then((res) => {
-                                this.receiveSolution(res, otherTerm);
-                                this.loading = false;
-                            })
-                            .catch(err => {
-                                this.receiveSolution(emptyRes, otherTerm);
-                                this.dirty[otherTerm] = false;
-                                this.loading = false;
-                            });
-                    }
-                });
-        } else if (this.dirty[otherTerm]) {
-            this.loading = true;
-            this.courseService.getSolutions(otherTerm)
-                .then((res) => {
-                    this.receiveSolution(res, otherTerm);
-                    this.dirty[otherTerm] = false;
-                    this.loading = false;
-                })
-                .catch(err => {
-                    this.receiveSolution(emptyRes, otherTerm);
-                    this.dirty[otherTerm] = false;
-                    this.loading = false;
-                });
-        }
     }
 }

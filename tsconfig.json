@@ -16,5 +16,11 @@
       "es2016",
       "dom"
     ]
-  }
+  },
+  "include": [
+    "backend/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

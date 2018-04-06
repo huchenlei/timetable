@@ -39,22 +39,6 @@ export class CourseService {
             .catch(err => Promise.reject(err));
     }
 
-    getSolutions(term: string) {
-        // if (localStorage.term && localStorage.courselist)
-        return this.http.post('/smart', {
-            term: term,
-            courselist: JSON.stringify(JSON.parse(localStorage.courselist)[term]),
-            preferences: JSON.stringify(this.preferenceService.parsePreference(this.preferenceService.loadPreferences()))
-        })
-            .toPromise()
-            .then((data) => {
-                return data.json();
-            })
-            .catch(err => {
-                return Promise.reject(err)
-            });
-    }
-
     storeCourseData(courseList: any, term: string) {
         var course_data = JSON.parse(localStorage.getItem("course_data"));
         if (!(course_data && (term in course_data))) {
@@ -107,37 +91,4 @@ export class CourseService {
             ? JSON.parse(localStorage.getItem("courselist"))
             : {"2017 Fall": [], "2018 Winter": []};
     }
-
-    storeSolutionList(solutionList: any) {
-        localStorage.setItem("solution", JSON.stringify(solutionList))
-    }
-
-    loadSolutionList(): any {
-        return JSON.parse(localStorage.getItem("solution"))
-            ? JSON.parse(localStorage.getItem("solution"))
-            : {"2017 Fall": [], "2018 Winter": []};
-    }
-
-    load_solution_list(solutionlist, semester) {
-        const courselist = JSON.parse(localStorage.getItem('courselist'));
-        var not_complete = false;
-        for (var i = 0; i < solutionlist[semester].length; i++) {
-            var extra_title = "";
-            var solution = solutionlist[semester][i];
-            var dict_sol_courselst = {};
-            for (var j = 0; j < solution.length; j++)
-                dict_sol_courselst[solution[j].courseCode] = true;
-            console.log(dict_sol_courselst);
-            for (var j = 0; j < courselist[semester].length; j++)
-                if (!dict_sol_courselst.hasOwnProperty(courselist[semester][j])) {
-                    solutionlist[semester][i].extraTitle = "(not include " + courselist[semester][j] + ")";
-                    console.log(semester, i, "(not include " + courselist[semester][j] + ")")
-                    not_complete = true;
-                    break;
-                }
-        }
-        if (not_complete) alert("No valid solution on all of your course. We tried our best to show you some solutions.");
-        return solutionlist;
-    }
-
 }
