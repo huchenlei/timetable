@@ -41,3 +41,7 @@ Thumbs.db
 
 # library git repo
 /course-arrange/
+
+# resources
+/resources/courses/
+/resources/buildings/

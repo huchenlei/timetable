@@ -271,18 +271,6 @@ function deleteTimeslot(req, res) {
   })
 }
 
-
-
-// function smart(req, res) {
-//   preference_sort(function(sorted) {
-//     compute_valid_solutions(sorted, function(solutions) {
-//       return res.json(solutions);
-//     });
-//   });
-// }
-
-
-
 // courseSchema
 router.post('/insertCourse', insertCourse);
 router.get('/:code', getNewCourse);
