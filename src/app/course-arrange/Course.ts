@@ -59,7 +59,10 @@ export class Time {
         if (a.day != this.day)
             return false;
         else {
-            return (a.start > this.end || this.start > a.end)
+            return (this.start < a.start && this.end > a.start) ||
+                (this.start < a.end && this.end > a.end) ||
+                (this.start > a.start && this.end < a.end) ||
+                (this.start < a.start && this.end > a.end)
         }
     }
 
@@ -72,7 +75,7 @@ export class Time {
     }
 
     toString(): string {
-        return `{day: ${this.day}, start: ${this.start}, end: ${this.end}`;
+        return `{day: ${this.day}, start: ${this.start}, end: ${this.end}}`;
     }
 }
 
@@ -92,8 +95,8 @@ export class CourseSection {
         if (a instanceof Time) {
             for (let time of this.times)
                 if (time.intersect(a))
-                    return false;
-            return true;
+                    return true;
+            return false;
         } else {
             for (let time of this.times)
                 for (let otherTime of a.times)

@@ -13,7 +13,7 @@ export class ST_Time extends Time {
     }
 }
 
-export class TimeTableColumn {
+export class TimetableColumn {
     /**
      * Which day this track belongs to, 1 ~ MAX_DAYS
      */
@@ -57,29 +57,26 @@ export class TimeTableColumn {
      * @return {TimetableCell[]}
      */
     toTimeTableCells(startHour: number, endHour: number): TimetableCell[] {
+        log.debug(`TimetableColumn: day ${this.day}, #${this.trackNum}, times ${this.times}`);
         // After sort, ascending order
-        this.times.sort((a, b) => {
-            if (a.start == b.start)
-                return 0;
-            else if (a.start < b.start)
-                return -1;
-            else
-                return 1;
-        });
+        this.times.sort((a, b) => a.start - b.start);
         const result: TimetableCell[] = [];
         let prevHour = startHour;
+        let rowIndex = 0;
         for (let time of this.times) {
             // Pad some extra blank cells before the course start
             for (let i = 0; i < (time.start - prevHour); i++) {
-                result.push(new TimetableCell());
+                result.push(new TimetableCell(rowIndex++));
             }
-            result.push(new TimetableCell(time));
+            result.push(new TimetableCell(rowIndex, time));
+            rowIndex += time.end - time.start;
+
             prevHour = time.end;
         }
 
         // Pad blank cells until the end of day
         for (let i = 0; i < (endHour - prevHour); i++) {
-            result.push(new TimetableCell());
+            result.push(new TimetableCell(rowIndex++));
         }
 
         return result;
@@ -107,8 +104,10 @@ export class TimetableCell {
     /*
      Newly added attrs
      */
+    rowIndex:number;
 
-    constructor(time: ST_Time | null = null) {
+    constructor(rowIndex:number, time: ST_Time | null = null) {
+        this.rowIndex = rowIndex;
         if (!isNull(time)) {
             this.rowspan = time.end - time.start;
 
@@ -161,10 +160,10 @@ export class Timetable {
      * Key: 1 ~ MAX_DAYS for days
      * Value: tracks that belongs to given day
      */
-    trackTable: Collections.Dictionary<number, TimeTableColumn[]>;
+    trackTable: Collections.Dictionary<number, TimetableColumn[]>;
 
     constructor() {
-        this.trackTable = new Collections.Dictionary<number, TimeTableColumn[]>();
+        this.trackTable = new Collections.Dictionary<number, TimetableColumn[]>();
     }
 
     /**
@@ -176,7 +175,7 @@ export class Timetable {
         this.trackTable.clear();
         for (let i = 0; i < MAX_DAYS; i++) {
             const dayIndex = i + 1;
-            this.trackTable.setValue(dayIndex, [new TimeTableColumn(dayIndex)]);
+            this.trackTable.setValue(dayIndex, [new TimetableColumn(dayIndex)]);
         }
     }
 
@@ -185,6 +184,7 @@ export class Timetable {
      * @param {Time} time
      */
     private addTime(time: Time) {
+        log.debug("Timetable: add time " + time);
         if (this.minTime > time.start)
             this.minTime = time.start;
         if (this.maxTime < time.end)
@@ -197,7 +197,7 @@ export class Timetable {
                 return;
         }
         // If all tracks rejects the time create a new track and add the time
-        trackList.push(new TimeTableColumn(time.day, trackList.length, [new ST_Time(time, true)]));
+        trackList.push(new TimetableColumn(time.day, trackList.length, [new ST_Time(time, true)]));
     }
 
     /**
@@ -222,15 +222,33 @@ export class Timetable {
             this.maxTime = START_HOUR + MAX_HOURS;
         }
 
-        this.table = [];
-        for (let columns of this.trackTable.values()) {
-            for (let column of columns) {
-                this.table.push(column.toTimeTableCells(this.minTime, this.maxTime));
+        log.debug(`Column number ${totalColumn}; Row number ${totalRow};`);
+
+        const colTable: TimetableCell[][] = [];
+        for (let day = 1; day <= MAX_DAYS; day++) {
+            for (let column of this.trackTable.getValue(day)) {
+                colTable.push(column.toTimeTableCells(this.minTime, this.maxTime));
+                log.debug(`day#${day}: ${colTable[day - 1].map(cell => cell.code)}`);
             }
         }
+
+        this.table = [];
+        for (let row = 0; row < this.maxTime - this.minTime; row++) {
+            this.table.push([]);
+            log.debug(`-----${row} row-----`);
+            for (let i = 0; i < colTable.length; i++) {
+                const column = colTable[i];
+                const cells = column.filter(e => e.rowIndex == row);
+                if (cells.length > 0) {
+                    this.table[row].push(cells[0]);
+                    log.debug(`[${row}, ${i}] ${JSON.stringify(column[row])}`);
+                }
+            }
+        }
+
         this.header = [];
         for (let i = 0; i < this.trackTable.values().length; i++) {
-            const rowspan = this.trackTable.values()[i].length;
+            const rowspan = this.trackTable.getValue(i + 1).length;
             this.header.push(new TimeTableHeaderCell(days[i], rowspan));
         }
     }

@@ -72,7 +72,7 @@ export class SectionPreferenceConstraint extends Constraint {
      * This Constraint offers an option for user to specify the course section
      * they prefer with a priority
      *
-     * @param {CourseSection[]} sections course times
+     * @param {CourseSection[]} sections course sections
      * @param {number} priority priority level
      */
     constructor(sections: CourseSection[], priority: number) {

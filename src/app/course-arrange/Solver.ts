@@ -148,7 +148,7 @@ export class StepHeuristicSolver extends Solver {
                                    resultNum: number) {
         const result: CourseSolution[] = [];
         const queue = new Collections.PriorityQueue<CourseSolution>(
-            (a, b) => -a.compareTo(b)); // Max score out first
+            (a, b) => a.compareTo(b)); // Max score out first
         const rootSolution = new CourseSolution();
         queue.enqueue(rootSolution);
 
