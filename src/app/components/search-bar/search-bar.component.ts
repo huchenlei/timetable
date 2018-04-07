@@ -13,7 +13,7 @@ import 'rxjs/add/operator/filter';
 })
 export class SearchBarComponent implements OnInit {
     // options : Course[] = [];
-    @Output() addCourse = new EventEmitter<Course>()
+    @Output() addCourse = new EventEmitter<Course>();
     @Input() term: string;
 
     public fetchCourse = (query: string) => {
@@ -29,7 +29,7 @@ export class SearchBarComponent implements OnInit {
             .catch(err => {
                 return Promise.reject("Course not found")
             });
-    }
+    };
 
     constructor(
         public courseService: CourseService

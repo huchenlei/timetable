@@ -1,7 +1,7 @@
 <div *responsive="{
                     bootstrap: ['xl','lg','md']
                   }"
-      class="row" suiPopup [popupTemplate]="popupTemplate" [popupPlacement]="right" popupTrigger="outsideClick">
+     class="row" suiPopup [popupTemplate]="popupTemplate" [popupPlacement]="right" popupTrigger="outsideClick">
     <div class="left floated column">
         {{course}}
     </div>
@@ -13,7 +13,7 @@
 <div *responsive="{
                     bootstrap: ['sm','xs']
                   }"
-      class="row">
+     class="row">
     <div class="left floated column">
         {{course}}
     </div>
@@ -24,6 +24,6 @@
 
 <ng-template let-popup #popupTemplate>
     <div class="content">
-      <app-course-body [courseCode]="course"></app-course-body>
+        <app-course-body [courseCode]="course"></app-course-body>
     </div>
 </ng-template>
