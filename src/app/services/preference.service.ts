@@ -13,12 +13,7 @@ export class PreferenceService {
 
     updateDay(preference: Preference, day: string, time: string): void {
         let previous = preference[day][time];
-        // if (times.indexOf(time) >= 0) {
-        //   preference[day] = new Day();
-        // }
         preference[day][time] = !previous;
-        // console.log(this.print(preference));
-        // console.log(this.parsePreference(preference))
         this.storePreferences(preference)
     }
 

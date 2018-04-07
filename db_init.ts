@@ -1,3 +1,11 @@
+/**
+ * This script is used to initialize course database from the json data scraped
+ * by UofT scrapper
+ *
+ * To run this file, use
+ * `ts-node db_init`
+ */
+
 import {connect, courseSchema} from "./backend/db";
 import fs = require("fs");
 import Collections = require("typescript-collections");

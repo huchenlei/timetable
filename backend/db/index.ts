@@ -8,5 +8,5 @@ export async function connect() {
 }
 
 // Export sub-modules
-export * from "./course";
+export * from "./course.db";
 

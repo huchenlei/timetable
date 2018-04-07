@@ -5,6 +5,7 @@ import * as cookieParser from "cookie-parser";
 import * as path from "path";
 import * as morgan from "morgan";
 
+import {router as course} from "./route/course.route";
 
 class App {
     public express;
@@ -13,6 +14,7 @@ class App {
         this.express = express();
         this.configLibraries();
         this.mountRoutes();
+        this.mountErrorHandlers();
     }
 
     private configLibraries() {
@@ -30,17 +32,35 @@ class App {
             next();
         });
         this.express.use(cookieParser());
-        this.express.use(express.static(path.join(__dirname, '/dist')));
+        this.express.use(express.static(path.join(__dirname, '../dist')));
     }
 
     private mountRoutes() {
-        const router = express.Router();
-        router.get('/', (req, res) => {
-            res.json({
-                message: "Hello!"
-            })
+        this.express.use('/course', course);
+        this.express.get('/', (req, res) => {
+           res.render("index.html");
         });
-        this.express.use('/', router);
+    }
+
+    private mountErrorHandlers() {
+        // Error logger
+        this.express.use((err, req, res, next) => {
+            console.error(err.stack);
+            next(err);
+        });
+        // Client error handler
+        this.express.use((err, req, res, next) => {
+            if (req.xhr) {
+                res.status(500).send({error: `Server Error ${err.message}`});
+            } else {
+                next(err);
+            }
+        });
+        // General error handler
+        this.express.use((err, req, res, next) => {
+            res.status(500);
+            res.render('error', {error: err});
+        });
     }
 }
 
