@@ -16,7 +16,7 @@
             Courses
         </div>
         <app-course-item
-                *ngFor="let course of selectedCourses"
+                *ngFor="let course of activeCourses()"
                 href=""
                 class="course ui grid"
                 [course]="course"
@@ -32,21 +32,21 @@
         <!--</app-preference-selector>-->
         <br/>
         <!--Solutions are now dynamically generated on client side No longer need to get solution from server-->
-        <!--<button (click)="getSolutions()"-->
-                <!--class="fluid ui {{dirty['2017 Fall'] || dirty['2018 Winter'] ? '' : 'disabled'}} button"-->
-                <!--style="background-color:#51B8A3; margin-top:10px">-->
-            <!--Get solution-->
-        <!--</button>-->
+        <button (click)="getSolution()"
+                class="fluid ui button"
+                style="background-color:#51B8A3; margin-top:10px">
+            Get solution
+        </button>
     </div>
 
     <div class="item solutions">
         <div class="header">
             Solutions
         </div>
-        <!--<a *ngFor="let solution of solutionlist[activeTerm]; let i = index"-->
-           <!--(click)="timetable.renderSolution(i, activeTerm);sidebar.close();" class="solution">-->
-            <!--Solution {{i + 1}}<br/><span style="font-size:12px; opacity: 0.5">{{solution.extraTitle}}</span>-->
-        <!--</a>-->
+        <a *ngFor="let solution of solutions; let i = index"
+           (click)="timetable.timetable.parseSolution(activeSolution); sidebar.close();" class="solution">
+            Solution {{i + 1}}<span style="font-size:12px; opacity: 0.5"> (score: {{solution.score}})</span>
+        </a>
     </div>
 </ng-template>
 

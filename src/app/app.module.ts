@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {SuiModule} from 'ng2-semantic-ui';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
-import {RouterModule, Routes} from '@angular/router';
+import {RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
 import {CourseItemComponent} from './components/course-item/course-item.component';
@@ -19,8 +19,7 @@ import {AlertService} from './services/alert.service';
 import {TranslatePipe} from './pipes/translate.pipe';
 import {ResponsiveModule} from 'ng2-responsive';
 import {CourseBodyComponent} from './components/course-body/course-body.component';
-import { SolutionListComponent } from './components/solution-list/solution-list.component';
-import { ConstraintComponent } from './components/constraint/constraint.component';
+import {ConstraintComponent} from './components/constraint/constraint.component';
 
 export const routing = RouterModule.forRoot([
     {path: '', component: AppComponent},
