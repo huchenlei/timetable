@@ -9,14 +9,14 @@
                         }"></i>
     </div>
     <div class="item">
-        <app-search-bar (addCourse)="addCourse($event)" [term]="term"></app-search-bar>
+        <app-search-bar (addCourse)="addCourse($event)" [term]="activeTerm"></app-search-bar>
     </div>
     <div class="item course-queue">
         <div class="header">
             Courses
         </div>
         <app-course-item
-                *ngFor="let course of getCourseInOneList()"
+                *ngFor="let course of selectedCourses"
                 href=""
                 class="course ui grid"
                 [course]="course"
@@ -43,8 +43,8 @@
         <div class="header">
             Solutions
         </div>
-        <!--<a *ngFor="let solution of solutionlist[term]; let i = index"-->
-           <!--(click)="timetable.renderSolution(i, term);sidebar.close();" class="solution">-->
+        <!--<a *ngFor="let solution of solutionlist[activeTerm]; let i = index"-->
+           <!--(click)="timetable.renderSolution(i, activeTerm);sidebar.close();" class="solution">-->
             <!--Solution {{i + 1}}<br/><span style="font-size:12px; opacity: 0.5">{{solution.extraTitle}}</span>-->
         <!--</a>-->
     </div>
@@ -74,17 +74,10 @@
             <div class="ui container">
                 <div class="ui segment">
                     <div class="ui secondary pointing menu">
-                        <a class="{{(this.term === '2017 Fall') ? 'active' : ''}} item"
-                           (click)="selectTerm('2017 Fall')">
-                            Fall 2017
-                        </a>
-                        <a class="{{(this.term === '2018 Winter') ? 'active' : ''}} item"
-                           (click)="selectTerm('2018 Winter')">
-                            Winter 2018
-                        </a>
-                        <!-- <a class="item disabled" >
-                          Summer 2018
-                        </a> -->
+                        <a *ngFor="let term of terms"
+                           class="{{term.equals(this.activeTerm) ? 'active' : ''}} item"
+                           (click)="selectTerm(term)"
+                        >{{term.toString()}}</a>
                     </div>
                 </div>
                 <app-timetable></app-timetable>

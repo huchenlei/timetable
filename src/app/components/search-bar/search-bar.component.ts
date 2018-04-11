@@ -1,5 +1,5 @@
-import {Component, OnInit, Output, Input, EventEmitter} from '@angular/core';
-import {Course} from '../../models/course'
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {UofT} from '../../models/course'
 
 import {CourseService} from '../../services/course.service'
 
@@ -12,17 +12,23 @@ import 'rxjs/add/operator/filter';
     styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent implements OnInit {
-    // options : Course[] = [];
-    @Output() addCourse = new EventEmitter<Course>();
+    @Output() addCourse = new EventEmitter<UofT.Course>();
     @Input() term: string;
 
-    public fetchCourse = (query: string) => {
+    /**
+     * Attention!
+     * fetch course must be an arrow function for "this" to be bind to SearchBarComponent
+     * Can not change to regular method declaration
+     * @param {string} query query string
+     * @return {any}
+     */
+    public fetchCourse = (query: string): Promise<UofT.Course[]> => {
         if (query == "") {
             return Promise.resolve([]);
         }
         // Do the extended lookup on multiple fields manually here:
         return this.courseService
-            .fetchCourse(query, this.term)
+            .fetchCourse(query)
             .then(result => {
                 return Promise.resolve(result);
             })
@@ -40,7 +46,7 @@ export class SearchBarComponent implements OnInit {
     ngOnInit() {
     }
 
-    select(course) {
-        this.addCourse.emit(course)
+    select(course: UofT.Course) {
+        this.addCourse.emit(course);
     }
 }

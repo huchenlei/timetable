@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
-import {Course} from '../models/course';
-import {PreferenceService} from './preference.service'
+import {UofT} from '../models/course';
 
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
@@ -9,32 +8,27 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class CourseService {
 
-    constructor(private http: Http,
-                private preferenceService: PreferenceService) {
+    constructor(private http: Http) {
     }
 
-    fetchCourse(query: string, term: string): Promise<Course[]> {
-        var course_code = query;
-
-        var url = 'course/s/' + course_code;
+    fetchCourse(query: string): Promise<UofT.Course[]> {
+        const url = 'course/s/' + query;
 
         return this.http.get(url)
             .toPromise()
             .then(res => {
-                return Promise.resolve(res.json() as Course[]);
+                return Promise.resolve(res.json() as UofT.Course[]);
             })
             .catch(err => Promise.reject(err));
     }
 
-    fetchCourseBody(query: string): Promise<Course[]> {
-        var course_code = query;
-
-        var url = 'course/' + course_code;
+    fetchCourseBody(query: string): Promise<UofT.Course[]> {
+        const url = 'course/' + query;
 
         return this.http.get(url)
             .toPromise()
             .then(res => {
-                return Promise.resolve(res.json() as Course[]);
+                return Promise.resolve(res.json() as UofT.Course[]);
             })
             .catch(err => Promise.reject(err));
     }

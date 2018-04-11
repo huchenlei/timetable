@@ -1,7 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 
 import {CourseService} from "../../services/course.service"
-import {Course} from "../../models/course"
+import {UofT} from "../../models/course"
 
 
 @Component({
@@ -11,7 +11,7 @@ import {Course} from "../../models/course"
 })
 export class CourseBodyComponent implements OnInit {
     @Input() courseCode: string;
-    body = new Course();
+    body = <UofT.Course>{};
     sections: any[] = [];
     lectures: any[] = [];
 

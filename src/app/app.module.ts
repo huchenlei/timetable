@@ -19,6 +19,8 @@ import {AlertService} from './services/alert.service';
 import {TranslatePipe} from './pipes/translate.pipe';
 import {ResponsiveModule} from 'ng2-responsive';
 import {CourseBodyComponent} from './components/course-body/course-body.component';
+import { SolutionListComponent } from './components/solution-list/solution-list.component';
+import { ConstraintComponent } from './components/constraint/constraint.component';
 
 export const routing = RouterModule.forRoot([
     {path: '', component: AppComponent},
@@ -37,6 +39,7 @@ export const routing = RouterModule.forRoot([
         SearchBarComponent,
         CourseBodyComponent,
         AlertComponent,
+        ConstraintComponent,
     ],
     imports: [
         BrowserModule,

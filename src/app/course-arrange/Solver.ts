@@ -66,7 +66,7 @@ export class ExhaustiveSolver extends Solver {
         const rootSolution = new CourseSolution();
         const components = this.components;
         const solutions = new Collections.PriorityQueue<CourseSolution>(
-            (a, b) => a.compareTo(b));
+            (a, b) => -a.compareTo(b));
         let solutionCount = 0;
 
         function _solve(solution: CourseSolution, componentIndex: number) {
@@ -139,7 +139,7 @@ export class StepHeuristicSolver extends Solver {
             const solution = this.solveWithGivenSequence(components, constraints, resultNum);
             result.push(...solution);
         }
-        result.sort((a, b) => -a.compareTo(b));
+        result.sort((a, b) => a.compareTo(b));
         return result.slice(0, resultNum);
     }
 
