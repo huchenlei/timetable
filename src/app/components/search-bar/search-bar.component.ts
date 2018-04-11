@@ -33,7 +33,7 @@ export class SearchBarComponent implements OnInit {
                 return Promise.resolve(result);
             })
             .catch(err => {
-                return Promise.reject("Course not found")
+                return Promise.reject("No course found");
             });
     };
 

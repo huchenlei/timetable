@@ -24,7 +24,6 @@ export class CourseService {
 
     fetchCourseBody(query: string): Promise<UofT.Course[]> {
         const url = 'course/' + query;
-
         return this.http.get(url)
             .toPromise()
             .then(res => {
