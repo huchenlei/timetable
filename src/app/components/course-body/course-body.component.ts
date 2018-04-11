@@ -33,7 +33,6 @@ export class CourseBodyComponent implements OnInit {
                         }
                         let times = new Set();
                         s.times.forEach(t => {
-                            console.log(t);
                             times.add(t.location);
                         });
                         copy.locations = Array.from(times);

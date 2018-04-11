@@ -19,8 +19,6 @@ export class TimetableComponent implements OnInit {
      */
     back = ["PaleGoldenRod", "lightblue", "LightSalmon", "lightgreen", "lightpink", "Chocolate", "GreenYellow", "GoldenRod"];
 
-    term: string;
-
     /*
     New version
      */
@@ -30,7 +28,6 @@ export class TimetableComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.term = "2017 Fall";
         this.timetable = new Timetable();
         
         log.enableAll();

@@ -1,14 +1,19 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {UofT} from '../models/course';
+import log = require("loglevel");
 
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
+import {Term} from "../models/term";
+
 
 @Injectable()
 export class CourseService {
+    terms: Term[];
 
     constructor(private http: Http) {
+        this.terms = Term.getTerms();
     }
 
     fetchCourse(query: string): Promise<UofT.Course[]> {
@@ -22,14 +27,35 @@ export class CourseService {
             .catch(err => Promise.reject(err));
     }
 
-    fetchCourseBody(query: string): Promise<UofT.Course[]> {
+    async fetchCourseBody(query: string) {
+        const cache = localStorage.getItem(this.queryKey(query));
+        if (cache != null) {
+            return <UofT.Course[]>JSON.parse(cache);
+        }
+
         const url = 'course/' + query;
-        return this.http.get(url)
-            .toPromise()
-            .then(res => {
-                return Promise.resolve(res.json() as UofT.Course[]);
-            })
-            .catch(err => Promise.reject(err));
+        try {
+            const res = await this.http.get(url).toPromise();
+            const courses = res.json() as UofT.Course[];
+            this.cacheCourses(query, courses);
+            return courses;
+        } catch (e) {
+            return [e];
+        }
+    }
+
+    queryKey(query: string) {
+        return "[CourseCache]" + this.terms[0].toString() + query;
+    }
+
+    /**
+     * Cache courses associated with particular search query(Course Code) to localstorage
+     * in order to minimize server pressure
+     * @param {string} query
+     * @param {UofT.Course[]} courses
+     */
+    cacheCourses(query: string, courses: UofT.Course[]) {
+        localStorage.setItem(this.queryKey(query), JSON.stringify(courses));
     }
 
     storeCourseData(courseList: any, term: string) {
