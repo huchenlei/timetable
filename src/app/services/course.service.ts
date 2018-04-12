@@ -53,11 +53,11 @@ export class CourseService {
         localStorage.setItem(this.queryKey(query), JSON.stringify(courses));
     }
 
-    storeCourseList(courseList: string[]) {
+    static storeCourseList(courseList: string[]) {
         localStorage.setItem("courses", JSON.stringify(courseList))
     }
 
-    loadCourseList(): string[] {
+    static loadCourseList(): string[] {
         const data = localStorage.getItem("courses");
         log.debug(`course list in local storage: ${data}`);
         return data == null ? [] : JSON.parse(data);

@@ -1,4 +1,5 @@
 import {Constraint} from "./Constraint";
+import _ = require("lodash");
 
 /**
  * Created by Charlie on 2018-04-02.
@@ -59,10 +60,10 @@ export class Time {
         if (a.day != this.day)
             return false;
         else {
-            return (this.start < a.start && this.end > a.start) ||
-                (this.start < a.end && this.end > a.end) ||
-                (this.start > a.start && this.end < a.end) ||
-                (this.start < a.start && this.end > a.end)
+            return (this.start <= a.start && this.end > a.start) ||
+                (this.start < a.end && this.end >= a.end) ||
+                (this.start >= a.start && this.end <= a.end) ||
+                (this.start <= a.start && this.end >= a.end)
         }
     }
 
@@ -77,6 +78,12 @@ export class Time {
     toString(): string {
         return `{day: ${this.day}, start: ${this.start}, end: ${this.end}}`;
     }
+
+    equals(other: Time): boolean {
+        return (this.day == other.day)
+            && (this.start == other.start)
+            && (this.end == other.end);
+    }
 }
 
 export class CourseSection {
@@ -86,7 +93,7 @@ export class CourseSection {
 
     constructor(times: Time[], sectionCode?:string) {
         this.belongsTo = null;
-        this.times = times;
+        this.times = _.uniqBy(times, t => t.toString());
         for (let time of this.times) {
             time.belongsTo = this;
         }

@@ -51,22 +51,20 @@ export class AppComponent implements OnInit {
      */
     constraints: Constraint[];
 
-    solutionTable: Collections.Dictionary<Term, CourseSolution[]>;
-
     /**
-     * Currently displayed solution list on the scroll bar
+     * Holding generated solutions for given terms
      */
-    solutions: CourseSolution[];
+    solutionTable: Collections.Dictionary<Term, CourseSolution[]>;
 
     constructor(private courseService: CourseService,) {
         this.terms = Term.getTerms();
         this.activeTerm = this.terms[0];
-        this.selectedCourses = this.courseService.loadCourseList();
+        this.selectedCourses = CourseService.loadCourseList();
         this.constraints = [
             new TimeConflictConstraint()
         ];
         this.solutionTable = new Collections.Dictionary<Term, CourseSolution[]>();
-        this.terms.forEach(t => this.solutionTable.setValue(t, []));
+        this.terms.forEach(t => this.getSolutions(t));
     }
 
 
@@ -93,26 +91,26 @@ export class AppComponent implements OnInit {
         }
     }
 
-    renderSolution(solution: CourseSolution) {
+    renderSolution(solution: CourseSolution, term: Term = this.activeTerm) {
         this.timetables
-            .filter(tt => tt.term.equals(this.activeTerm))
+            .filter(tt => tt.term.equals(term))
             .forEach(tt => tt.parseSolution(solution));
     }
 
-    getSolutions() {
-        Promise.all(this.activeCourses().map(this.courseService.fetchCourseBody))
+    getSolutions(term: Term = this.activeTerm) {
+        Promise.all(this.activeCourses(term).map(this.courseService.fetchCourseBody))
             .then(courses => {
                 const solutions = this.eval(_.flatten(courses));
-                this.solutionTable.setValue(this.activeTerm, solutions);
+                this.solutionTable.setValue(term, solutions);
                 if (solutions.length > 0) {
-                    this.renderSolution(solutions[0]);
+                    this.renderSolution(solutions[0], term);
                 }
             });
     }
 
-    activeCourses() {
+    activeCourses(term: Term = this.activeTerm) {
         return this.selectedCourses.filter(c => {
-            return this.courseTerm(c).includes(this.activeTerm);
+            return this.courseTerm(c).includes(term);
         });
     }
 
@@ -138,11 +136,11 @@ export class AppComponent implements OnInit {
     deleteCourse(course: string): void {
         const courses = this.selectedCourses;
         courses.splice(courses.indexOf(course), 1);
-        this.courseService.storeCourseList(this.selectedCourses);
+        CourseService.storeCourseList(this.selectedCourses);
     }
 
     addCourse(course: UofT.Course): void {
         this.selectedCourses.push(course.code);
-        this.courseService.storeCourseList(this.selectedCourses);
+        CourseService.storeCourseList(this.selectedCourses);
     }
 }
