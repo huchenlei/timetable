@@ -1,17 +1,17 @@
 <table class="ui fixed center aligned equal height row unstackable table">
-    <thead *ngIf="timetable">
-    <tr *ngIf="timetable.header">
+    <thead>
+    <tr *ngIf="header">
         <th class="first"></th>
-        <th *ngFor="let day of timetable.header" [attr.colspan]="day.colspan">
+        <th *ngFor="let day of header" [attr.colspan]="day.colspan">
             {{day.title}}
         </th>
     </tr>
     </thead>
-    <tbody *ngIf="timetable">
-    <tr *ngFor="let item of ' '.repeat(timetable.maxTime - timetable.minTime).split(''); let i = index">
-        <td>{{timetable.minTime + i}}:00</td>
+    <tbody>
+    <tr *ngFor="let item of ' '.repeat(maxTime - minTime).split(''); let i = index">
+        <td>{{minTime + i}}:00</td>
         <td
-                *ngFor="let col of timetable.table[i]"
+                *ngFor="let col of table[i]"
                 [style.background-color]="col.color"
                 class="{{col.class}}"
                 [attr.rowspan]="col.rowspan"

@@ -96,7 +96,7 @@ export class AppComponent implements OnInit {
     renderSolution(solution: CourseSolution) {
         this.timetables
             .filter(tt => tt.term.equals(this.activeTerm))
-            .forEach(tt => tt.timetable.parseSolution(solution));
+            .forEach(tt => tt.parseSolution(solution));
     }
 
     getSolutions() {
