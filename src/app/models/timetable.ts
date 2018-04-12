@@ -1,4 +1,4 @@
-import {CourseSection, CourseSolution, Time} from "../course-arrange";
+import {Course, CourseSection, CourseSolution, Time} from "../course-arrange";
 import {isNull} from "util";
 import Collections = require("typescript-collections");
 import log = require("loglevel");
@@ -104,9 +104,9 @@ export class TimetableCell {
     /*
      Newly added attrs
      */
-    rowIndex:number;
+    rowIndex: number;
 
-    constructor(rowIndex:number, time: ST_Time | null = null) {
+    constructor(rowIndex: number, time: ST_Time | null = null) {
         this.rowIndex = rowIndex;
         if (!isNull(time)) {
             this.rowspan = time.end - time.start;
@@ -116,13 +116,31 @@ export class TimetableCell {
             const course = component.belongsTo;
 
             this.code = course.name;
-            this.section = component.type.toString();
+            this.section = section.sectionCode;
             if (time.conflict) {
                 this.color = "#f00";
             } else {
-                this.color = "#cff";
+                this.color = TimetableCell.pickColor(course);
             }
         }
+    }
+
+    static colors = ["PaleGoldenRod", "lightblue", "LightSalmon", "lightgreen", "GoldenRod", "lightpink", "Chocolate", "GreenYellow"];
+    static colorTable = new Collections.Dictionary<Course, string>(course => course.name);
+    static colorIndex = 0;
+
+    static clearColorTable() {
+        this.colorIndex = 0;
+        this.colorTable.clear();
+    }
+
+    static pickColor(course: Course) {
+        const color = this.colorTable.getValue(course);
+        if (color != null) return color;
+
+        const newColor = this.colors[this.colorIndex++];
+        this.colorTable.setValue(course, newColor);
+        return newColor;
     }
 }
 
@@ -264,5 +282,6 @@ export class Timetable {
             this.addCourseSection(section);
         }
         this.generateTable();
+        TimetableCell.clearColorTable();
     }
 }

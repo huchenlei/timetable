@@ -9,14 +9,6 @@ import {Term} from "../../models/term";
     styleUrls: ['./timetable.component.css']
 })
 export class TimetableComponent implements OnInit {
-    /*
-    Legacy version
-     */
-    back = ["PaleGoldenRod", "lightblue", "LightSalmon", "lightgreen", "lightpink", "Chocolate", "GreenYellow", "GoldenRod"];
-
-    /*
-    New version
-     */
     @Input() term: Term;
     timetable: Timetable;
 

@@ -120,7 +120,7 @@ export function parseCourse(rawCourse: UofT.Course) {
                                         time.extended_location.lat, time.extended_location.lng);
                                     return new Time(weekStringToNum(time.day), start, end, location);
                                 }
-                            ))
+                            ), section.code)
                         ));
                 }
             )

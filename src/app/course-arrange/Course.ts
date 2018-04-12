@@ -81,14 +81,16 @@ export class Time {
 
 export class CourseSection {
     belongsTo: CourseComponent | null;
+    sectionCode?: string;
     times: Time[];
 
-    constructor(times: Time[]) {
+    constructor(times: Time[], sectionCode?:string) {
         this.belongsTo = null;
         this.times = times;
         for (let time of this.times) {
             time.belongsTo = this;
         }
+        this.sectionCode = sectionCode;
     }
 
     intersect(a: CourseSection | Time): boolean {
