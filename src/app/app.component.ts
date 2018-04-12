@@ -1,13 +1,20 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnInit, QueryList, ViewChildren} from "@angular/core";
 import {TimetableComponent} from "./components/timetable/timetable.component";
 import {parseCourse, UofT} from "./models/course";
 import {CourseService} from "./services/course.service";
-import {Constraint, CourseSolution, ExhaustiveSolver, StepHeuristicSolver} from "./course-arrange";
+import {
+    Constraint,
+    CourseSolution,
+    ExhaustiveSolver,
+    StepHeuristicSolver,
+    TimeConflictConstraint
+} from "./course-arrange";
 import {Term} from "./models/term";
 import {environment} from "../environments/environment";
 import {LogLevelDesc} from "loglevel";
 import log = require("loglevel");
 import _ = require("lodash");
+import Collections = require("typescript-collections");
 
 
 @Component({
@@ -24,6 +31,7 @@ export class AppComponent implements OnInit {
 
     /**
      * Controlling term panel
+     * and other term related functionality
      */
     terms: Term[];
     activeTerm: Term;
@@ -33,7 +41,9 @@ export class AppComponent implements OnInit {
      * @type {boolean}
      */
     loading: boolean = false;
-    @ViewChild(TimetableComponent) timetable: TimetableComponent;
+
+    // Two timetable one for Fall one for Winter
+    @ViewChildren(TimetableComponent) timetables: QueryList<TimetableComponent>;
 
     /**
      * Current constraint list
@@ -41,11 +51,8 @@ export class AppComponent implements OnInit {
      */
     constraints: Constraint[];
 
-    /**
-     * Current solution displaying on the right part of main screen
-     * Consumed by timetable.component
-     */
-    activeSolution: CourseSolution;
+    solutionTable: Collections.Dictionary<Term, CourseSolution[]>;
+
     /**
      * Currently displayed solution list on the scroll bar
      */
@@ -55,7 +62,11 @@ export class AppComponent implements OnInit {
         this.terms = Term.getTerms();
         this.activeTerm = this.terms[0];
         this.selectedCourses = this.courseService.loadCourseList();
-        this.constraints = [];
+        this.constraints = [
+            new TimeConflictConstraint()
+        ];
+        this.solutionTable = new Collections.Dictionary<Term, CourseSolution[]>();
+        this.terms.forEach(t => this.solutionTable.setValue(t, []));
     }
 
 
@@ -82,13 +93,20 @@ export class AppComponent implements OnInit {
         }
     }
 
-    getSolution() {
+    renderSolution(solution: CourseSolution) {
+        this.timetables
+            .filter(tt => tt.term.equals(this.activeTerm))
+            .forEach(tt => tt.timetable.parseSolution(solution));
+    }
+
+    getSolutions() {
         Promise.all(this.activeCourses().map(this.courseService.fetchCourseBody))
             .then(courses => {
-                this.solutions = this.eval(_.flatten(courses));
-
-                if (this.solutions.length > 0)
-                    this.activeSolution = this.solutions[0];
+                const solutions = this.eval(_.flatten(courses));
+                this.solutionTable.setValue(this.activeTerm, solutions);
+                if (solutions.length > 0) {
+                    this.renderSolution(solutions[0]);
+                }
             });
     }
 
@@ -100,7 +118,6 @@ export class AppComponent implements OnInit {
 
     selectTerm(term: Term) {
         this.activeTerm = term;
-        // this.timetable.renderSolution(0, this.activeTerm);
     }
 
     /**
@@ -128,5 +145,4 @@ export class AppComponent implements OnInit {
         this.selectedCourses.push(course.code);
         this.courseService.storeCourseList(this.selectedCourses);
     }
-
 }

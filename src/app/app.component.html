@@ -1,4 +1,3 @@
-<!--The whole content below can be removed with the new code.-->
 <alert></alert>
 <ng-template #toolbar>
     <div class="item logo-branding">
@@ -26,13 +25,9 @@
     <div class="item preferences">
         <div class="header">
             Constraints
-            <!--Preferences-->
         </div>
-        <!--<app-preference-selector (markDirty)="markDirty()">-->
-        <!--</app-preference-selector>-->
         <br/>
-        <!--Solutions are now dynamically generated on client side No longer need to get solution from server-->
-        <button (click)="getSolution()"
+        <button (click)="getSolutions()"
                 class="fluid ui button"
                 style="background-color:#51B8A3; margin-top:10px">
             Get solution
@@ -43,8 +38,8 @@
         <div class="header">
             Solutions
         </div>
-        <a *ngFor="let solution of solutions; let i = index"
-           (click)="timetable.timetable.parseSolution(activeSolution); sidebar.close();" class="solution">
+        <a *ngFor="let solution of solutionTable.getValue(activeTerm); let i = index"
+           (click)="renderSolution(solution); sidebar.close();" class="solution">
             Solution {{i + 1}}<span style="font-size:12px; opacity: 0.5"> (score: {{solution.score}})</span>
         </a>
     </div>
@@ -80,7 +75,10 @@
                         >{{term.toString()}}</a>
                     </div>
                 </div>
-                <app-timetable></app-timetable>
+                <app-timetable *ngFor="let term of terms"
+                               [term]="term"
+                               [hidden]="!term.equals(activeTerm)">
+                </app-timetable>
             </div>
         </div>
 
