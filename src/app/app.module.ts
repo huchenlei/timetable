@@ -20,6 +20,8 @@ import {TranslatePipe} from './pipes/translate.pipe';
 import {ResponsiveModule} from 'ng2-responsive';
 import {CourseBodyComponent} from './components/course-body/course-body.component';
 import {ConstraintComponent} from './components/constraint/constraint.component';
+import { ConstraintDetailComponent } from './components/constraint-detail/constraint-detail.component';
+import {SuiModal} from "ng2-semantic-ui/dist";
 
 export const routing = RouterModule.forRoot([
     {path: '', component: AppComponent},

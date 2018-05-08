@@ -24,6 +24,25 @@
     <div class="item preferences">
         <div class="header">
             Constraints
+            <span>
+                <button
+                        (click)="newConstraint()"
+                        class="ui button"
+                        style="background-color: #51B8A3; color: #454545; margin: 5px;">
+                New
+                </button>
+            </span>
+            <ng-template let-context let-modal="modal" #modalTemplate>
+                <div class="header">New Constraint</div>
+                <div class="content">
+                    <p>TODO create a new constraint{{context.data}}</p>
+                </div>
+
+                <div class="actions">
+                    <button class="ui red button" (click)="modal.deny('cancel')">Cancel</button>
+                    <button class="ui green button" (click)="modal.approve('submit')" autofocus>OK</button>
+                </div>
+            </ng-template>
         </div>
         <app-constraint
                 *ngFor="let constraint of constraints"
@@ -71,7 +90,7 @@
             </a>
         </div>
 
-        <div class="content" style="">
+        <div class="main-content" style="">
             <div class="ui container">
                 <div class="ui segment">
                     <div class="ui secondary pointing menu">

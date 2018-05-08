@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList, ViewChildren} from "@angular/core";
+import {Component, OnInit, QueryList, ViewChild, ViewChildren} from "@angular/core";
 import {TimetableComponent} from "./components/timetable/timetable.component";
 import {parseCourse, UofT} from "./models/course";
 import {CourseService} from "./services/course.service";
@@ -15,7 +15,11 @@ import {LogLevelDesc} from "loglevel";
 import log = require("loglevel");
 import _ = require("lodash");
 import Collections = require("typescript-collections");
+import {ModalTemplate, SuiModalService, TemplateModalConfig} from "ng2-semantic-ui";
 
+export interface IContext {
+    data: string;
+}
 
 @Component({
     selector: 'app-root',
@@ -56,7 +60,11 @@ export class AppComponent implements OnInit {
      */
     solutionTable: Collections.Dictionary<Term, CourseSolution[]>;
 
-    constructor(private courseService: CourseService,) {
+    @ViewChild('modalTemplate')
+    public modalTemplate: ModalTemplate<IContext, string, string>;
+
+    constructor(private courseService: CourseService,
+                private modalService: SuiModalService) {
         this.terms = Term.getTerms();
         this.activeTerm = this.terms[0];
         this.selectedCourses = CourseService.loadCourseList();
@@ -133,18 +141,46 @@ export class AppComponent implements OnInit {
         }
     }
 
+    /**
+     * Delete a given course
+     * @param {string} course
+     */
     deleteCourse(course: string): void {
         const courses = this.selectedCourses;
         courses.splice(courses.indexOf(course), 1);
         CourseService.storeCourseList(this.selectedCourses);
     }
 
+    /**
+     * Add a given course to course list
+     * @param {UofT.Course} course
+     */
     addCourse(course: UofT.Course): void {
         this.selectedCourses.push(course.code);
         CourseService.storeCourseList(this.selectedCourses);
     }
 
+    /**
+     * Delete a given constraint from constraint list
+     * @param {Constraint} constraint
+     */
     deleteConstraint(constraint: Constraint): void {
         this.constraints.splice(this.constraints.indexOf(constraint), 1);
     }
+
+    /**
+     * On click new button, open the modal for user to fill in constraint details
+     */
+    newConstraint(): void {
+        const config = new TemplateModalConfig<IContext, string, string>(this.modalTemplate);
+
+        config.closeResult = "closed";
+        config.context = {data: "helloworld!"};
+
+        this.modalService
+            .open(config)
+            .onApprove(console.log)
+            .onDeny(console.error);
+    }
+
 }
