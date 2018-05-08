@@ -143,4 +143,8 @@ export class AppComponent implements OnInit {
         this.selectedCourses.push(course.code);
         CourseService.storeCourseList(this.selectedCourses);
     }
+
+    deleteConstraint(constraint: Constraint): void {
+        this.constraints.splice(this.constraints.indexOf(constraint), 1);
+    }
 }

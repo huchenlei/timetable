@@ -16,7 +16,6 @@
         </div>
         <app-course-item
                 *ngFor="let course of activeCourses()"
-                href=""
                 class="course ui grid"
                 [course]="course"
                 (deleteCourse)="deleteCourse($event)">
@@ -26,6 +25,13 @@
         <div class="header">
             Constraints
         </div>
+        <app-constraint
+                *ngFor="let constraint of constraints"
+                class="constraint ui grid"
+                [constraint]="constraint"
+                (deleteConstraint)="deleteConstraint($event)">
+        </app-constraint>
+
         <br/>
         <button (click)="getSolutions()"
                 class="fluid ui button"

@@ -127,7 +127,15 @@ class TimetableCell {
         }
     }
 
-    static colors = ["PaleGoldenRod", "lightblue", "LightSalmon", "lightgreen", "GoldenRod", "lightpink", "Chocolate", "GreenYellow"];
+    static colors = [
+        "#a1c4fd",
+        "#c2e9fb",
+        "#d4fc79",
+        "#84fab0",
+        "#f68084",
+        "#fee140",
+        "Chocolate",
+        "GreenYellow"];
     static colorTable = new Collections.Dictionary<Course, string>(course => course.name);
     static colorIndex = 0;
 

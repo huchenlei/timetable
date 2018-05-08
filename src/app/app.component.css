@@ -7,7 +7,7 @@
     background-color: #4E4E4E;
 }
 
-app-course-item.course {
+app-course-item.course, app-constraint.constraint {
   border: none !important;
   border-radius: 4px;
     margin: 5px 0 !important;
