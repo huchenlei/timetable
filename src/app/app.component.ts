@@ -3,10 +3,10 @@ import {TimetableComponent} from "./components/timetable/timetable.component";
 import {parseCourse, UofT} from "./models/course";
 import {CourseService} from "./services/course.service";
 import {
-    Constraint,
+    Constraint, CourseSection,
     CourseSolution,
     ExhaustiveSolver,
-    StepHeuristicSolver,
+    StepHeuristicSolver, Time,
     TimeConflictConstraint
 } from "./course-arrange";
 import {Term} from "./models/term";
@@ -16,10 +16,6 @@ import log = require("loglevel");
 import _ = require("lodash");
 import Collections = require("typescript-collections");
 import {ModalTemplate, SuiModalService, TemplateModalConfig} from "ng2-semantic-ui";
-
-export interface IContext {
-    data: string;
-}
 
 @Component({
     selector: 'app-root',
@@ -59,9 +55,6 @@ export class AppComponent implements OnInit {
      * Holding generated solutions for given terms
      */
     solutionTable: Collections.Dictionary<Term, CourseSolution[]>;
-
-    @ViewChild('modalTemplate')
-    public modalTemplate: ModalTemplate<IContext, string, string>;
 
     constructor(private courseService: CourseService,
                 private modalService: SuiModalService) {
@@ -169,13 +162,25 @@ export class AppComponent implements OnInit {
     }
 
     /**
+     * Following are the new constraint action support
+     * In the future, the feature should be extracted as an one-time-use component
+     */
+    @ViewChild('modalTemplate')
+    public modalTemplate: ModalTemplate<void, Constraint, void>;
+
+    public priority: number;
+    public constraintName: string;
+
+    public constraintError: string = "";
+    public constraintTimeSlots: Time[] = [];
+
+    /**
      * On click new button, open the modal for user to fill in constraint details
      */
     newConstraint(): void {
-        const config = new TemplateModalConfig<IContext, string, string>(this.modalTemplate);
+        const config = new TemplateModalConfig<void, Constraint, void>(this.modalTemplate);
 
-        config.closeResult = "closed";
-        config.context = {data: "helloworld!"};
+        config.isClosable = true;
 
         this.modalService
             .open(config)
@@ -183,4 +188,24 @@ export class AppComponent implements OnInit {
             .onDeny(console.error);
     }
 
+    newConstraintTimeSlot(day: number, start: number, end: number): void {
+        try {
+            this.constraintTimeSlots.push(new Time(day, start, end));
+        } catch (e) {
+            this.constraintError = e;
+        }
+    }
+
+    clearError(): void {
+        this.constraintError = "";
+    }
+
+    courseSections(): AugmentedCourseSection[] {
+        return [];
+    }
+}
+
+export interface AugmentedCourseSection {
+    section: CourseSection;
+    selected: boolean;
 }

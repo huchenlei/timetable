@@ -21,7 +21,7 @@
                 (deleteCourse)="deleteCourse($event)">
         </app-course-item>
     </div>
-    <div class="item preferences">
+    <div class="item constraints">
         <div class="header">
             Constraints
             <span>
@@ -35,12 +35,61 @@
             <ng-template let-context let-modal="modal" #modalTemplate>
                 <div class="header">New Constraint</div>
                 <div class="content">
-                    <p>TODO create a new constraint{{context.data}}</p>
+                    <div class="ui negative message" *ngIf="constraintError != ''">
+                        <i class="close icon" (click)="clearError()"></i>
+                        <div class="header">
+                            Opps! something wrong
+                        </div>
+                        <p>{{constraintError}}</p>
+                    </div>
+                    <div class="ui input">
+                        <span>Name: </span><input [(ngModel)]="constraintName" type="text"
+                                                  placeholder="custom name"/>
+                        <span>Priority: </span><input [(ngModel)]="priority" type="number"
+                                                      placeholder="priority(1~10)"/>
+                    </div>
+                    <div class="ui divider"></div>
+                    <sui-tabset>
+                        <div class="ui top attached tabular menu">
+                            <a class="item" suiTabHeader="1">Time Conflict Constraint</a>
+                            <a class="item" suiTabHeader="2">Section Preference Constraint</a>
+                            <a class="item" suiTabHeader="3">Time Slot Avoid Constraint</a>
+                            <a class="item" suiTabHeader="4">Location Distance Constraint</a>
+                        </div>
+                        <div class="ui bottom attached segment" suiTabContent="1">
+                            <p>Add penalty for solutions with course conflict (time overlap of course section). Multiple
+                                overlap will trigger multiple penalties.</p>
+                        </div>
+                        <div class="ui bottom attached segment" suiTabContent="2">
+                            <p>Select a number of course sections, when selected adds score to the solution.</p>
+
+                        </div>
+                        <div class="ui bottom attached segment" suiTabContent="3">
+                            <p>Select a number of time slots, when time slots overlapped with solution, impose a
+                                penalty.</p>
+                            <div *ngFor="let time of constraintTimeSlots; let i = index">
+                                {{i}}. {{time}}
+                            </div>
+                            <div class="ui input">
+                                <input #timeDay type="number" placeholder="day(1~7)">
+                                <input #timeStart type="number" placeholder="start(0~24)">
+                                <input #timeEnd type="number" placeholder="end(0~24)">
+                            </div>
+                            <button class="ui green button"
+                                    (click)="newConstraintTimeSlot(timeDay.value, timeStart.value, timeEnd.value)">
+                                Add
+                            </button>
+                        </div>
+                        <div class="ui bottom attached segment" suiTabContent="4">
+                            <p>When two class adjacent to each other, and the locations are too far away to each
+                                other(bigger than threshold), impose a penalty.</p>
+                        </div>
+                    </sui-tabset>
                 </div>
 
                 <div class="actions">
-                    <button class="ui red button" (click)="modal.deny('cancel')">Cancel</button>
-                    <button class="ui green button" (click)="modal.approve('submit')" autofocus>OK</button>
+                    <button class="ui red button" (click)="modal.deny()">Cancel</button>
+                    <button class="ui green button" (click)="modal.approve('something')" autofocus>OK</button>
                 </div>
             </ng-template>
         </div>

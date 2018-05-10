@@ -44,7 +44,7 @@ export class Time {
     end: number;
     location: Location;
 
-    constructor(day: number, start: number, end: number, location: Location) {
+    constructor(day: number, start: number, end: number, location: Location = new Location("UNKNOWN", 0, 0)) {
         if (start > end)
             throw `Time ends(${end}) before start(${start})`;
         if (day < 1 || day > 7)
