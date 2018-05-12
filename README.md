@@ -5,18 +5,11 @@ for students at University of Toronto.
 ## TODOs
 1. Header:
    - Sign in/out with acorn username/password
-
-2. \[**IMPORTANT**\] left-bar:
-   - Nice looking UI for adding constraint
-   - \[**IMPORTANT**\] User can pick from several pre-defined constraint
-   - \[**IMPORTANT**\] Each pre-defined constraint should have unique UI (a form?)
-
-3. main:
+1. main:
    - Currently clicking on course feature is disabled in the cleaning of
    legacy code need to implement in a nicer way.
    - Fix column size when there is conflict.
-
-4. footer:
+1. footer:
    - contain all github links and a email link.
 
 ## Setting Up
