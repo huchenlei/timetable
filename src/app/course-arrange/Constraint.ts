@@ -51,9 +51,10 @@ export class TimeConflictConstraint extends Constraint {
      * for a valid solution
      *
      * @param {number} priority
+     * @param {string} name
      */
-    constructor(priority: number = 10) {
-        super("TimeConflictConstraint", priority);
+    constructor(priority: number = 10, name: string = "TimeConflictConstraint") {
+        super(name, priority);
     }
 
     protected _eval(solution: CourseSolution, toAdd: CourseSection): number {
@@ -74,9 +75,10 @@ export class SectionPreferenceConstraint extends Constraint {
      *
      * @param {CourseSection[]} sections course sections
      * @param {number} priority priority level
+     * @param {string} name
      */
-    constructor(sections: CourseSection[], priority: number) {
-        super("SectionPreferenceConstraint", priority);
+    constructor(sections: CourseSection[], priority: number, name: string = "SectionPreferenceConstraint") {
+        super(name, priority);
         this.sections = new Set<CourseSection>(cs => cs.toString());
         sections.forEach(s => this.sections.add(s));
     }
@@ -95,9 +97,10 @@ export class TimeSlotAvoidConstraint extends Constraint {
      *
      * @param {Time[]} times time slots the user want to AVOID
      * @param {number} priority priority level
+     * @param {string} name
      */
-    constructor(times: Time[], priority: number) {
-        super("TimeSlotAvoidConstraint", priority);
+    constructor(times: Time[], priority: number, name: string = "TimeSlotAvoidConstraint") {
+        super(name, priority);
         this.times = times;
     }
 
@@ -120,9 +123,10 @@ export class LocationDistanceConstraint extends Constraint {
      *
      * @param {number} maxDistance in meter
      * @param {number} priority
+     * @param {string} name
      */
-    constructor(maxDistance: number, priority: number) {
-        super("LocationDistanceConstraint", priority);
+    constructor(maxDistance: number, priority: number, name: string = "LocationDistanceConstraint") {
+        super(name, priority);
         this.maxDistance = maxDistance;
     }
 

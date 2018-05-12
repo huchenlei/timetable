@@ -68,7 +68,7 @@ input * {
   width: 100% !important;
 }
 
-.ui.sidebar.menu: {
+.ui.sidebar.menu {
     min-height: 100%;
     position: fixed;
 

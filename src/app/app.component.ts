@@ -5,9 +5,9 @@ import {CourseService} from "./services/course.service";
 import {
     Constraint, CourseComponent, CourseSection,
     CourseSolution,
-    ExhaustiveSolver,
+    ExhaustiveSolver, LocationDistanceConstraint, SectionPreferenceConstraint,
     StepHeuristicSolver, Time,
-    TimeConflictConstraint
+    TimeConflictConstraint, TimeSlotAvoidConstraint
 } from "./course-arrange";
 import {Term} from "./models/term";
 import {environment} from "../environments/environment";
@@ -16,6 +16,7 @@ import log = require("loglevel");
 import _ = require("lodash");
 import Collections = require("typescript-collections");
 import {ModalTemplate, SuiModalService, TemplateModalConfig} from "ng2-semantic-ui";
+import {Modal} from "ng2-semantic-ui/dist";
 
 @Component({
     selector: 'app-root',
@@ -62,7 +63,8 @@ export class AppComponent implements OnInit {
         this.activeTerm = this.terms[0];
         this.selectedCourses = CourseService.loadCourseList();
         this.constraints = [
-            new TimeConflictConstraint()
+            new TimeConflictConstraint(),
+            new LocationDistanceConstraint(1000, 5)
         ];
         this.solutionTable = new Collections.Dictionary<Term, CourseSolution[]>();
         this.terms.forEach(t => this.getSolutions(t));
@@ -175,7 +177,18 @@ export class AppComponent implements OnInit {
     public constraintName: string;
 
     public constraintError: string = "";
+
     public constraintTimeSlots: Time[] = [];
+    public augmentedComponents: AugmentedCourseComponents[];
+    public distanceThreshold: number;
+
+    public constraintType: string;
+    public CONSTRAINT_TYPES = [
+        "Time Conflict Constraint",
+        "Section Preference Constraint",
+        "Time Slot Avoid Constraint",
+        "Location Distance Constraint"
+    ];
 
     /**
      * On click new button, open the modal for user to fill in constraint details
@@ -189,11 +202,13 @@ export class AppComponent implements OnInit {
         });
         const config = new TemplateModalConfig<void, Constraint, void>(this.modalTemplate);
         config.isClosable = true;
+        config.mustScroll = true;
 
         this.modalService
             .open(config)
-            .onApprove(console.log)
-            .onDeny(console.error);
+            .onApprove(constraint => {
+                this.constraints.push(<Constraint>constraint);
+            });
     }
 
     newConstraintTimeSlot(day: number, start: number, end: number): void {
@@ -203,12 +218,6 @@ export class AppComponent implements OnInit {
             this.constraintError = e;
         }
     }
-
-    clearError(): void {
-        this.constraintError = "";
-    }
-
-    public augmentedComponents: AugmentedCourseComponents[];
 
     getCourseComponents(term: Term = this.activeTerm) {
         const courses = _.compact(this.activeCourses(term).map(this.courseService.fetchCourseBodyFromCache));
@@ -222,6 +231,48 @@ export class AppComponent implements OnInit {
                 sectionSelected: null
             }
         });
+    }
+
+    private extractSelectedSections(): CourseSection[] {
+        return _.flatten(this.augmentedComponents.map(a => a.components))
+            .filter(c => c.selected)
+            .map(c => c.sectionSelected);
+    }
+
+    /**
+     * Generate constraint based on current form info
+     * @return {Constraint}
+     */
+    generateConstraint(): Constraint {
+        const name = this.constraintName == undefined ? this.constraintType : this.constraintName;
+
+        switch (this.CONSTRAINT_TYPES.indexOf(this.constraintType)) {
+            case 0:
+                return new TimeConflictConstraint(this.priority, name);
+            case 1:
+                return new SectionPreferenceConstraint(this.extractSelectedSections(), this.priority, name);
+            case 2:
+                return new TimeSlotAvoidConstraint(this.constraintTimeSlots, this.priority, name);
+            case 3:
+                return new LocationDistanceConstraint(100, this.priority, name);
+            default:
+                throw "Invalid constraint type!" + this.constraintType;
+        }
+    }
+
+    submitConstraintForm(modal: Modal<void, Constraint, void>) {
+        try {
+            if (this.priority == undefined)
+                throw "priority must be filled";
+            if (this.priority < 1 || this.priority > 10)
+                throw "priority must be in range [1, 10]";
+
+            const constraint = this.generateConstraint();
+            modal.approve(constraint);
+
+        } catch (e) {
+            this.constraintError = e;
+        }
     }
 }
 
