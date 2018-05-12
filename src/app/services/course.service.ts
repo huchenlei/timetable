@@ -28,15 +28,19 @@ export class CourseService {
     }
 
     fetchCourseBody = async (query: string) => {
-        const cache = localStorage.getItem(this.queryKey(query));
-        if (cache != null) {
-            return <UofT.Course[]>JSON.parse(cache);
-        }
+        const cache = this.fetchCourseBodyFromCache(query);
+        if (cache != null) return cache;
+
         const url = 'course/' + query;
         const res = await this.http.get(url).toPromise();
         const courses = res.json() as UofT.Course[];
         this.cacheCourses(query, courses);
         return courses;
+    };
+
+    fetchCourseBodyFromCache = (query: string) => {
+        const cache = localStorage.getItem(this.queryKey(query));
+        return cache == null ? null : <UofT.Course[]>JSON.parse(cache);
     };
 
     queryKey(query: string) {

@@ -42,11 +42,17 @@
                         </div>
                         <p>{{constraintError}}</p>
                     </div>
-                    <div class="ui input">
-                        <span>Name: </span><input [(ngModel)]="constraintName" type="text"
-                                                  placeholder="custom name"/>
-                        <span>Priority: </span><input [(ngModel)]="priority" type="number"
-                                                      placeholder="priority(1~10)"/>
+                    <div class="ui labeled input">
+                        <div class="ui label">
+                            Name
+                        </div>
+                        <input [(ngModel)]="constraintName" type="text"
+                               placeholder="custom name"/>
+                        <div class="ui label">
+                            Priority
+                        </div>
+                        <input [(ngModel)]="priority" type="number"
+                               placeholder="priority(1~10)"/>
                     </div>
                     <div class="ui divider"></div>
                     <sui-tabset>
@@ -62,6 +68,33 @@
                         </div>
                         <div class="ui bottom attached segment" suiTabContent="2">
                             <p>Select a number of course sections, when selected adds score to the solution.</p>
+                            <div *ngFor="let componentList of augmentedComponents">
+                                <div class="ui divider"></div>
+                                <span><b>{{componentList.term.year}} {{componentList.term.semester}}</b></span>
+                                <br>
+                                <div *ngFor="let ac of componentList.components">
+                                    <div class="inline fields">
+                                        <label>
+                                            <div class="ui checkbox">
+                                                <input type="checkbox" [checked]="ac.selected"
+                                                       (change)="ac.selected = !ac.selected"/>
+                                                <label>
+                                                    {{ac.component.belongsTo.name}} - {{ac.component.type}}
+                                                </label>
+                                            </div>
+                                        </label>
+                                        <div class="field" *ngFor="let section of ac.component.sections">
+                                            <div class="ui radio checkbox {{ac.selected ? '' : 'disabled'}}">
+                                                <input type="radio"
+                                                       name="{{section.belongsTo.type}}{{section.belongsTo.belongsTo.name}}"
+                                                       disabled="{{ac.selected ? '' : 'disabled'}}">
+                                                <label>{{section.sectionCode}} - {{section.times}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
 
                         </div>
                         <div class="ui bottom attached segment" suiTabContent="3">

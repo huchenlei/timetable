@@ -3,7 +3,7 @@ import {TimetableComponent} from "./components/timetable/timetable.component";
 import {parseCourse, UofT} from "./models/course";
 import {CourseService} from "./services/course.service";
 import {
-    Constraint, CourseSection,
+    Constraint, CourseComponent, CourseSection,
     CourseSolution,
     ExhaustiveSolver,
     StepHeuristicSolver, Time,
@@ -98,18 +98,21 @@ export class AppComponent implements OnInit {
             .forEach(tt => tt.parseSolution(solution));
     }
 
-    getSolutions(term: Term = this.activeTerm) {
-        Promise.all(this.activeCourses(term).map(this.courseService.fetchCourseBody))
-            .then(courses => {
-                const solutions = this.eval(_.flatten(courses));
-                this.solutionTable.setValue(term, solutions);
-                if (solutions.length > 0) {
-                    this.renderSolution(solutions[0], term);
-                }
-            });
+    private getCoursesByName(courseNames: string[]) {
+        return Promise.all(courseNames.map(this.courseService.fetchCourseBody));
     }
 
-    activeCourses(term: Term = this.activeTerm) {
+    getSolutions(term: Term = this.activeTerm): void {
+        this.getCoursesByName(this.activeCourses(term)).then(courses => {
+            const solutions = this.eval(_.flatten(courses));
+            this.solutionTable.setValue(term, solutions);
+            if (solutions.length > 0) {
+                this.renderSolution(solutions[0], term);
+            }
+        });
+    }
+
+    activeCourses(term: Term = this.activeTerm): string[] {
         return this.selectedCourses.filter(c => {
             return this.courseTerm(c).includes(term);
         });
@@ -178,8 +181,13 @@ export class AppComponent implements OnInit {
      * On click new button, open the modal for user to fill in constraint details
      */
     newConstraint(): void {
+        this.augmentedComponents = this.terms.map(t => {
+            return {
+                components: this.getCourseComponents(t),
+                term: t,
+            };
+        });
         const config = new TemplateModalConfig<void, Constraint, void>(this.modalTemplate);
-
         config.isClosable = true;
 
         this.modalService
@@ -200,12 +208,30 @@ export class AppComponent implements OnInit {
         this.constraintError = "";
     }
 
-    courseSections(): AugmentedCourseSection[] {
-        return [];
+    public augmentedComponents: AugmentedCourseComponents[];
+
+    getCourseComponents(term: Term = this.activeTerm) {
+        const courses = _.compact(this.activeCourses(term).map(this.courseService.fetchCourseBodyFromCache));
+        return _.flatten(
+            _.flatten(courses)
+                .map(parseCourse).map(c => c.components)
+        ).map(c => {
+            return <AgumentedCourseComponent>{
+                component: c,
+                selected: false,
+                sectionSelected: null
+            }
+        });
     }
 }
 
-export interface AugmentedCourseSection {
-    section: CourseSection;
+export interface AugmentedCourseComponents {
+    components: AgumentedCourseComponent[];
+    term: Term;
+}
+
+export interface AgumentedCourseComponent {
+    component: CourseComponent;
     selected: boolean;
+    sectionSelected: CourseSection | null;
 }
