@@ -8,126 +8,23 @@
                         }"></i>
     </div>
     <div class="item">
-        <app-search-bar (addCourse)="addCourse($event)" [term]="activeTerm"></app-search-bar>
+        <app-search-bar (addCourse)="courseService.addCourse($event)" [term]="activeTerm"></app-search-bar>
     </div>
     <div class="item course-queue">
         <div class="header">
             Courses
         </div>
         <app-course-item
-                *ngFor="let course of activeCourses()"
+                *ngFor="let course of courseService.activeCourses(activeTerm)"
                 class="course ui grid"
                 [course]="course"
-                (deleteCourse)="deleteCourse($event)">
+                (deleteCourse)="courseService.deleteCourse($event)">
         </app-course-item>
     </div>
     <div class="item constraints">
         <div class="header">
             Constraints
-            <span>
-                <button
-                        (click)="newConstraint()"
-                        class="ui button"
-                        style="background-color: #51B8A3; color: #454545; margin: 5px;">
-                New
-                </button>
-            </span>
-            <ng-template let-context let-modal="modal" #modalTemplate>
-                <div class="header">New Constraint</div>
-                <div class="content">
-                    <div class="ui negative message" *ngIf="constraintError != ''">
-                        <i class="close icon" (click)="constraintError = ''"></i>
-                        <div class="header">
-                            Opps! something wrong
-                        </div>
-                        <p>{{constraintError}}</p>
-                    </div>
-                    <div class="ui labeled input">
-                        <div class="ui label">
-                            Name
-                        </div>
-                        <input [(ngModel)]="constraintName" type="text"
-                               placeholder="custom name" required="required"/>
-                        <div class="ui label">
-                            Priority
-                        </div>
-                        <input [(ngModel)]="priority" type="number"
-                               placeholder="priority(1~10)" required="required"/>
-                    </div>
-                    <div class="ui divider"></div>
-                    <sui-tabset>
-                        <div class="ui top attached tabular menu">
-                            <a *ngFor="let type of CONSTRAINT_TYPES; let i = index" class="item"
-                               suiTabHeader="{{i + 1}}" (activate)="constraintType = type">{{type}}</a>
-                        </div>
-                        <div class="ui bottom attached segment" suiTabContent="1">
-                            <p>Add penalty for solutions with course conflict (time overlap of course section). Multiple
-                                overlap will trigger multiple penalties.</p>
-                        </div>
-                        <div class="ui bottom attached segment" suiTabContent="2">
-                            <p>Select a number of course sections, when selected adds score to the solution.</p>
-                            <div *ngFor="let componentList of augmentedComponents">
-                                <div class="ui divider"></div>
-                                <span><b>{{componentList.term.year}} {{componentList.term.semester}}</b></span>
-                                <br>
-                                <div *ngFor="let ac of componentList.components">
-                                    <div class="inline fields">
-                                        <label>
-                                            <div class="ui checkbox">
-                                                <input type="checkbox" [checked]="ac.selected"
-                                                       (change)="ac.selected = !ac.selected"/>
-                                                <label>
-                                                    {{ac.component.belongsTo.name}} - {{ac.component.type}}
-                                                </label>
-                                            </div>
-                                        </label>
-                                        <div class="field" *ngFor="let section of ac.component.sections">
-                                            <div class="ui radio checkbox {{ac.selected ? '' : 'disabled'}}">
-                                                <input type="radio"
-                                                       name="{{section.belongsTo.type}}{{section.belongsTo.belongsTo.name}}"
-                                                       disabled="{{ac.selected ? '' : 'disabled'}}"
-                                                       (change)="ac.sectionSelected = section">
-                                                <label>{{section.sectionCode}} - {{section.times}}</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ui bottom attached segment" suiTabContent="3">
-                            <p>Select a number of time slots, when time slots overlapped with solution, impose a
-                                penalty.</p>
-                            <div *ngFor="let time of constraintTimeSlots; let i = index">
-                                {{i}}. {{time}}
-                            </div>
-                            <div class="ui input">
-                                <input #timeDay type="number" placeholder="day(1~7)">
-                                <input #timeStart type="number" placeholder="start(0~24)">
-                                <input #timeEnd type="number" placeholder="end(0~24)">
-                            </div>
-                            <button class="ui green button"
-                                    (click)="newConstraintTimeSlot(timeDay.value, timeStart.value, timeEnd.value)">
-                                Add
-                            </button>
-                        </div>
-                        <div class="ui bottom attached segment" suiTabContent="4">
-                            <p>When two class adjacent to each other, and the locations are too far away to each
-                                other(bigger than threshold), impose a penalty.</p>
-                            <div class="ui right labeled input">
-                                <label for="distance" class="ui label">Distance Threshold</label>
-                                <input type="number" id="distance" [ngModel]="distanceThreshold">
-                                <div class="ui basic label">m</div>
-                            </div>
-                        </div>
-                    </sui-tabset>
-                </div>
-
-                <div class="actions">
-                    <button class="ui red button" (click)="modal.deny()">Cancel</button>
-                    <button class="ui green button" (click)="submitConstraintForm(modal)" autofocus>OK</button>
-                </div>
-            </ng-template>
+            <app-constraint-creator></app-constraint-creator>
         </div>
         <app-constraint
                 *ngFor="let constraint of constraints"
@@ -180,8 +77,8 @@
                 <div class="ui segment">
                     <div class="ui secondary pointing menu">
                         <a *ngFor="let term of terms"
-                           class="{{term.equals(this.activeTerm) ? 'active' : ''}} item"
-                           (click)="selectTerm(term)"
+                           class="{{term.equals(activeTerm) ? 'active' : ''}} item"
+                           (click)="activeTerm = term"
                         >{{term.toString()}}</a>
                     </div>
                 </div>

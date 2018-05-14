@@ -19,9 +19,10 @@ import {AlertService} from './services/alert.service';
 import {TranslatePipe} from './pipes/translate.pipe';
 import {ResponsiveModule} from 'ng2-responsive';
 import {CourseBodyComponent} from './components/course-body/course-body.component';
-import {ConstraintComponent} from './components/constraint/constraint.component';
+import {ConstraintItemComponent} from './components/constraint-item/constraint-item.component';
 import {ConstraintDetailComponent} from './components/constraint-detail/constraint-detail.component';
 import {SuiModal} from "ng2-semantic-ui/dist";
+import { ConstraintCreatorComponent } from './components/constraint-creator/constraint-creator.component';
 
 export const routing = RouterModule.forRoot([
     {path: '', component: AppComponent},
@@ -39,7 +40,8 @@ export const routing = RouterModule.forRoot([
         SearchBarComponent,
         CourseBodyComponent,
         AlertComponent,
-        ConstraintComponent,
+        ConstraintItemComponent,
+        ConstraintCreatorComponent,
     ],
     imports: [
         BrowserModule,

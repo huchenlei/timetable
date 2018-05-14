@@ -11,10 +11,57 @@ import {Term} from "../models/term";
 @Injectable()
 export class CourseService {
     terms: Term[];
+    /**
+     * A set of selected courses string in course bar
+     * @type {string[]}
+     */
+    selectedCourses: string[];
 
     constructor(private http: Http) {
         this.terms = Term.getTerms();
+        this.selectedCourses = CourseService.loadCourseList();
     }
+
+    /**
+     * Extract term information from course code
+     * @param code full course code
+     * @return {Term[]} which term the course belongs to
+     */
+    private courseTerm(code): Term[] {
+        if (code.indexOf("H1F") > -1) return [this.terms[0]];
+        if (code.indexOf("H1S") > -1) return [this.terms[1]];
+        if (code.indexOf("Y1Y") > -1) return this.terms;
+        else {
+            log.warn("Unrecognizable course term for course " + code);
+            return [];
+        }
+    }
+
+    activeCourses(term: Term): string[] {
+        return this.selectedCourses.filter(c => {
+            return this.courseTerm(c).filter(t => t.equals(term)).length > 0;
+        });
+    }
+
+    /**
+     * Delete a given course
+     * @param {string} course
+     */
+    deleteCourse(course: string): void {
+        const courses = this.selectedCourses;
+        courses.splice(courses.indexOf(course), 1);
+        CourseService.storeCourseList(this.selectedCourses);
+    }
+
+    /**
+     * Add a given course to course list
+     * @param {UofT.Course} course
+     */
+    addCourse(course: UofT.Course): void {
+        this.selectedCourses.push(course.code);
+        CourseService.storeCourseList(this.selectedCourses);
+    }
+
 
     fetchCourse(query: string): Promise<UofT.Course[]> {
         const url = 'course/s/' + query;

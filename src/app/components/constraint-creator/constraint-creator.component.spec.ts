@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConstraintComponent } from './constraint.component';
+import { ConstraintCreatorComponent } from './constraint-creator.component';
 
-describe('ConstraintComponent', () => {
-  let component: ConstraintComponent;
-  let fixture: ComponentFixture<ConstraintComponent>;
+describe('ConstraintCreatorComponent', () => {
+  let component: ConstraintCreatorComponent;
+  let fixture: ComponentFixture<ConstraintCreatorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConstraintComponent ]
+      declarations: [ ConstraintCreatorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConstraintComponent);
+    fixture = TestBed.createComponent(ConstraintCreatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

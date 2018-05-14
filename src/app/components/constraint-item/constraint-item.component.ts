@@ -3,10 +3,10 @@ import {Constraint} from "../../course-arrange";
 
 @Component({
     selector: 'app-constraint',
-    templateUrl: './constraint.component.html',
-    styleUrls: ['./constraint.component.css']
+    templateUrl: './constraint-item.component.html',
+    styleUrls: ['./constraint-item.component.css']
 })
-export class ConstraintComponent implements OnInit {
+export class ConstraintItemComponent implements OnInit {
 
     @Input() constraint: Constraint;
     @Output() deleteConstraint: EventEmitter<Constraint> = new EventEmitter<Constraint>();
