@@ -67,15 +67,16 @@ export class ExhaustiveSolver extends Solver {
         const components = this.components;
         const solutions = new Collections.PriorityQueue<CourseSolution>(
             (a, b) => -a.compareTo(b));
-        let solutionCount = 0;
 
         function _solve(solution: CourseSolution, componentIndex: number) {
             if (componentIndex == components.length) {
-                solutionCount++; // Count every possible solution found
                 // End of recursion
                 if (solutions.size() < resultNum) {
+                    log.debug("add solution with score " + solution.score);
                     solutions.add(solution);
                 } else if ((<CourseSolution>solutions.peek()).score < solution.score) {
+                    log.debug("remove solution with score " + (<CourseSolution>solutions.peek()).score);
+                    log.debug("add solution with score " + solution.score);
                     solutions.dequeue();
                     solutions.add(solution);
                 }
@@ -94,6 +95,7 @@ export class ExhaustiveSolver extends Solver {
         solutions.forEach(s => {
             _solution.push(s);
         });
+        _solution.sort((a, b) => -a.compareTo(b));
         return _solution;
     }
 }

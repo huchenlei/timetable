@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 
-import { Alert, AlertType } from '../../models/alert';
-import { AlertService } from '../../services/alert.service';
+import {Alert, AlertType} from '../../models/alert';
+import {AlertService} from '../../services/alert.service';
 
 @Component({
     moduleId: module.id,
@@ -26,11 +26,7 @@ export class AlertComponent {
         });
     }
 
-    removeAlert(alert: Alert) {
-        this.alerts = this.alerts.filter(x => x !== alert);
-    }
-
-    static cssClass(alert: Alert) {
+    cssClass(alert: Alert) {
         if (!alert) {
             return;
         }

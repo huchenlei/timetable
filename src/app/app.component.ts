@@ -16,6 +16,7 @@ import {LogLevelDesc} from "loglevel";
 import log = require("loglevel");
 import _ = require("lodash");
 import Collections = require("typescript-collections");
+import {AlertService} from "./services/alert.service";
 
 @Component({
     selector: 'app-root',
@@ -50,7 +51,8 @@ export class AppComponent implements OnInit {
      */
     solutionTable: Collections.Dictionary<Term, CourseSolution[]>;
 
-    constructor(private courseService: CourseService) {
+    constructor(private courseService: CourseService,
+                private alertService: AlertService) {
         this.terms = Term.getTerms();
         this.activeTerm = this.terms[0];
         this.constraints = [
@@ -79,6 +81,7 @@ export class AppComponent implements OnInit {
             log.info("ExhaustiveSolver failed");
             log.info(e);
             log.info("try heuristic solver");
+            this.alertService.warn("Using heuristic solver... Might not get optimum solution");
             // If input too large, then use heuristic solver
             const heSolver = new StepHeuristicSolver(parsedCourses);
             return heSolver.solve(this.constraints);

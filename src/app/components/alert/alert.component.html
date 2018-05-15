@@ -1,6 +1,9 @@
-<sui-message *ngFor="let alert of alerts" class="{{ cssClass(alert) }}">
-    <div class="header">
-        {{cssClass(alert)}}
-    </div>
-    <p>{{alert.message}}</p>
-</sui-message>
+<div class="ui" id="alert-box">
+    <sui-message *ngFor="let alert of alerts" class="ui {{ cssClass(alert) }}">
+        <i class="close icon" (click)="alerts.splice(alerts.indexOf(alert), 1)"></i>
+        <div class="header">
+            {{cssClass(alert)}}
+        </div>
+        <p>{{alert.message}}</p>
+    </sui-message>
+</div>
