@@ -32,13 +32,14 @@ class App {
             next();
         });
         this.express.use(cookieParser());
-        this.express.use(express.static(path.join(__dirname, '../dist')));
+        this.express.use(express.static(path.join(__dirname, '../')));
     }
 
     private mountRoutes() {
         this.express.use('/course', course);
         this.express.get('/', (req, res) => {
-           res.render("index.html");
+            res.sendFile(path.join(__dirname, '../index.html'));
+            // res.render("index.html");
         });
     }
 

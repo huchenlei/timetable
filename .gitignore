@@ -45,3 +45,6 @@ Thumbs.db
 # resources
 /resources/courses/
 /resources/buildings/
+
+# env var file
+.env
