@@ -1,6 +1,7 @@
 import app from './app';
 import {connect} from "./db";
 
+require('dotenv').config();
 const port = process.env.PORT || 3000;
 
 // First connect to database on initialization

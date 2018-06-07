@@ -1,0 +1,2 @@
+PORT=[Your chosen port]
+MONGO=[MongoDB connection string]

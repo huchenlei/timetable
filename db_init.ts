@@ -13,7 +13,7 @@ import {UofT} from "./src/app/models/course";
 
 const COURSE_DATA_ROOT = './resources/courses/';
 const BUILDING_DATA_ROOT = './resources/buildings/';
-
+require('dotenv').config();
 
 const LOC_TABLE = new Collections.Dictionary<string, UofT.Location>();
 {
@@ -54,18 +54,17 @@ const LOC_TABLE = new Collections.Dictionary<string, UofT.Location>();
         return course;
     });
 
-    connect().then(
-        mongoose => {
-            courseSchema.insertMany(courses, (err, docs) => {
-                if (err) {
-                    console.error("DB init failed");
-                    console.error(err);
-                } else {
-                    console.log("DB init successful");
-                    console.log(`${docs.length} item(s) added`);
-                }
-            });
-        }
-    );
+    connect()
+        .then(mongoose => {
+            return courseSchema.insertMany(courses);
+        })
+        .then(docs => {
+            console.log("DB init successful");
+            console.log(`${docs.length} item(s) added`);
+        })
+        .catch(err => {
+            console.error("DB init failed");
+            console.error(err);
+        });
 }
 
